@@ -14,8 +14,17 @@ class CreateChoicesTable extends Migration
     public function up()
     {
         Schema::create('choices', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            // 列の定義
+            $table->bigIncrements('choice_id');
+            $table->biginteger('question_id')->unsigned();
+            $table->string('choice_symbol');
+            $table->string('choice_text');
             $table->timestamps();
+            // 外部キー設定
+            $table->foreign('question_id')->references('question_id')->on('questions');
+            // 複合列のユニーク設定
+            $table->unique(['question_id', 'choice_symbol']);
+            $table->unique(['question_id', 'choice_text']);
         });
     }
 

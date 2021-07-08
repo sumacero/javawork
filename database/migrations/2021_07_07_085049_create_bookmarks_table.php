@@ -14,8 +14,16 @@ class CreateBookmarksTable extends Migration
     public function up()
     {
         Schema::create('bookmarks', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            // 列の定義
+            $table->bigIncrements('bookmark_id');
+            $table->biginteger('question_id')->unsigned()->unique();
+            $table->biginteger('user_id')->unsigned();
             $table->timestamps();
+            // 外部キー設定
+            $table->foreign('question_id')->references('question_id')->on('questions');
+            $table->foreign('user_id')->references('id')->on('users');
+            // 複合列のユニーク設定
+            $table->unique(['question_id', 'user_id']);
         });
     }
 

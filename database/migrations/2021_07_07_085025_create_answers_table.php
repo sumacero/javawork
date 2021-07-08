@@ -14,8 +14,15 @@ class CreateAnswersTable extends Migration
     public function up()
     {
         Schema::create('answers', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            // 列の定義
+            $table->bigIncrements('answer_id');
+            $table->biginteger('question_id')->unsigned()->unique();
+            $table->biginteger('choice_id')->unsigned()->unique();
+            $table->text('answer_text');
             $table->timestamps();
+            // 外部キー設定
+            $table->foreign('question_id')->references('question_id')->on('questions');
+            $table->foreign('choice_id')->references('choice_id')->on('choices');
         });
     }
 

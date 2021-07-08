@@ -14,13 +14,17 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
+            // 列の定義
             $table->bigIncrements('id');
+            $table->bigInteger('authority_id')->unsigned();
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+           // 外部キー設定
+            $table->foreign('authority_id')->references('authority_id')->on('authorities');
         });
     }
 

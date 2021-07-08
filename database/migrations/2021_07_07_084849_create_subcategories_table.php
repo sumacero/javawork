@@ -14,8 +14,15 @@ class CreateSubcategoriesTable extends Migration
     public function up()
     {
         Schema::create('subcategories', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            // 列の定義
+            $table->bigIncrements('subcategory_id');
+            $table->bigInteger('category_id')->unsigned();
+            $table->string('subcategory_name');
             $table->timestamps();
+            // 外部キー設定
+            $table->foreign('category_id')->references('category_id')->on('categories');
+            // 複合列のユニーク設定
+            $table->unique(['category_id','subcategory_name']);
         });
     }
 
