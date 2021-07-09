@@ -18,7 +18,7 @@ class CreateChoicesTable extends Migration
             $table->bigIncrements('choice_id');
             $table->biginteger('question_id')->unsigned();
             $table->string('choice_symbol');
-            $table->string('choice_text');
+            $table->text('choice_text');
             $table->timestamps();
             // 外部キー設定
             $table->foreign('question_id')->references('question_id')->on('questions');
