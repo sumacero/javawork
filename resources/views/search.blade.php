@@ -6,5 +6,5 @@
         <p>ここは問題検索画面です</p>
     </div>
 </div>
-<div id="user"></div>
+<div id="question"></div>
 @endsection

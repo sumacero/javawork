@@ -18,4 +18,5 @@ Route::get('/', function () {
 Auth::routes();
 Route::get('/home', 'HomeController@index');
 Route::get('/search', 'SearchController@index');
-Route::get('/getuser', 'SearchController@getuser');
+Route::get('/getUsers', 'SearchController@getUsers');
+Route::get('/getQuestions', 'SearchController@getQuestions');

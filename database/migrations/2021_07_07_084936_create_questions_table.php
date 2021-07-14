@@ -18,14 +18,14 @@ class CreateQuestionsTable extends Migration
             $table->bigIncrements('question_id');
             $table->biginteger('create_user_id')->unsigned();
             $table->biginteger('update_user_id')->unsigned();
-            $table->biginteger('state_id')->unsigned();
+            $table->biginteger('status_id')->unsigned();
             $table->biginteger('subcategory_id')->unsigned()->nullable();
             $table->text('question_text');
             $table->timestamps();
             // 外部キー設定
             $table->foreign('create_user_id')->references('id')->on('users');
             $table->foreign('update_user_id')->references('id')->on('users');
-            $table->foreign('state_id')->references('state_id')->on('status');
+            $table->foreign('status_id')->references('status_id')->on('statuses');
             $table->foreign('subcategory_id')->references('subcategory_id')->on('subcategories');
         });
     }

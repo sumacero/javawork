@@ -12,7 +12,7 @@ function User() {
     },[])
 
     const getUsers = async () => {
-        const response = await axios.get('/getuser');
+        const response = await axios.get('/getUsers');
         setUsers(response.data.users)
     }
     console.log(users)

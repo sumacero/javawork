@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class StatusTableSeeder extends Seeder
+class StatusesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,12 +12,12 @@ class StatusTableSeeder extends Seeder
     public function run()
     {
         $param = [
-            'state_name' => '公開',
+            'status_name' => '公開',
         ];
-        DB::table('status')->insert($param);
+        DB::table('statuses')->insert($param);
         $param = [
-            'state_name' => '編集中',
+            'status_name' => '編集中',
         ];
-        DB::table('status')->insert($param);
+        DB::table('statuses')->insert($param);
     }
 }

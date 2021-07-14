@@ -24,8 +24,8 @@ class Question extends Model
     }
 
     //belongsTo設定
-    public function state(){
-        return $this->belongsTo('App\State','state_id');
+    public function status(){
+        return $this->belongsTo('App\Status','status_id');
     }
     public function subcategory(){
         return $this->belongsTo('App\Subcategory','subcategory_id');

@@ -14,7 +14,7 @@ class QuestionsTableSeeder extends Seeder
         $param = [
             'create_user_id' => '1',
             'update_user_id' => '1',
-            'state_id' => '1',
+            'status_id' => '1',
             'subcategory_id' => '13',
             'question_text' => '"Oracle Certified Java Programmer, Silver SE 11 認定資格"について最も正しいものはどれですか。'
         ];
