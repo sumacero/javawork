@@ -5,7 +5,5 @@
     <div class="row justify-content-center">
     </div>
 </div>
-<div id="question-table"></div>
-
-
+<div id="qa"></div>
 @endsection

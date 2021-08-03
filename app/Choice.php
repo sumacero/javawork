@@ -10,11 +10,6 @@ class Choice extends Model
     //primaryKeyの設定
     protected $primaryKey = "choice_id";
 
-    //hasOne設定
-    public function answer(){
-        return $this->hasOne('App\Answer');
-    }
-
     //belongsTo設定
     public function question(){
         return $this->belongsTo('App\Question','question_id');

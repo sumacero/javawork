@@ -16,7 +16,7 @@ class SearchController extends Controller
         return response()->json(['users' => $users]);
     }
     public function getQuestions(){
-        $questions = Question::with('status','subcategory')->get();
+        $questions = Question::with('status','subcategory.category')->get();
         return response()->json(['questions' => $questions]);
     }
 }

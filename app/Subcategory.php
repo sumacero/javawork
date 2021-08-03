@@ -16,7 +16,7 @@ class Subcategory extends Model
     }
 
     //belongsTo設定
-    public function categories(){
+    public function category(){
         return $this->belongsTo('App\Category','category_id');
     }
 

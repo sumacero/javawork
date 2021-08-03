@@ -14,4 +14,7 @@ require('./bootstrap');
 
 require('./components/Example');
 require('./components/User');
-require('./components/Question');
+require('./components/QuestionTable');
+require('./components/QA');
+require('./components/Test');
+require('./components/Test2');

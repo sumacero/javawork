@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 
 
-function Question() {
-
+function QuestionTable() {
+    
     const [questions, setQuestions] = useState([]);
 
     useEffect(() => {
@@ -19,9 +19,8 @@ function Question() {
 
     return (
         <div>
-            <h1>Questionビュー</h1>
-            <table>
-                <tbody>
+            <table className="table table-bordered table-striped">
+                <thead>
                     <tr>
                         <th>question_id</th>
                         <th>created_user_id</th>
@@ -31,10 +30,13 @@ function Question() {
                         <th>subcategory_id</th>
                         <th>subcategory_name</th>
                         <th>category_id</th>
+                        <th>category_name</th>
                         <th>question_text</th>
                     </tr>
+                </thead>
+                <tbody>
                     {questions.map((question) => <tr key={question.question_id}>
-                                                    <td>{question.question_id}</td>
+                                                    <td><a href={"/question/" + question.question_id}>{question.question_id}</a></td>
                                                     <td>{question.created_user_id}</td>
                                                     <td>{question.updated_user_id}</td>
                                                     <td>{question.status_id}</td>
@@ -42,6 +44,7 @@ function Question() {
                                                     <td>{question.subcategory_id}</td>
                                                     <td>{question.subcategory.subcategory_name}</td>
                                                     <td>{question.subcategory.category_id}</td>
+                                                    <td>{question.subcategory.category.category_name}</td>
                                                     <td>{question.question_text}</td>
                                                 </tr>)}
                 </tbody>
@@ -50,8 +53,8 @@ function Question() {
     );
 }
 
-export default Question;
+export default QuestionTable;
 
-if (document.getElementById('question')) {
-    ReactDOM.render(<Question />, document.getElementById('question'));
+if (document.getElementById('question-table')) {
+    ReactDOM.render(<QuestionTable />, document.getElementById('question-table'));
 }
