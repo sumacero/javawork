@@ -7,7 +7,7 @@ function ChoicesForm(props) {
         <form>
             <div className="btn-group btn-group-toggle col-md-12" data-toggle="buttons">
                 {props.choices.map((choice) =>
-                    <ChoiceRadio choice={choice} key={choice.choice_id} />
+                    <ChoiceRadio choice={choice} key={choice.choice_id} setSelectedChoiceId={props.setSelectedChoiceId}/>
                 )}
             </div>
         </form>

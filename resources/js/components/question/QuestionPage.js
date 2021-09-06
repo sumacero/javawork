@@ -12,6 +12,8 @@ function QuestionPage() {
     const [ choices, setChoices ] = useState([]);
     const [ answer, setAnswer] = useState("");
     const [ answeredFlag, setAnsweredFlag ] = useState(false);
+    const [ selectedChoiceId, setSelectedChoiceId] = useState(0);
+    const [ correctFlag, setCorrectFlag] = useState(false);
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios.get('/getQA/' + question_id);
@@ -24,15 +26,16 @@ function QuestionPage() {
     },[]);
     const clickAnswerButton = () =>{
         setAnsweredFlag(true);
+        setCorrectFlag(answer.choice_id == selectedChoiceId)
     }
     
     return (
         <div className="container">
             <Question question={question}/>
             <Choices choices={choices}/>
-            <ChoicesForm choices={choices}/>
+            <ChoicesForm choices={choices} setSelectedChoiceId={setSelectedChoiceId}/>
             <button type="button" className="btn btn-primary" onClick={clickAnswerButton}>回答</button>
-            {answeredFlag ? <Result /> : null}
+            {answeredFlag ? <Result answer={answer} correctFlag={correctFlag}/> : null}
         </div>
     );
 }

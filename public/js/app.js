@@ -66761,13 +66761,19 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function ChoiceRadio(props) {
+  var doChangeAnswer = function doChangeAnswer(event) {
+    props.setSelectedChoiceId(event.target.value);
+  };
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     className: "btn btn-outline-primary"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "radio",
-    autoComplete: "off",
+    name: "radio",
     id: props.choice.choice_id,
-    name: "radio"
+    value: props.choice.choice_id,
+    autoComplete: "off",
+    onClick: doChangeAnswer
   }), props.choice.choice_symbol);
 }
 
@@ -66828,7 +66834,8 @@ function ChoicesForm(props) {
   }, props.choices.map(function (choice) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ChoiceRadio__WEBPACK_IMPORTED_MODULE_2__["default"], {
       choice: choice,
-      key: choice.choice_id
+      key: choice.choice_id,
+      setSelectedChoiceId: props.setSelectedChoiceId
     });
   })));
 }
@@ -66883,7 +66890,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Question__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Question */ "./resources/js/components/question/Question.js");
 /* harmony import */ var _Choices__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Choices */ "./resources/js/components/question/Choices.js");
 /* harmony import */ var _ChoicesForm__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ChoicesForm */ "./resources/js/components/question/ChoicesForm.js");
-/* harmony import */ var _Result__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Result */ "./resources/js/components/question/Result.js");
+/* harmony import */ var _Result__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Result */ "./resources/js/components/question/Result.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -66936,6 +66943,16 @@ function QuestionPage() {
       answeredFlag = _useState10[0],
       setAnsweredFlag = _useState10[1];
 
+  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(0),
+      _useState12 = _slicedToArray(_useState11, 2),
+      selectedChoiceId = _useState12[0],
+      setSelectedChoiceId = _useState12[1];
+
+  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(false),
+      _useState14 = _slicedToArray(_useState13, 2),
+      correctFlag = _useState14[0],
+      setCorrectFlag = _useState14[1];
+
   Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
     var fetchData = /*#__PURE__*/function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
@@ -66972,6 +66989,7 @@ function QuestionPage() {
 
   var clickAnswerButton = function clickAnswerButton() {
     setAnsweredFlag(true);
+    setCorrectFlag(answer.choice_id == selectedChoiceId);
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -66981,12 +66999,16 @@ function QuestionPage() {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Choices__WEBPACK_IMPORTED_MODULE_5__["default"], {
     choices: choices
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_ChoicesForm__WEBPACK_IMPORTED_MODULE_6__["default"], {
-    choices: choices
+    choices: choices,
+    setSelectedChoiceId: setSelectedChoiceId
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
     type: "button",
     className: "btn btn-primary",
     onClick: clickAnswerButton
-  }, "\u56DE\u7B54"), answeredFlag ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Result__WEBPACK_IMPORTED_MODULE_8__["default"], null) : null);
+  }, "\u56DE\u7B54"), answeredFlag ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Result__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    answer: answer,
+    correctFlag: correctFlag
+  }) : null);
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (QuestionPage);
@@ -67011,7 +67033,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function Result(props) {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "\u89E3\u7B54\u3055\u308C\u307E\u3057\u305F");
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "\u89E3\u7B54\u7D50\u679C\uFF1A", props.correctFlag ? "正解" : "不正解"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, props.answer.answer_text));
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (Result);
