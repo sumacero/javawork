@@ -86,6 +86,63 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./node_modules/@babel/runtime/helpers/esm/extends.js":
+/*!************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/extends.js ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _extends; });
+function _extends() {
+  _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
+
+  return _extends.apply(this, arguments);
+}
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js":
+/*!*********************************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js ***!
+  \*********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _objectWithoutPropertiesLoose; });
+function _objectWithoutPropertiesLoose(source, excluded) {
+  if (source == null) return {};
+  var target = {};
+  var sourceKeys = Object.keys(source);
+  var key, i;
+
+  for (i = 0; i < sourceKeys.length; i++) {
+    key = sourceKeys[i];
+    if (excluded.indexOf(key) >= 0) continue;
+    target[key] = source[key];
+  }
+
+  return target;
+}
+
+/***/ }),
+
 /***/ "./node_modules/@babel/runtime/regenerator/index.js":
 /*!**********************************************************!*\
   !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
@@ -62640,6 +62697,2075 @@ if (false) {} else {
 
 /***/ }),
 
+/***/ "./node_modules/react-hook-form/dist/index.esm.js":
+/*!********************************************************!*\
+  !*** ./node_modules/react-hook-form/dist/index.esm.js ***!
+  \********************************************************/
+/*! exports provided: Controller, FormProvider, appendErrors, get, set, useController, useFieldArray, useForm, useFormContext, useFormState, useWatch */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Controller", function() { return Controller; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FormProvider", function() { return FormProvider; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "appendErrors", function() { return appendErrors; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "get", function() { return get; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "set", function() { return set; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useController", function() { return useController; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useFieldArray", function() { return useFieldArray; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useForm", function() { return useForm; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useFormContext", function() { return useFormContext; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useFormState", function() { return useFormState; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useWatch", function() { return useWatch; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var isCheckBoxInput = (element) => element.type === 'checkbox';
+
+var isDateObject = (data) => data instanceof Date;
+
+var isNullOrUndefined = (value) => value == null;
+
+const isObjectType = (value) => typeof value === 'object';
+var isObject = (value) => !isNullOrUndefined(value) &&
+    !Array.isArray(value) &&
+    isObjectType(value) &&
+    !isDateObject(value);
+
+var getControllerValue = (event) => isObject(event) && event.target
+    ? isCheckBoxInput(event.target)
+        ? event.target.checked
+        : event.target.value
+    : event;
+
+var getNodeParentName = (name) => name.substring(0, name.search(/.\d/)) || name;
+
+var isNameInFieldArray = (names, name) => [...names].some((current) => getNodeParentName(name) === current);
+
+var compact = (value) => value.filter(Boolean);
+
+var isUndefined = (val) => val === undefined;
+
+var get = (obj, path, defaultValue) => {
+    if (isObject(obj) && path) {
+        const result = compact(path.split(/[,[\].]+?/)).reduce((result, key) => (isNullOrUndefined(result) ? result : result[key]), obj);
+        return isUndefined(result) || result === obj
+            ? isUndefined(obj[path])
+                ? defaultValue
+                : obj[path]
+            : result;
+    }
+    return undefined;
+};
+
+const EVENTS = {
+    BLUR: 'blur',
+    CHANGE: 'change',
+};
+const VALIDATION_MODE = {
+    onBlur: 'onBlur',
+    onChange: 'onChange',
+    onSubmit: 'onSubmit',
+    onTouched: 'onTouched',
+    all: 'all',
+};
+const INPUT_VALIDATION_RULES = {
+    max: 'max',
+    min: 'min',
+    maxLength: 'maxLength',
+    minLength: 'minLength',
+    pattern: 'pattern',
+    required: 'required',
+    validate: 'validate',
+};
+
+var omit = (source, key) => {
+    const copy = Object.assign({}, source);
+    delete copy[key];
+    return copy;
+};
+
+const FormContext = react__WEBPACK_IMPORTED_MODULE_0__["createContext"](null);
+FormContext.displayName = 'RHFContext';
+const useFormContext = () => react__WEBPACK_IMPORTED_MODULE_0__["useContext"](FormContext);
+const FormProvider = (props) => (react__WEBPACK_IMPORTED_MODULE_0__["createElement"](FormContext.Provider, { value: omit(props, 'children') }, props.children));
+
+var getProxyFormState = (formState, _proxyFormState, localProxyFormState, isRoot = true) => {
+    function createGetter(prop) {
+        return () => {
+            if (prop in formState) {
+                if (_proxyFormState[prop] !== VALIDATION_MODE.all) {
+                    _proxyFormState[prop] = !isRoot || VALIDATION_MODE.all;
+                }
+                localProxyFormState && (localProxyFormState[prop] = true);
+                return formState[prop];
+            }
+            return undefined;
+        };
+    }
+    const result = {};
+    for (const key in formState) {
+        Object.defineProperty(result, key, {
+            get: createGetter(key),
+        });
+    }
+    return result;
+};
+
+var isEmptyObject = (value) => isObject(value) && !Object.keys(value).length;
+
+var shouldRenderFormState = (formStateData, _proxyFormState, isRoot) => {
+    const formState = omit(formStateData, 'name');
+    return (isEmptyObject(formState) ||
+        Object.keys(formState).length >= Object.keys(_proxyFormState).length ||
+        Object.keys(formState).find((key) => _proxyFormState[key] ===
+            (!isRoot || VALIDATION_MODE.all)));
+};
+
+var convertToArrayPayload = (value) => Array.isArray(value) ? value : [value];
+
+function useSubscribe({ disabled, subject, callback }) {
+    const _subscription = react__WEBPACK_IMPORTED_MODULE_0__["useRef"](subject);
+    const _unSubscribe = react__WEBPACK_IMPORTED_MODULE_0__["useRef"]();
+    if (disabled) {
+        if (_subscription.current) {
+            _unSubscribe.current && _unSubscribe.current.unsubscribe();
+            _subscription.current = _unSubscribe.current = undefined;
+        }
+    }
+    else {
+        if (!_subscription.current) {
+            _subscription.current = subject;
+        }
+        if (!_unSubscribe.current && _subscription.current) {
+            _unSubscribe.current = _subscription.current.subscribe({
+                next: callback,
+            });
+        }
+    }
+    react__WEBPACK_IMPORTED_MODULE_0__["useEffect"](() => () => {
+        _unSubscribe.current && _unSubscribe.current.unsubscribe();
+    }, []);
+}
+
+function useFormState(props) {
+    const methods = useFormContext();
+    const { control = methods.control, disabled, name } = props || {};
+    const [formState, updateFormState] = react__WEBPACK_IMPORTED_MODULE_0__["useState"](control._formState);
+    const _localProxyFormState = react__WEBPACK_IMPORTED_MODULE_0__["useRef"]({
+        isDirty: false,
+        dirtyFields: false,
+        touchedFields: false,
+        isValidating: false,
+        isValid: false,
+        errors: false,
+    });
+    const _name = react__WEBPACK_IMPORTED_MODULE_0__["useRef"](name);
+    _name.current = name;
+    useSubscribe({
+        disabled,
+        callback: (formState) => (!_name.current ||
+            !formState.name ||
+            convertToArrayPayload(_name.current).includes(formState.name)) &&
+            shouldRenderFormState(formState, _localProxyFormState.current) &&
+            updateFormState(Object.assign(Object.assign({}, control._formState), formState)),
+        subject: control._subjects.state,
+    });
+    return getProxyFormState(formState, control._proxyFormState, _localProxyFormState.current, false);
+}
+
+function useController(props) {
+    const methods = useFormContext();
+    const { name, control = methods.control, shouldUnregister } = props;
+    const [value, setInputStateValue] = react__WEBPACK_IMPORTED_MODULE_0__["useState"](get(control._formValues, name, get(control._defaultValues, name, props.defaultValue)));
+    const formState = useFormState({
+        control: control || methods.control,
+        name,
+    });
+    const _name = react__WEBPACK_IMPORTED_MODULE_0__["useRef"](name);
+    _name.current = name;
+    useSubscribe({
+        subject: control._subjects.control,
+        callback: (data) => (!data.name || _name.current === data.name) &&
+            setInputStateValue(get(data.values, name)),
+    });
+    const registerProps = control.register(name, Object.assign(Object.assign({}, props.rules), { value }));
+    const updateMounted = react__WEBPACK_IMPORTED_MODULE_0__["useCallback"]((name, value) => {
+        const field = get(control._fields, name);
+        if (field) {
+            field._f.mount = value;
+        }
+    }, [control]);
+    react__WEBPACK_IMPORTED_MODULE_0__["useEffect"](() => {
+        updateMounted(name, true);
+        return () => {
+            const _shouldUnregisterField = control._shouldUnregister || shouldUnregister;
+            if (isNameInFieldArray(control._names.array, name)
+                ? _shouldUnregisterField && !control._stateFlags.action
+                : _shouldUnregisterField) {
+                control.unregister(name);
+            }
+            else {
+                updateMounted(name, false);
+            }
+        };
+    }, [name, control, shouldUnregister, updateMounted]);
+    return {
+        field: {
+            onChange: (event) => {
+                const value = getControllerValue(event);
+                setInputStateValue(value);
+                registerProps.onChange({
+                    target: {
+                        value,
+                        name: name,
+                    },
+                    type: EVENTS.CHANGE,
+                });
+            },
+            onBlur: () => {
+                registerProps.onBlur({
+                    target: {
+                        value,
+                        name: name,
+                    },
+                    type: EVENTS.BLUR,
+                });
+            },
+            name,
+            value,
+            ref: (elm) => {
+                const field = get(control._fields, name);
+                if (elm && field && elm.focus) {
+                    field._f.ref = {
+                        focus: () => elm.focus(),
+                        setCustomValidity: (message) => elm.setCustomValidity(message),
+                        reportValidity: () => elm.reportValidity(),
+                    };
+                }
+            },
+        },
+        formState,
+        fieldState: {
+            invalid: !!get(formState.errors, name),
+            isDirty: !!get(formState.dirtyFields, name),
+            isTouched: !!get(formState.touchedFields, name),
+            error: get(formState.errors, name),
+        },
+    };
+}
+
+const Controller = (props) => props.render(useController(props));
+
+var appendErrors = (name, validateAllFieldCriteria, errors, type, message) => validateAllFieldCriteria
+    ? Object.assign(Object.assign({}, errors[name]), { types: Object.assign(Object.assign({}, (errors[name] && errors[name].types ? errors[name].types : {})), { [type]: message || true }) }) : {};
+
+var isKey = (value) => /^\w*$/.test(value);
+
+var stringToPath = (input) => compact(input.replace(/["|']|\]/g, '').split(/\.|\[/));
+
+function set(object, path, value) {
+    let index = -1;
+    const tempPath = isKey(path) ? [path] : stringToPath(path);
+    const length = tempPath.length;
+    const lastIndex = length - 1;
+    while (++index < length) {
+        const key = tempPath[index];
+        let newValue = value;
+        if (index !== lastIndex) {
+            const objValue = object[key];
+            newValue =
+                isObject(objValue) || Array.isArray(objValue)
+                    ? objValue
+                    : !isNaN(+tempPath[index + 1])
+                        ? []
+                        : {};
+        }
+        object[key] = newValue;
+        object = object[key];
+    }
+    return object;
+}
+
+const focusFieldBy = (fields, callback, fieldsNames) => {
+    for (const key of fieldsNames || Object.keys(fields)) {
+        const field = get(fields, key);
+        if (field) {
+            const _f = field._f;
+            const current = omit(field, '_f');
+            if (_f && callback(_f.name)) {
+                if (_f.ref.focus && isUndefined(_f.ref.focus())) {
+                    break;
+                }
+                else if (_f.refs) {
+                    _f.refs[0].focus();
+                    break;
+                }
+            }
+            else if (isObject(current)) {
+                focusFieldBy(current, callback);
+            }
+        }
+    }
+};
+
+var getFocusFieldName = (name, index, options = {}) => options.shouldFocus || isUndefined(options.shouldFocus)
+    ? options.focusName ||
+        `${name}.${isUndefined(options.focusIndex) ? index : options.focusIndex}.`
+    : '';
+
+var mapCurrentIds = (values, _fieldIds, keyName) => values.map((value, index) => {
+    const output = _fieldIds.current[index];
+    return Object.assign(Object.assign({}, value), (output ? { [keyName]: output[keyName] } : {}));
+});
+
+var generateId = () => {
+    const d = typeof performance === 'undefined' ? Date.now() : performance.now() * 1000;
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+        const r = (Math.random() * 16 + d) % 16 | 0;
+        return (c == 'x' ? r : (r & 0x3) | 0x8).toString(16);
+    });
+};
+
+var mapIds = (values = [], keyName) => values.map((value) => (Object.assign(Object.assign({}, (value[keyName] ? {} : { [keyName]: generateId() })), value)));
+
+function append(data, value) {
+    return [...convertToArrayPayload(data), ...convertToArrayPayload(value)];
+}
+
+var fillEmptyArray = (value) => Array.isArray(value) ? value.map(() => undefined) : undefined;
+
+function insert(data, index, value) {
+    return [
+        ...data.slice(0, index),
+        ...convertToArrayPayload(value),
+        ...data.slice(index),
+    ];
+}
+
+var moveArrayAt = (data, from, to) => {
+    if (Array.isArray(data)) {
+        if (isUndefined(data[to])) {
+            data[to] = undefined;
+        }
+        data.splice(to, 0, data.splice(from, 1)[0]);
+        return data;
+    }
+    return [];
+};
+
+var omitKey = (fields, keyName) => fields.map((field = {}) => omit(field, keyName));
+
+function prepend(data, value) {
+    return [...convertToArrayPayload(value), ...convertToArrayPayload(data)];
+}
+
+function removeAtIndexes(data, indexes) {
+    let i = 0;
+    const temp = [...data];
+    for (const index of indexes) {
+        temp.splice(index - i, 1);
+        i++;
+    }
+    return compact(temp).length ? temp : [];
+}
+var removeArrayAt = (data, index) => isUndefined(index)
+    ? []
+    : removeAtIndexes(data, convertToArrayPayload(index).sort((a, b) => a - b));
+
+var swapArrayAt = (data, indexA, indexB) => {
+    data[indexA] = [data[indexB], (data[indexB] = data[indexA])][0];
+};
+
+var updateAt = (fieldValues, index, value) => {
+    fieldValues[index] = value;
+    return fieldValues;
+};
+
+const useFieldArray = (props) => {
+    const methods = useFormContext();
+    const { control = methods.control, name, keyName = 'id', shouldUnregister, } = props;
+    const [fields, setFields] = react__WEBPACK_IMPORTED_MODULE_0__["useState"](mapIds(control._getFieldArrayValue(name), keyName));
+    const _fieldIds = react__WEBPACK_IMPORTED_MODULE_0__["useRef"](fields);
+    useSubscribe({
+        callback: ({ values, name: fieldArrayName }) => {
+            if (fieldArrayName === name || !fieldArrayName) {
+                setFields(mapIds(get(values, name), keyName));
+            }
+        },
+        subject: control._subjects.array,
+    });
+    _fieldIds.current = fields;
+    control._names.array.add(name);
+    const updateValues = react__WEBPACK_IMPORTED_MODULE_0__["useCallback"]((updatedFieldArrayValuesWithKey) => {
+        const updatedFieldArrayValues = omitKey(updatedFieldArrayValuesWithKey, keyName);
+        set(control._formValues, name, updatedFieldArrayValues);
+        setFields(updatedFieldArrayValuesWithKey);
+        return updatedFieldArrayValues;
+    }, [control, name, keyName]);
+    const append$1 = (value, options) => {
+        const appendValue = convertToArrayPayload(value);
+        const updatedFieldArrayValuesWithKey = append(mapCurrentIds(control._getFieldArrayValue(name), _fieldIds, keyName), mapIds(appendValue, keyName));
+        control._updateFieldArray(keyName, name, append, {
+            argA: fillEmptyArray(value),
+        }, updateValues(updatedFieldArrayValuesWithKey));
+        control._names.focus = getFocusFieldName(name, updatedFieldArrayValuesWithKey.length - appendValue.length, options);
+    };
+    const prepend$1 = (value, options) => {
+        const updatedFieldArrayValuesWithKey = prepend(mapCurrentIds(control._getFieldArrayValue(name), _fieldIds, keyName), mapIds(convertToArrayPayload(value), keyName));
+        control._updateFieldArray(keyName, name, prepend, {
+            argA: fillEmptyArray(value),
+        }, updateValues(updatedFieldArrayValuesWithKey));
+        control._names.focus = getFocusFieldName(name, 0, options);
+    };
+    const remove = (index) => {
+        const updatedFieldArrayValuesWithKey = removeArrayAt(mapCurrentIds(control._getFieldArrayValue(name), _fieldIds, keyName), index);
+        control._updateFieldArray(keyName, name, removeArrayAt, {
+            argA: index,
+        }, updateValues(updatedFieldArrayValuesWithKey));
+    };
+    const insert$1 = (index, value, options) => {
+        const updatedFieldArrayValuesWithKey = insert(mapCurrentIds(control._getFieldArrayValue(name), _fieldIds, keyName), index, mapIds(convertToArrayPayload(value), keyName));
+        control._updateFieldArray(keyName, name, insert, {
+            argA: index,
+            argB: fillEmptyArray(value),
+        }, updateValues(updatedFieldArrayValuesWithKey));
+        control._names.focus = getFocusFieldName(name, index, options);
+    };
+    const swap = (indexA, indexB) => {
+        const updatedFieldArrayValuesWithKey = mapCurrentIds(control._getFieldArrayValue(name), _fieldIds, keyName);
+        swapArrayAt(updatedFieldArrayValuesWithKey, indexA, indexB);
+        control._updateFieldArray(keyName, name, swapArrayAt, {
+            argA: indexA,
+            argB: indexB,
+        }, updateValues(updatedFieldArrayValuesWithKey), false);
+    };
+    const move = (from, to) => {
+        const updatedFieldArrayValuesWithKey = mapCurrentIds(control._getFieldArrayValue(name), _fieldIds, keyName);
+        moveArrayAt(updatedFieldArrayValuesWithKey, from, to);
+        control._updateFieldArray(keyName, name, moveArrayAt, {
+            argA: from,
+            argB: to,
+        }, updateValues(updatedFieldArrayValuesWithKey), false);
+    };
+    const update = (index, value) => {
+        const updatedFieldArrayValuesWithKey = mapCurrentIds(control._getFieldArrayValue(name), _fieldIds, keyName);
+        const updatedFieldArrayValues = updateAt(updatedFieldArrayValuesWithKey, index, value);
+        _fieldIds.current = mapIds(updatedFieldArrayValues, keyName);
+        control._updateFieldArray(keyName, name, updateAt, {
+            argA: index,
+            argB: value,
+        }, updateValues(_fieldIds.current), true, false);
+    };
+    const replace = (value) => {
+        const updatedFieldArrayValuesWithKey = mapIds(convertToArrayPayload(value), keyName);
+        control._updateFieldArray(keyName, name, () => updatedFieldArrayValuesWithKey, {}, updateValues(updatedFieldArrayValuesWithKey), true, false);
+    };
+    react__WEBPACK_IMPORTED_MODULE_0__["useEffect"](() => {
+        control._stateFlags.action = false;
+        if (control._names.watchAll) {
+            control._subjects.state.next({});
+        }
+        else {
+            for (const watchField of control._names.watch) {
+                if (name.startsWith(watchField)) {
+                    control._subjects.state.next({});
+                    break;
+                }
+            }
+        }
+        control._subjects.watch.next({
+            name,
+            values: control._formValues,
+        });
+        control._names.focus &&
+            focusFieldBy(control._fields, (key) => key.startsWith(control._names.focus));
+        control._names.focus = '';
+        control._proxyFormState.isValid && control._updateValid();
+    }, [fields, name, control, keyName]);
+    react__WEBPACK_IMPORTED_MODULE_0__["useEffect"](() => {
+        !get(control._formValues, name) && set(control._formValues, name, []);
+        return () => {
+            if (control._shouldUnregister || shouldUnregister) {
+                control.unregister(name);
+            }
+        };
+    }, [name, control, keyName, shouldUnregister]);
+    return {
+        swap: react__WEBPACK_IMPORTED_MODULE_0__["useCallback"](swap, [updateValues, name, control, keyName]),
+        move: react__WEBPACK_IMPORTED_MODULE_0__["useCallback"](move, [updateValues, name, control, keyName]),
+        prepend: react__WEBPACK_IMPORTED_MODULE_0__["useCallback"](prepend$1, [updateValues, name, control, keyName]),
+        append: react__WEBPACK_IMPORTED_MODULE_0__["useCallback"](append$1, [updateValues, name, control, keyName]),
+        remove: react__WEBPACK_IMPORTED_MODULE_0__["useCallback"](remove, [updateValues, name, control, keyName]),
+        insert: react__WEBPACK_IMPORTED_MODULE_0__["useCallback"](insert$1, [updateValues, name, control, keyName]),
+        update: react__WEBPACK_IMPORTED_MODULE_0__["useCallback"](update, [updateValues, name, control, keyName]),
+        replace: react__WEBPACK_IMPORTED_MODULE_0__["useCallback"](replace, [updateValues, name, control, keyName]),
+        fields: fields,
+    };
+};
+
+function cloneObject(data) {
+    let copy;
+    const isArray = Array.isArray(data);
+    if (data instanceof Date) {
+        copy = new Date(data);
+    }
+    else if (data instanceof Set) {
+        copy = new Set(data);
+    }
+    else if (isArray || isObject(data)) {
+        copy = isArray ? [] : {};
+        for (const key in data) {
+            copy[key] = cloneObject(data[key]);
+        }
+    }
+    else {
+        return data;
+    }
+    return copy;
+}
+
+var isPrimitive = (value) => isNullOrUndefined(value) || !isObjectType(value);
+
+function deepEqual(object1, object2) {
+    if (isPrimitive(object1) ||
+        isPrimitive(object2) ||
+        isDateObject(object1) ||
+        isDateObject(object2)) {
+        return object1 === object2;
+    }
+    const keys1 = Object.keys(object1);
+    const keys2 = Object.keys(object2);
+    if (keys1.length !== keys2.length) {
+        return false;
+    }
+    for (const key of keys1) {
+        const val1 = object1[key];
+        if (!keys2.includes(key)) {
+            return false;
+        }
+        if (key !== 'ref') {
+            const val2 = object2[key];
+            if ((isObject(val1) || Array.isArray(val1)) &&
+                (isObject(val2) || Array.isArray(val2))
+                ? !deepEqual(val1, val2)
+                : val1 !== val2) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+var getValidationModes = (mode) => ({
+    isOnSubmit: !mode || mode === VALIDATION_MODE.onSubmit,
+    isOnBlur: mode === VALIDATION_MODE.onBlur,
+    isOnChange: mode === VALIDATION_MODE.onChange,
+    isOnAll: mode === VALIDATION_MODE.all,
+    isOnTouch: mode === VALIDATION_MODE.onTouched,
+});
+
+var isBoolean = (value) => typeof value === 'boolean';
+
+var isFileInput = (element) => element.type === 'file';
+
+var isFunction = (value) => typeof value === 'function';
+
+var isHTMLElement = (value) => value instanceof HTMLElement;
+
+var isMultipleSelect = (element) => element.type === `select-multiple`;
+
+var isRadioInput = (element) => element.type === 'radio';
+
+var isRadioOrCheckboxFunction = (ref) => isRadioInput(ref) || isCheckBoxInput(ref);
+
+var isString = (value) => typeof value === 'string';
+
+var isWeb = typeof window !== 'undefined' &&
+    typeof window.HTMLElement !== 'undefined' &&
+    typeof document !== 'undefined';
+
+var live = (ref) => !isHTMLElement(ref) || !document.contains(ref);
+
+class Subscription {
+    constructor() {
+        this.tearDowns = [];
+    }
+    add(tearDown) {
+        this.tearDowns.push(tearDown);
+    }
+    unsubscribe() {
+        for (const teardown of this.tearDowns) {
+            teardown();
+        }
+        this.tearDowns = [];
+    }
+}
+class Subscriber {
+    constructor(observer, subscription) {
+        this.observer = observer;
+        this.closed = false;
+        subscription.add(() => (this.closed = true));
+    }
+    next(value) {
+        if (!this.closed) {
+            this.observer.next(value);
+        }
+    }
+}
+class Subject {
+    constructor() {
+        this.observers = [];
+    }
+    next(value) {
+        for (const observer of this.observers) {
+            observer.next(value);
+        }
+    }
+    subscribe(observer) {
+        const subscription = new Subscription();
+        const subscriber = new Subscriber(observer, subscription);
+        this.observers.push(subscriber);
+        return subscription;
+    }
+    unsubscribe() {
+        this.observers = [];
+    }
+}
+
+function baseGet(object, updatePath) {
+    const length = updatePath.slice(0, -1).length;
+    let index = 0;
+    while (index < length) {
+        object = isUndefined(object) ? index++ : object[updatePath[index++]];
+    }
+    return object;
+}
+function unset(object, path) {
+    const updatePath = isKey(path) ? [path] : stringToPath(path);
+    const childObject = updatePath.length == 1 ? object : baseGet(object, updatePath);
+    const key = updatePath[updatePath.length - 1];
+    let previousObjRef;
+    if (childObject) {
+        delete childObject[key];
+    }
+    for (let k = 0; k < updatePath.slice(0, -1).length; k++) {
+        let index = -1;
+        let objectRef;
+        const currentPaths = updatePath.slice(0, -(k + 1));
+        const currentPathsLength = currentPaths.length - 1;
+        if (k > 0) {
+            previousObjRef = object;
+        }
+        while (++index < currentPaths.length) {
+            const item = currentPaths[index];
+            objectRef = objectRef ? objectRef[item] : object[item];
+            if (currentPathsLength === index &&
+                ((isObject(objectRef) && isEmptyObject(objectRef)) ||
+                    (Array.isArray(objectRef) &&
+                        !objectRef.filter((data) => (isObject(data) && !isEmptyObject(data)) || isBoolean(data)).length))) {
+                previousObjRef ? delete previousObjRef[item] : delete object[item];
+            }
+            previousObjRef = objectRef;
+        }
+    }
+    return object;
+}
+
+const defaultResult = {
+    value: false,
+    isValid: false,
+};
+const validResult = { value: true, isValid: true };
+var getCheckboxValue = (options) => {
+    if (Array.isArray(options)) {
+        if (options.length > 1) {
+            const values = options
+                .filter((option) => option && option.checked && !option.disabled)
+                .map((option) => option.value);
+            return { value: values, isValid: !!values.length };
+        }
+        return options[0].checked && !options[0].disabled
+            ? // @ts-expect-error expected to work in the browser
+                options[0].attributes && !isUndefined(options[0].attributes.value)
+                    ? isUndefined(options[0].value) || options[0].value === ''
+                        ? validResult
+                        : { value: options[0].value, isValid: true }
+                    : validResult
+            : defaultResult;
+    }
+    return defaultResult;
+};
+
+var getFieldValueAs = (value, { valueAsNumber, valueAsDate, setValueAs }) => isUndefined(value)
+    ? value
+    : valueAsNumber
+        ? value === ''
+            ? NaN
+            : +value
+        : valueAsDate
+            ? new Date(value)
+            : setValueAs
+                ? setValueAs(value)
+                : value;
+
+var getMultipleSelectValue = (options) => [...options]
+    .filter(({ selected }) => selected)
+    .map(({ value }) => value);
+
+const defaultReturn = {
+    isValid: false,
+    value: null,
+};
+var getRadioValue = (options) => Array.isArray(options)
+    ? options.reduce((previous, option) => option && option.checked && !option.disabled
+        ? {
+            isValid: true,
+            value: option.value,
+        }
+        : previous, defaultReturn)
+    : defaultReturn;
+
+function getFieldValue(_f) {
+    const ref = _f.ref;
+    if (_f.refs ? _f.refs.every((ref) => ref.disabled) : ref.disabled) {
+        return;
+    }
+    if (isFileInput(ref)) {
+        return ref.files;
+    }
+    if (isRadioInput(ref)) {
+        return getRadioValue(_f.refs).value;
+    }
+    if (isMultipleSelect(ref)) {
+        return getMultipleSelectValue(ref.options);
+    }
+    if (isCheckBoxInput(ref)) {
+        return getCheckboxValue(_f.refs).value;
+    }
+    return getFieldValueAs(isUndefined(ref.value) ? _f.ref.value : ref.value, _f);
+}
+
+var getResolverOptions = (fieldsNames, _fields, criteriaMode, shouldUseNativeValidation) => {
+    const fields = {};
+    for (const name of fieldsNames) {
+        const field = get(_fields, name);
+        field && set(fields, name, field._f);
+    }
+    return {
+        criteriaMode,
+        names: [...fieldsNames],
+        fields,
+        shouldUseNativeValidation,
+    };
+};
+
+var hasValidation = (options) => options.mount &&
+    (options.required ||
+        options.min ||
+        options.max ||
+        options.maxLength ||
+        options.minLength ||
+        options.pattern ||
+        options.validate);
+
+function deepMerge(target, source) {
+    if (isPrimitive(target) || isPrimitive(source)) {
+        return source;
+    }
+    for (const key in source) {
+        const targetValue = target[key];
+        const sourceValue = source[key];
+        try {
+            target[key] =
+                (isObject(targetValue) && isObject(sourceValue)) ||
+                    (Array.isArray(targetValue) && Array.isArray(sourceValue))
+                    ? deepMerge(targetValue, sourceValue)
+                    : sourceValue;
+        }
+        catch (_a) { }
+    }
+    return target;
+}
+
+function setDirtyFields(values, defaultValues, dirtyFields, parentNode, parentName) {
+    let index = -1;
+    while (++index < values.length) {
+        for (const key in values[index]) {
+            if (Array.isArray(values[index][key])) {
+                !dirtyFields[index] && (dirtyFields[index] = {});
+                dirtyFields[index][key] = [];
+                setDirtyFields(values[index][key], get(defaultValues[index] || {}, key, []), dirtyFields[index][key], dirtyFields[index], key);
+            }
+            else {
+                !isNullOrUndefined(defaultValues) &&
+                    deepEqual(get(defaultValues[index] || {}, key), values[index][key])
+                    ? set(dirtyFields[index] || {}, key)
+                    : (dirtyFields[index] = Object.assign(Object.assign({}, dirtyFields[index]), { [key]: true }));
+            }
+        }
+        parentNode &&
+            !dirtyFields.length &&
+            delete parentNode[parentName];
+    }
+    return dirtyFields;
+}
+var setFieldArrayDirtyFields = (values, defaultValues, dirtyFields) => deepMerge(setDirtyFields(values, defaultValues, dirtyFields.slice(0, values.length)), setDirtyFields(defaultValues, values, dirtyFields.slice(0, values.length)));
+
+var skipValidation = (isBlurEvent, isTouched, isSubmitted, reValidateMode, mode) => {
+    if (mode.isOnAll) {
+        return false;
+    }
+    else if (!isSubmitted && mode.isOnTouch) {
+        return !(isTouched || isBlurEvent);
+    }
+    else if (isSubmitted ? reValidateMode.isOnBlur : mode.isOnBlur) {
+        return !isBlurEvent;
+    }
+    else if (isSubmitted ? reValidateMode.isOnChange : mode.isOnChange) {
+        return isBlurEvent;
+    }
+    return true;
+};
+
+var unsetEmptyArray = (ref, name) => !compact(get(ref, name, [])).length && unset(ref, name);
+
+var isMessage = (value) => isString(value) || react__WEBPACK_IMPORTED_MODULE_0__["isValidElement"](value);
+
+var isRegex = (value) => value instanceof RegExp;
+
+function getValidateError(result, ref, type = 'validate') {
+    if (isMessage(result) ||
+        (Array.isArray(result) && result.every(isMessage)) ||
+        (isBoolean(result) && !result)) {
+        return {
+            type,
+            message: isMessage(result) ? result : '',
+            ref,
+        };
+    }
+}
+
+var getValueAndMessage = (validationData) => isObject(validationData) && !isRegex(validationData)
+    ? validationData
+    : {
+        value: validationData,
+        message: '',
+    };
+
+var validateField = async (field, inputValue, validateAllFieldCriteria, shouldUseNativeValidation) => {
+    const { ref, refs, required, maxLength, minLength, min, max, pattern, validate, name, valueAsNumber, mount, disabled, } = field._f;
+    if (!mount || disabled) {
+        return {};
+    }
+    const inputRef = refs ? refs[0] : ref;
+    const setCustomValidty = (message) => {
+        if (shouldUseNativeValidation && inputRef.reportValidity) {
+            inputRef.setCustomValidity(isBoolean(message) ? '' : message || ' ');
+            inputRef.reportValidity();
+        }
+    };
+    const error = {};
+    const isRadio = isRadioInput(ref);
+    const isCheckBox = isCheckBoxInput(ref);
+    const isRadioOrCheckbox = isRadio || isCheckBox;
+    const isEmpty = ((valueAsNumber || isFileInput(ref)) && !ref.value) ||
+        inputValue === '' ||
+        (Array.isArray(inputValue) && !inputValue.length);
+    const appendErrorsCurry = appendErrors.bind(null, name, validateAllFieldCriteria, error);
+    const getMinMaxMessage = (exceedMax, maxLengthMessage, minLengthMessage, maxType = INPUT_VALIDATION_RULES.maxLength, minType = INPUT_VALIDATION_RULES.minLength) => {
+        const message = exceedMax ? maxLengthMessage : minLengthMessage;
+        error[name] = Object.assign({ type: exceedMax ? maxType : minType, message,
+            ref }, appendErrorsCurry(exceedMax ? maxType : minType, message));
+    };
+    if (required &&
+        ((!isRadioOrCheckbox && (isEmpty || isNullOrUndefined(inputValue))) ||
+            (isBoolean(inputValue) && !inputValue) ||
+            (isCheckBox && !getCheckboxValue(refs).isValid) ||
+            (isRadio && !getRadioValue(refs).isValid))) {
+        const { value, message } = isMessage(required)
+            ? { value: !!required, message: required }
+            : getValueAndMessage(required);
+        if (value) {
+            error[name] = Object.assign({ type: INPUT_VALIDATION_RULES.required, message, ref: inputRef }, appendErrorsCurry(INPUT_VALIDATION_RULES.required, message));
+            if (!validateAllFieldCriteria) {
+                setCustomValidty(message);
+                return error;
+            }
+        }
+    }
+    if (!isEmpty && (!isNullOrUndefined(min) || !isNullOrUndefined(max))) {
+        let exceedMax;
+        let exceedMin;
+        const maxOutput = getValueAndMessage(max);
+        const minOutput = getValueAndMessage(min);
+        if (!isNaN(inputValue)) {
+            const valueNumber = ref.valueAsNumber || parseFloat(inputValue);
+            if (!isNullOrUndefined(maxOutput.value)) {
+                exceedMax = valueNumber > maxOutput.value;
+            }
+            if (!isNullOrUndefined(minOutput.value)) {
+                exceedMin = valueNumber < minOutput.value;
+            }
+        }
+        else {
+            const valueDate = ref.valueAsDate || new Date(inputValue);
+            if (isString(maxOutput.value)) {
+                exceedMax = valueDate > new Date(maxOutput.value);
+            }
+            if (isString(minOutput.value)) {
+                exceedMin = valueDate < new Date(minOutput.value);
+            }
+        }
+        if (exceedMax || exceedMin) {
+            getMinMaxMessage(!!exceedMax, maxOutput.message, minOutput.message, INPUT_VALIDATION_RULES.max, INPUT_VALIDATION_RULES.min);
+            if (!validateAllFieldCriteria) {
+                setCustomValidty(error[name].message);
+                return error;
+            }
+        }
+    }
+    if ((maxLength || minLength) && !isEmpty && isString(inputValue)) {
+        const maxLengthOutput = getValueAndMessage(maxLength);
+        const minLengthOutput = getValueAndMessage(minLength);
+        const exceedMax = !isNullOrUndefined(maxLengthOutput.value) &&
+            inputValue.length > maxLengthOutput.value;
+        const exceedMin = !isNullOrUndefined(minLengthOutput.value) &&
+            inputValue.length < minLengthOutput.value;
+        if (exceedMax || exceedMin) {
+            getMinMaxMessage(exceedMax, maxLengthOutput.message, minLengthOutput.message);
+            if (!validateAllFieldCriteria) {
+                setCustomValidty(error[name].message);
+                return error;
+            }
+        }
+    }
+    if (pattern && !isEmpty && isString(inputValue)) {
+        const { value: patternValue, message } = getValueAndMessage(pattern);
+        if (isRegex(patternValue) && !inputValue.match(patternValue)) {
+            error[name] = Object.assign({ type: INPUT_VALIDATION_RULES.pattern, message,
+                ref }, appendErrorsCurry(INPUT_VALIDATION_RULES.pattern, message));
+            if (!validateAllFieldCriteria) {
+                setCustomValidty(message);
+                return error;
+            }
+        }
+    }
+    if (validate) {
+        if (isFunction(validate)) {
+            const result = await validate(inputValue);
+            const validateError = getValidateError(result, inputRef);
+            if (validateError) {
+                error[name] = Object.assign(Object.assign({}, validateError), appendErrorsCurry(INPUT_VALIDATION_RULES.validate, validateError.message));
+                if (!validateAllFieldCriteria) {
+                    setCustomValidty(validateError.message);
+                    return error;
+                }
+            }
+        }
+        else if (isObject(validate)) {
+            let validationResult = {};
+            for (const key in validate) {
+                if (!isEmptyObject(validationResult) && !validateAllFieldCriteria) {
+                    break;
+                }
+                const validateError = getValidateError(await validate[key](inputValue), inputRef, key);
+                if (validateError) {
+                    validationResult = Object.assign(Object.assign({}, validateError), appendErrorsCurry(key, validateError.message));
+                    setCustomValidty(validateError.message);
+                    if (validateAllFieldCriteria) {
+                        error[name] = validationResult;
+                    }
+                }
+            }
+            if (!isEmptyObject(validationResult)) {
+                error[name] = Object.assign({ ref: inputRef }, validationResult);
+                if (!validateAllFieldCriteria) {
+                    return error;
+                }
+            }
+        }
+    }
+    setCustomValidty(true);
+    return error;
+};
+
+const defaultOptions = {
+    mode: VALIDATION_MODE.onSubmit,
+    reValidateMode: VALIDATION_MODE.onChange,
+    shouldFocusError: true,
+};
+const isWindowUndefined = typeof window === 'undefined';
+function createFormControl(props = {}) {
+    let formOptions = Object.assign(Object.assign({}, defaultOptions), props);
+    let _delayCallback;
+    let _formState = {
+        isDirty: false,
+        isValidating: false,
+        dirtyFields: {},
+        isSubmitted: false,
+        submitCount: 0,
+        touchedFields: {},
+        isSubmitting: false,
+        isSubmitSuccessful: false,
+        isValid: false,
+        errors: {},
+    };
+    let _fields = {};
+    let _defaultValues = formOptions.defaultValues || {};
+    let _formValues = formOptions.shouldUnregister
+        ? {}
+        : cloneObject(_defaultValues);
+    let _stateFlags = {
+        action: false,
+        mount: false,
+        watch: false,
+    };
+    let _timer = 0;
+    let _names = {
+        mount: new Set(),
+        unMount: new Set(),
+        array: new Set(),
+        watch: new Set(),
+    };
+    let _validateCount = {};
+    const _proxyFormState = {
+        isDirty: false,
+        dirtyFields: false,
+        touchedFields: false,
+        isValidating: false,
+        isValid: false,
+        errors: false,
+    };
+    const _subjects = {
+        watch: new Subject(),
+        control: new Subject(),
+        array: new Subject(),
+        state: new Subject(),
+    };
+    const validationMode = getValidationModes(formOptions.mode);
+    const reValidateMode = getValidationModes(formOptions.reValidateMode);
+    const isValidateAllFieldCriteria = formOptions.criteriaMode === VALIDATION_MODE.all;
+    const debounce = (callback, wait) => (...args) => {
+        clearTimeout(_timer);
+        _timer = window.setTimeout(() => callback(...args), wait);
+    };
+    const isFieldWatched = (name) => _names.watchAll ||
+        _names.watch.has(name) ||
+        _names.watch.has((name.match(/\w+/) || [])[0]);
+    const updateErrorState = (name, error) => {
+        set(_formState.errors, name, error);
+        _subjects.state.next({
+            errors: _formState.errors,
+        });
+    };
+    const shouldRenderBaseOnError = async (shouldSkipRender, name, isValid, error, fieldState) => {
+        const previousError = get(_formState.errors, name);
+        const shouldUpdateValid = _proxyFormState.isValid && _formState.isValid !== isValid;
+        if (props.delayError && error) {
+            _delayCallback =
+                _delayCallback || debounce(updateErrorState, props.delayError);
+            _delayCallback(name, error);
+        }
+        else {
+            clearTimeout(_timer);
+            error
+                ? set(_formState.errors, name, error)
+                : unset(_formState.errors, name);
+        }
+        if (((error ? !deepEqual(previousError, error) : previousError) ||
+            !isEmptyObject(fieldState) ||
+            shouldUpdateValid) &&
+            !shouldSkipRender) {
+            const updatedFormState = Object.assign(Object.assign(Object.assign({}, fieldState), (shouldUpdateValid ? { isValid } : {})), { errors: _formState.errors, name });
+            _formState = Object.assign(Object.assign({}, _formState), updatedFormState);
+            _subjects.state.next(updatedFormState);
+        }
+        _validateCount[name]--;
+        if (_proxyFormState.isValidating && !_validateCount[name]) {
+            _subjects.state.next({
+                isValidating: false,
+            });
+            _validateCount = {};
+        }
+    };
+    const setFieldValue = (name, value, options = {}, shouldRender) => {
+        const field = get(_fields, name);
+        let fieldValue = value;
+        if (field) {
+            const _f = field._f;
+            if (_f) {
+                set(_formValues, name, getFieldValueAs(value, _f));
+                fieldValue =
+                    isWeb && isHTMLElement(_f.ref) && isNullOrUndefined(value)
+                        ? ''
+                        : value;
+                if (isFileInput(_f.ref) && !isString(fieldValue)) {
+                    _f.ref.files = fieldValue;
+                }
+                else if (isMultipleSelect(_f.ref)) {
+                    [..._f.ref.options].forEach((selectRef) => (selectRef.selected = fieldValue.includes(selectRef.value)));
+                }
+                else if (_f.refs) {
+                    if (isCheckBoxInput(_f.ref)) {
+                        _f.refs.length > 1
+                            ? _f.refs.forEach((checkboxRef) => (checkboxRef.checked = Array.isArray(fieldValue)
+                                ? !!fieldValue.find((data) => data === checkboxRef.value)
+                                : fieldValue === checkboxRef.value))
+                            : (_f.refs[0].checked = !!fieldValue);
+                    }
+                    else {
+                        _f.refs.forEach((radioRef) => (radioRef.checked = radioRef.value === fieldValue));
+                    }
+                }
+                else {
+                    _f.ref.value = fieldValue;
+                }
+                if (shouldRender) {
+                    _subjects.control.next({
+                        values: _formValues,
+                        name,
+                    });
+                }
+            }
+        }
+        (options.shouldDirty || options.shouldTouch) &&
+            updateTouchAndDirtyState(name, fieldValue, options.shouldTouch);
+        options.shouldValidate && trigger(name);
+    };
+    const updateTouchAndDirtyState = (name, inputValue, isCurrentTouched, shouldRender = true) => {
+        const state = {
+            name,
+        };
+        let isChanged = false;
+        if (_proxyFormState.isDirty) {
+            const previousIsDirty = _formState.isDirty;
+            _formState.isDirty = _getIsDirty();
+            state.isDirty = _formState.isDirty;
+            isChanged = previousIsDirty !== state.isDirty;
+        }
+        if (_proxyFormState.dirtyFields && !isCurrentTouched) {
+            const isPreviousFieldDirty = get(_formState.dirtyFields, name);
+            const isCurrentFieldDirty = !deepEqual(get(_defaultValues, name), inputValue);
+            isCurrentFieldDirty
+                ? set(_formState.dirtyFields, name, true)
+                : unset(_formState.dirtyFields, name);
+            state.dirtyFields = _formState.dirtyFields;
+            isChanged =
+                isChanged || isPreviousFieldDirty !== get(_formState.dirtyFields, name);
+        }
+        const isPreviousFieldTouched = get(_formState.touchedFields, name);
+        if (isCurrentTouched && !isPreviousFieldTouched) {
+            set(_formState.touchedFields, name, isCurrentTouched);
+            state.touchedFields = _formState.touchedFields;
+            isChanged =
+                isChanged ||
+                    (_proxyFormState.touchedFields &&
+                        isPreviousFieldTouched !== isCurrentTouched);
+        }
+        isChanged && shouldRender && _subjects.state.next(state);
+        return isChanged ? state : {};
+    };
+    const executeResolver = async (name) => {
+        return formOptions.resolver
+            ? await formOptions.resolver(Object.assign({}, _formValues), formOptions.context, getResolverOptions(name || _names.mount, _fields, formOptions.criteriaMode, formOptions.shouldUseNativeValidation))
+            : {};
+    };
+    const executeResolverValidation = async (names) => {
+        const { errors } = await executeResolver();
+        if (names) {
+            for (const name of names) {
+                const error = get(errors, name);
+                error
+                    ? set(_formState.errors, name, error)
+                    : unset(_formState.errors, name);
+            }
+        }
+        else {
+            _formState.errors = errors;
+        }
+        return errors;
+    };
+    const validateForm = async (_fields, shouldCheckValid, context = {
+        valid: true,
+    }) => {
+        for (const name in _fields) {
+            const field = _fields[name];
+            if (field) {
+                const _f = field._f;
+                const fieldValue = omit(field, '_f');
+                if (_f) {
+                    const fieldError = await validateField(field, get(_formValues, _f.name), isValidateAllFieldCriteria, formOptions.shouldUseNativeValidation);
+                    if (fieldError[_f.name]) {
+                        context.valid = false;
+                        if (shouldCheckValid) {
+                            break;
+                        }
+                    }
+                    if (!shouldCheckValid) {
+                        fieldError[_f.name]
+                            ? set(_formState.errors, _f.name, fieldError[_f.name])
+                            : unset(_formState.errors, _f.name);
+                    }
+                }
+                fieldValue &&
+                    (await validateForm(fieldValue, shouldCheckValid, context));
+            }
+        }
+        return context.valid;
+    };
+    const handleChange = async (event) => {
+        const target = event.target;
+        let name = target.name;
+        const field = get(_fields, name);
+        if (field) {
+            let error;
+            let isValid;
+            const inputValue = target.type ? getFieldValue(field._f) : target.value;
+            const isBlurEvent = event.type === EVENTS.BLUR;
+            if (isBlurEvent && field._f.onBlur) {
+                field._f.onBlur(event);
+            }
+            else if (field._f.onChange) {
+                field._f.onChange(event);
+            }
+            const shouldSkipValidation = (!hasValidation(field._f) &&
+                !formOptions.resolver &&
+                !get(_formState.errors, name) &&
+                !field._f.deps) ||
+                skipValidation(isBlurEvent, get(_formState.touchedFields, name), _formState.isSubmitted, reValidateMode, validationMode);
+            const isWatched = !isBlurEvent && isFieldWatched(name);
+            set(_formValues, name, inputValue);
+            const fieldState = updateTouchAndDirtyState(name, inputValue, isBlurEvent, false);
+            const shouldRender = !isEmptyObject(fieldState) || isWatched;
+            !isBlurEvent &&
+                _subjects.watch.next({
+                    name,
+                    type: event.type,
+                });
+            if (shouldSkipValidation) {
+                return (shouldRender &&
+                    _subjects.state.next(Object.assign({ name }, (isWatched ? {} : fieldState))));
+            }
+            !isBlurEvent && isWatched && _subjects.state.next({});
+            _validateCount[name] = _validateCount[name] ? +1 : 1;
+            _proxyFormState.isValidating &&
+                _subjects.state.next({
+                    isValidating: true,
+                });
+            if (formOptions.resolver) {
+                const { errors } = await executeResolver([name]);
+                error = get(errors, name);
+                if (isCheckBoxInput(target) && !error) {
+                    const parentNodeName = getNodeParentName(name);
+                    const parentField = get(_fields, parentNodeName);
+                    if (Array.isArray(parentField) &&
+                        parentField.every((field) => field._f && isCheckBoxInput(field._f.ref))) {
+                        const parentError = get(errors, parentNodeName, {});
+                        parentError.type && (error = parentError);
+                        name = parentNodeName;
+                    }
+                }
+                isValid = isEmptyObject(errors);
+            }
+            else {
+                error = (await validateField(field, get(_formValues, name), isValidateAllFieldCriteria, formOptions.shouldUseNativeValidation))[name];
+                isValid = await _updateValid(true);
+            }
+            if (field._f.deps) {
+                trigger(field._f.deps);
+            }
+            shouldRenderBaseOnError(false, name, isValid, error, fieldState);
+        }
+    };
+    const _updateValidAndInputValue = (name, shouldSkipValueAs, ref) => {
+        const field = get(_fields, name);
+        if (field) {
+            const fieldValue = get(_formValues, name);
+            const defaultValue = isUndefined(fieldValue)
+                ? get(_defaultValues, name)
+                : fieldValue;
+            if (isUndefined(defaultValue) ||
+                (ref && ref.defaultChecked) ||
+                shouldSkipValueAs) {
+                set(_formValues, name, shouldSkipValueAs ? defaultValue : getFieldValue(field._f));
+            }
+            else {
+                setFieldValue(name, defaultValue);
+            }
+        }
+        _stateFlags.mount && _updateValid();
+    };
+    const _getIsDirty = (name, data) => {
+        name && data && set(_formValues, name, data);
+        return !deepEqual(Object.assign({}, getValues()), _defaultValues);
+    };
+    const _updateValid = async (skipRender) => {
+        let isValid = false;
+        if (_proxyFormState.isValid) {
+            isValid = formOptions.resolver
+                ? isEmptyObject((await executeResolver()).errors)
+                : await validateForm(_fields, true);
+            if (!skipRender && isValid !== _formState.isValid) {
+                _formState.isValid = isValid;
+                _subjects.state.next({
+                    isValid,
+                });
+            }
+        }
+        return isValid;
+    };
+    const setValues = (name, value, options) => Object.entries(value).forEach(([fieldKey, fieldValue]) => {
+        const fieldName = `${name}.${fieldKey}`;
+        const field = get(_fields, fieldName);
+        (_names.array.has(name) ||
+            !isPrimitive(fieldValue) ||
+            (field && !field._f)) &&
+            !isDateObject(fieldValue)
+            ? setValues(fieldName, fieldValue, options)
+            : setFieldValue(fieldName, fieldValue, options, true);
+    });
+    const _getWatch = (fieldNames, defaultValue, isMounted, isGlobal) => {
+        const fieldValues = Object.assign({}, (isMounted || _stateFlags.mount
+            ? _formValues
+            : isUndefined(defaultValue)
+                ? _defaultValues
+                : isString(fieldNames)
+                    ? { [fieldNames]: defaultValue }
+                    : defaultValue));
+        if (!fieldNames) {
+            isGlobal && (_names.watchAll = true);
+            return fieldValues;
+        }
+        const result = [];
+        for (const fieldName of convertToArrayPayload(fieldNames)) {
+            isGlobal && _names.watch.add(fieldName);
+            result.push(get(fieldValues, fieldName));
+        }
+        return Array.isArray(fieldNames) ? result : result[0];
+    };
+    const _updateFieldArray = (keyName, name, method, args, values = [], shouldSet = true, shouldSetFields = true) => {
+        let output;
+        _stateFlags.action = true;
+        if (shouldSetFields && get(_fields, name)) {
+            output = method(get(_fields, name), args.argA, args.argB);
+            shouldSet && set(_fields, name, output);
+        }
+        if (Array.isArray(get(_formState.errors, name))) {
+            const output = method(get(_formState.errors, name), args.argA, args.argB);
+            shouldSet && set(_formState.errors, name, output);
+            unsetEmptyArray(_formState.errors, name);
+        }
+        if (_proxyFormState.touchedFields && get(_formState.touchedFields, name)) {
+            const output = method(get(_formState.touchedFields, name), args.argA, args.argB);
+            shouldSet && set(_formState.touchedFields, name, output);
+            unsetEmptyArray(_formState.touchedFields, name);
+        }
+        if (_proxyFormState.dirtyFields || _proxyFormState.isDirty) {
+            set(_formState.dirtyFields, name, setFieldArrayDirtyFields(omitKey(values, keyName), get(_defaultValues, name, []), get(_formState.dirtyFields, name, [])));
+            values &&
+                set(_formState.dirtyFields, name, setFieldArrayDirtyFields(omitKey(values, keyName), get(_defaultValues, name, []), get(_formState.dirtyFields, name, [])));
+            unsetEmptyArray(_formState.dirtyFields, name);
+        }
+        _subjects.state.next({
+            isDirty: _getIsDirty(name, omitKey(values, keyName)),
+            dirtyFields: _formState.dirtyFields,
+            errors: _formState.errors,
+            isValid: _formState.isValid,
+        });
+    };
+    const _getFieldArrayValue = (name) => get(_stateFlags.mount ? _formValues : _defaultValues, name, []);
+    const setValue = (name, value, options = {}) => {
+        const field = get(_fields, name);
+        const isFieldArray = _names.array.has(name);
+        set(_formValues, name, value);
+        if (isFieldArray) {
+            _subjects.array.next({
+                name,
+                values: _formValues,
+            });
+            if ((_proxyFormState.isDirty || _proxyFormState.dirtyFields) &&
+                options.shouldDirty) {
+                set(_formState.dirtyFields, name, setFieldArrayDirtyFields(value, get(_defaultValues, name, []), get(_formState.dirtyFields, name, [])));
+                _subjects.state.next({
+                    name,
+                    dirtyFields: _formState.dirtyFields,
+                    isDirty: _getIsDirty(name, value),
+                });
+            }
+        }
+        else {
+            field && !field._f && !isNullOrUndefined(value)
+                ? setValues(name, value, options)
+                : setFieldValue(name, value, options, true);
+        }
+        isFieldWatched(name) && _subjects.state.next({});
+        _subjects.watch.next({
+            name,
+        });
+    };
+    const trigger = async (name, options = {}) => {
+        const fieldNames = convertToArrayPayload(name);
+        let isValid;
+        let validationResult;
+        _subjects.state.next({
+            isValidating: true,
+        });
+        if (formOptions.resolver) {
+            const schemaResult = await executeResolverValidation(isUndefined(name) ? name : fieldNames);
+            isValid = isEmptyObject(schemaResult);
+            validationResult = name
+                ? !fieldNames.some((name) => get(schemaResult, name))
+                : isValid;
+        }
+        else if (name) {
+            validationResult = (await Promise.all(fieldNames.map(async (fieldName) => {
+                const field = get(_fields, fieldName);
+                return await validateForm(field && field._f ? { [fieldName]: field } : field);
+            }))).every(Boolean);
+            _updateValid();
+        }
+        else {
+            validationResult = isValid = await validateForm(_fields);
+        }
+        _subjects.state.next(Object.assign(Object.assign({}, (isString(name) ? { name } : {})), { errors: _formState.errors, isValid, isValidating: false }));
+        if (options.shouldFocus && !validationResult) {
+            focusFieldBy(_fields, (key) => get(_formState.errors, key), name ? fieldNames : _names.mount);
+        }
+        return validationResult;
+    };
+    const getValues = (fieldNames) => {
+        const values = Object.assign(Object.assign({}, _defaultValues), (_stateFlags.mount ? _formValues : {}));
+        return isUndefined(fieldNames)
+            ? values
+            : isString(fieldNames)
+                ? get(values, fieldNames)
+                : fieldNames.map((name) => get(values, name));
+    };
+    const clearErrors = (name) => {
+        name
+            ? convertToArrayPayload(name).forEach((inputName) => unset(_formState.errors, inputName))
+            : (_formState.errors = {});
+        _subjects.state.next({
+            errors: _formState.errors,
+        });
+    };
+    const setError = (name, error, options) => {
+        const ref = (get(_fields, name, { _f: {} })._f || {}).ref;
+        set(_formState.errors, name, Object.assign(Object.assign({}, error), { ref }));
+        _subjects.state.next({
+            name,
+            errors: _formState.errors,
+            isValid: false,
+        });
+        options && options.shouldFocus && ref && ref.focus && ref.focus();
+    };
+    const watch = (fieldName, defaultValue) => isFunction(fieldName)
+        ? _subjects.watch.subscribe({
+            next: (info) => fieldName(_getWatch(undefined, defaultValue), info),
+        })
+        : _getWatch(fieldName, defaultValue, false, true);
+    const unregister = (name, options = {}) => {
+        for (const inputName of name ? convertToArrayPayload(name) : _names.mount) {
+            _names.mount.delete(inputName);
+            _names.array.delete(inputName);
+            if (get(_fields, inputName)) {
+                if (!options.keepValue) {
+                    unset(_fields, inputName);
+                    unset(_formValues, inputName);
+                }
+                !options.keepError && unset(_formState.errors, inputName);
+                !options.keepDirty && unset(_formState.dirtyFields, inputName);
+                !options.keepTouched && unset(_formState.touchedFields, inputName);
+                !formOptions.shouldUnregister &&
+                    !options.keepDefaultValue &&
+                    unset(_defaultValues, inputName);
+            }
+        }
+        _subjects.watch.next({});
+        _subjects.state.next(Object.assign(Object.assign({}, _formState), (!options.keepDirty ? {} : { isDirty: _getIsDirty() })));
+        !options.keepIsValid && _updateValid();
+    };
+    const registerFieldRef = (name, fieldRef, options) => {
+        register(name, options);
+        let field = get(_fields, name);
+        const ref = isUndefined(fieldRef.value)
+            ? fieldRef.querySelectorAll
+                ? fieldRef.querySelectorAll('input,select,textarea')[0] ||
+                    fieldRef
+                : fieldRef
+            : fieldRef;
+        const isRadioOrCheckbox = isRadioOrCheckboxFunction(ref);
+        if (ref === field._f.ref ||
+            (isRadioOrCheckbox &&
+                compact(field._f.refs || []).find((option) => option === ref))) {
+            return;
+        }
+        field = {
+            _f: isRadioOrCheckbox
+                ? Object.assign(Object.assign({}, field._f), { refs: [
+                        ...compact(field._f.refs || []).filter((ref) => isHTMLElement(ref) && document.contains(ref)),
+                        ref,
+                    ], ref: { type: ref.type, name } }) : Object.assign(Object.assign({}, field._f), { ref }),
+        };
+        set(_fields, name, field);
+        (!options || !options.disabled) &&
+            _updateValidAndInputValue(name, false, ref);
+    };
+    const register = (name, options = {}) => {
+        const field = get(_fields, name);
+        set(_fields, name, {
+            _f: Object.assign(Object.assign(Object.assign({}, (field && field._f ? field._f : { ref: { name } })), { name, mount: true }), options),
+        });
+        _names.mount.add(name);
+        if (!isUndefined(options.value)) {
+            set(_formValues, name, options.value);
+        }
+        if (field && isBoolean(options.disabled)) {
+            set(_formValues, name, options.disabled
+                ? undefined
+                : get(_formValues, name, getFieldValue(field._f)));
+        }
+        !field && _updateValidAndInputValue(name, true);
+        return isWindowUndefined
+            ? { name: name }
+            : Object.assign(Object.assign({ name }, (isBoolean(options.disabled)
+                ? { disabled: options.disabled }
+                : {})), { onChange: handleChange, onBlur: handleChange, ref: (ref) => {
+                    if (ref) {
+                        registerFieldRef(name, ref, options);
+                    }
+                    else {
+                        const field = get(_fields, name, {});
+                        const _shouldUnregister = formOptions.shouldUnregister || options.shouldUnregister;
+                        if (field._f) {
+                            field._f.mount = false;
+                        }
+                        _shouldUnregister &&
+                            !(isNameInFieldArray(_names.array, name) && _stateFlags.action) &&
+                            _names.unMount.add(name);
+                    }
+                } });
+    };
+    const handleSubmit = (onValid, onInvalid) => async (e) => {
+        if (e) {
+            e.preventDefault && e.preventDefault();
+            e.persist && e.persist();
+        }
+        let hasNoPromiseError = true;
+        let fieldValues = Object.assign({}, _formValues);
+        _subjects.state.next({
+            isSubmitting: true,
+        });
+        try {
+            if (formOptions.resolver) {
+                const { errors, values } = await executeResolver();
+                _formState.errors = errors;
+                fieldValues = values;
+            }
+            else {
+                await validateForm(_fields);
+            }
+            if (isEmptyObject(_formState.errors) &&
+                Object.keys(_formState.errors).every((name) => get(fieldValues, name))) {
+                _subjects.state.next({
+                    errors: {},
+                    isSubmitting: true,
+                });
+                await onValid(fieldValues, e);
+            }
+            else {
+                onInvalid && (await onInvalid(_formState.errors, e));
+                formOptions.shouldFocusError &&
+                    focusFieldBy(_fields, (key) => get(_formState.errors, key), _names.mount);
+            }
+        }
+        catch (err) {
+            hasNoPromiseError = false;
+            throw err;
+        }
+        finally {
+            _formState.isSubmitted = true;
+            _subjects.state.next({
+                isSubmitted: true,
+                isSubmitting: false,
+                isSubmitSuccessful: isEmptyObject(_formState.errors) && hasNoPromiseError,
+                submitCount: _formState.submitCount + 1,
+                errors: _formState.errors,
+            });
+        }
+    };
+    const reset = (formValues, keepStateOptions = {}) => {
+        const updatedValues = formValues || _defaultValues;
+        const values = cloneObject(updatedValues);
+        if (!keepStateOptions.keepValues) {
+            _formValues = props.shouldUnregister ? {} : values;
+        }
+        if (isWeb && !keepStateOptions.keepValues) {
+            for (const name of _names.mount) {
+                const field = get(_fields, name);
+                if (field && field._f) {
+                    const inputRef = Array.isArray(field._f.refs)
+                        ? field._f.refs[0]
+                        : field._f.ref;
+                    try {
+                        isHTMLElement(inputRef) && inputRef.closest('form').reset();
+                        break;
+                    }
+                    catch (_a) { }
+                }
+            }
+        }
+        if (!keepStateOptions.keepDefaultValues) {
+            _defaultValues = Object.assign({}, updatedValues);
+        }
+        if (!keepStateOptions.keepValues) {
+            _fields = {};
+            _subjects.control.next({
+                values: keepStateOptions.keepDefaultValues
+                    ? _defaultValues
+                    : Object.assign({}, updatedValues),
+            });
+            _subjects.watch.next({});
+            _subjects.array.next({
+                values,
+            });
+        }
+        _names = {
+            mount: new Set(),
+            unMount: new Set(),
+            array: new Set(),
+            watch: new Set(),
+            watchAll: false,
+            focus: '',
+        };
+        _subjects.state.next({
+            submitCount: keepStateOptions.keepSubmitCount
+                ? _formState.submitCount
+                : 0,
+            isDirty: keepStateOptions.keepDirty
+                ? _formState.isDirty
+                : keepStateOptions.keepDefaultValues
+                    ? deepEqual(formValues, _defaultValues)
+                    : false,
+            isSubmitted: keepStateOptions.keepIsSubmitted
+                ? _formState.isSubmitted
+                : false,
+            dirtyFields: keepStateOptions.keepDirty
+                ? _formState.dirtyFields
+                : {},
+            touchedFields: keepStateOptions.keepTouched
+                ? _formState.touchedFields
+                : {},
+            errors: keepStateOptions.keepErrors
+                ? _formState.errors
+                : {},
+            isSubmitting: false,
+            isSubmitSuccessful: false,
+        });
+        _stateFlags.mount =
+            !_proxyFormState.isValid || !!keepStateOptions.keepIsValid;
+        _stateFlags.watch = !!props.shouldUnregister;
+    };
+    const setFocus = (name) => get(_fields, name)._f.ref.focus();
+    const _removeFields = () => {
+        for (const name of _names.unMount) {
+            const field = get(_fields, name);
+            field &&
+                (field._f.refs ? field._f.refs.every(live) : live(field._f.ref)) &&
+                unregister(name);
+        }
+        _names.unMount = new Set();
+    };
+    return {
+        control: {
+            register,
+            unregister,
+            _getWatch,
+            _getIsDirty,
+            _updateValid,
+            _removeFields,
+            _updateFieldArray,
+            _getFieldArrayValue,
+            _subjects,
+            _shouldUnregister: formOptions.shouldUnregister,
+            _proxyFormState,
+            get _fields() {
+                return _fields;
+            },
+            set _fields(value) {
+                _fields = value;
+            },
+            get _formValues() {
+                return _formValues;
+            },
+            set _formValues(value) {
+                _formValues = value;
+            },
+            get _stateFlags() {
+                return _stateFlags;
+            },
+            set _stateFlags(value) {
+                _stateFlags = value;
+            },
+            get _defaultValues() {
+                return _defaultValues;
+            },
+            set _defaultValues(value) {
+                _defaultValues = value;
+            },
+            get _names() {
+                return _names;
+            },
+            set _names(value) {
+                _names = value;
+            },
+            get _formState() {
+                return _formState;
+            },
+            set _formState(value) {
+                _formState = value;
+            },
+            _updateProps: (options) => {
+                formOptions = Object.assign(Object.assign({}, defaultOptions), options);
+            },
+        },
+        trigger,
+        register,
+        handleSubmit,
+        watch,
+        setValue,
+        getValues,
+        reset,
+        clearErrors,
+        unregister,
+        setError,
+        setFocus,
+    };
+}
+
+function useForm(props = {}) {
+    const _formControl = react__WEBPACK_IMPORTED_MODULE_0__["useRef"]();
+    const [formState, updateFormState] = react__WEBPACK_IMPORTED_MODULE_0__["useState"]({
+        isDirty: false,
+        isValidating: false,
+        dirtyFields: {},
+        isSubmitted: false,
+        submitCount: 0,
+        touchedFields: {},
+        isSubmitting: false,
+        isSubmitSuccessful: false,
+        isValid: false,
+        errors: {},
+    });
+    if (_formControl.current) {
+        _formControl.current.control._updateProps(props);
+    }
+    else {
+        _formControl.current = Object.assign(Object.assign({}, createFormControl(props)), { formState });
+    }
+    const control = _formControl.current.control;
+    useSubscribe({
+        subject: control._subjects.state,
+        callback: (formState) => {
+            if (shouldRenderFormState(formState, control._proxyFormState, true)) {
+                control._formState = Object.assign(Object.assign({}, control._formState), formState);
+                updateFormState(Object.assign({}, control._formState));
+            }
+        },
+    });
+    react__WEBPACK_IMPORTED_MODULE_0__["useEffect"](() => {
+        if (!control._stateFlags.mount) {
+            control._proxyFormState.isValid && control._updateValid();
+            control._stateFlags.mount = true;
+        }
+        if (control._stateFlags.watch) {
+            control._stateFlags.watch = false;
+            control._subjects.state.next({});
+        }
+        control._removeFields();
+    });
+    _formControl.current.formState = getProxyFormState(formState, control._proxyFormState);
+    return _formControl.current;
+}
+
+function useWatch(props) {
+    const methods = useFormContext();
+    const { control = methods.control, name, defaultValue, disabled, } = props || {};
+    const _name = react__WEBPACK_IMPORTED_MODULE_0__["useRef"](name);
+    _name.current = name;
+    useSubscribe({
+        disabled,
+        subject: control._subjects.watch,
+        callback: ({ name }) => {
+            if (!_name.current ||
+                !name ||
+                convertToArrayPayload(_name.current).some((currentName) => name &&
+                    currentName &&
+                    (name.startsWith(currentName) ||
+                        currentName.startsWith(name)))) {
+                const result = control._getWatch(_name.current, defaultValue, true);
+                updateValue(isObject(result)
+                    ? Object.assign({}, result) : Array.isArray(result)
+                    ? [...result]
+                    : result);
+            }
+        },
+    });
+    const [value, updateValue] = react__WEBPACK_IMPORTED_MODULE_0__["useState"](isUndefined(defaultValue)
+        ? control._getWatch(name)
+        : defaultValue);
+    react__WEBPACK_IMPORTED_MODULE_0__["useEffect"](() => {
+        control._removeFields();
+    });
+    return value;
+}
+
+
+//# sourceMappingURL=index.esm.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/react-textarea-autosize/dist/react-textarea-autosize.browser.esm.js":
+/*!******************************************************************************************!*\
+  !*** ./node_modules/react-textarea-autosize/dist/react-textarea-autosize.browser.esm.js ***!
+  \******************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
+/* harmony import */ var _babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */ "./node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var use_latest__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! use-latest */ "./node_modules/use-latest/dist/use-latest.esm.js");
+/* harmony import */ var use_composed_ref__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! use-composed-ref */ "./node_modules/use-composed-ref/dist/use-composed-ref.esm.js");
+
+
+
+
+
+
+var HIDDEN_TEXTAREA_STYLE = {
+  'min-height': '0',
+  'max-height': 'none',
+  height: '0',
+  visibility: 'hidden',
+  overflow: 'hidden',
+  position: 'absolute',
+  'z-index': '-1000',
+  top: '0',
+  right: '0'
+};
+
+var forceHiddenStyles = function forceHiddenStyles(node) {
+  Object.keys(HIDDEN_TEXTAREA_STYLE).forEach(function (key) {
+    node.style.setProperty(key, HIDDEN_TEXTAREA_STYLE[key], 'important');
+  });
+};
+
+//   export type CalculatedNodeHeights = [height: number, rowHeight: number];
+// https://github.com/microsoft/TypeScript/issues/28259
+
+var hiddenTextarea = null;
+
+var getHeight = function getHeight(node, sizingData) {
+  var height = node.scrollHeight;
+
+  if (sizingData.sizingStyle.boxSizing === 'border-box') {
+    // border-box: add border, since height = content + padding + border
+    return height + sizingData.borderSize;
+  } // remove padding, since height = content
+
+
+  return height - sizingData.paddingSize;
+};
+
+function calculateNodeHeight(sizingData, value, minRows, maxRows) {
+  if (minRows === void 0) {
+    minRows = 1;
+  }
+
+  if (maxRows === void 0) {
+    maxRows = Infinity;
+  }
+
+  if (!hiddenTextarea) {
+    hiddenTextarea = document.createElement('textarea');
+    hiddenTextarea.setAttribute('tabindex', '-1');
+    hiddenTextarea.setAttribute('aria-hidden', 'true');
+    forceHiddenStyles(hiddenTextarea);
+  }
+
+  if (hiddenTextarea.parentNode === null) {
+    document.body.appendChild(hiddenTextarea);
+  }
+
+  var paddingSize = sizingData.paddingSize,
+      borderSize = sizingData.borderSize,
+      sizingStyle = sizingData.sizingStyle;
+  var boxSizing = sizingStyle.boxSizing;
+  Object.keys(sizingStyle).forEach(function (_key) {
+    var key = _key;
+    hiddenTextarea.style[key] = sizingStyle[key];
+  });
+  forceHiddenStyles(hiddenTextarea);
+  hiddenTextarea.value = value;
+  var height = getHeight(hiddenTextarea, sizingData); // measure height of a textarea with a single row
+
+  hiddenTextarea.value = 'x';
+  var rowHeight = hiddenTextarea.scrollHeight - paddingSize;
+  var minHeight = rowHeight * minRows;
+
+  if (boxSizing === 'border-box') {
+    minHeight = minHeight + paddingSize + borderSize;
+  }
+
+  height = Math.max(minHeight, height);
+  var maxHeight = rowHeight * maxRows;
+
+  if (boxSizing === 'border-box') {
+    maxHeight = maxHeight + paddingSize + borderSize;
+  }
+
+  height = Math.min(maxHeight, height);
+  return [height, rowHeight];
+}
+
+var noop = function noop() {};
+var pick = function pick(props, obj) {
+  return props.reduce(function (acc, prop) {
+    acc[prop] = obj[prop];
+    return acc;
+  }, {});
+};
+
+var SIZING_STYLE = ['borderBottomWidth', 'borderLeftWidth', 'borderRightWidth', 'borderTopWidth', 'boxSizing', 'fontFamily', 'fontSize', 'fontStyle', 'fontWeight', 'letterSpacing', 'lineHeight', 'paddingBottom', 'paddingLeft', 'paddingRight', 'paddingTop', // non-standard
+'tabSize', 'textIndent', // non-standard
+'textRendering', 'textTransform', 'width', 'wordBreak'];
+var isIE = !!document.documentElement.currentStyle ;
+
+var getSizingData = function getSizingData(node) {
+  var style = window.getComputedStyle(node);
+
+  if (style === null) {
+    return null;
+  }
+
+  var sizingStyle = pick(SIZING_STYLE, style);
+  var boxSizing = sizingStyle.boxSizing; // probably node is detached from DOM, can't read computed dimensions
+
+  if (boxSizing === '') {
+    return null;
+  } // IE (Edge has already correct behaviour) returns content width as computed width
+  // so we need to add manually padding and border widths
+
+
+  if (isIE && boxSizing === 'border-box') {
+    sizingStyle.width = parseFloat(sizingStyle.width) + parseFloat(sizingStyle.borderRightWidth) + parseFloat(sizingStyle.borderLeftWidth) + parseFloat(sizingStyle.paddingRight) + parseFloat(sizingStyle.paddingLeft) + 'px';
+  }
+
+  var paddingSize = parseFloat(sizingStyle.paddingBottom) + parseFloat(sizingStyle.paddingTop);
+  var borderSize = parseFloat(sizingStyle.borderBottomWidth) + parseFloat(sizingStyle.borderTopWidth);
+  return {
+    sizingStyle: sizingStyle,
+    paddingSize: paddingSize,
+    borderSize: borderSize
+  };
+};
+
+var useWindowResizeListener = function useWindowResizeListener(listener) {
+  var latestListener = Object(use_latest__WEBPACK_IMPORTED_MODULE_3__["default"])(listener);
+  Object(react__WEBPACK_IMPORTED_MODULE_2__["useLayoutEffect"])(function () {
+    var handler = function handler(event) {
+      latestListener.current(event);
+    };
+
+    window.addEventListener('resize', handler);
+    return function () {
+      window.removeEventListener('resize', handler);
+    };
+  }, []);
+};
+
+var TextareaAutosize = function TextareaAutosize(_ref, userRef) {
+  var cacheMeasurements = _ref.cacheMeasurements,
+      maxRows = _ref.maxRows,
+      minRows = _ref.minRows,
+      _ref$onChange = _ref.onChange,
+      onChange = _ref$onChange === void 0 ? noop : _ref$onChange,
+      _ref$onHeightChange = _ref.onHeightChange,
+      onHeightChange = _ref$onHeightChange === void 0 ? noop : _ref$onHeightChange,
+      props = Object(_babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_1__["default"])(_ref, ["cacheMeasurements", "maxRows", "minRows", "onChange", "onHeightChange"]);
+
+  if ( true && props.style) {
+    if ('maxHeight' in props.style) {
+      throw new Error('Using `style.maxHeight` for <TextareaAutosize/> is not supported. Please use `maxRows`.');
+    }
+
+    if ('minHeight' in props.style) {
+      throw new Error('Using `style.minHeight` for <TextareaAutosize/> is not supported. Please use `minRows`.');
+    }
+  }
+
+  var isControlled = props.value !== undefined;
+  var libRef = Object(react__WEBPACK_IMPORTED_MODULE_2__["useRef"])(null);
+  var ref = Object(use_composed_ref__WEBPACK_IMPORTED_MODULE_4__["default"])(libRef, userRef);
+  var heightRef = Object(react__WEBPACK_IMPORTED_MODULE_2__["useRef"])(0);
+  var measurementsCacheRef = Object(react__WEBPACK_IMPORTED_MODULE_2__["useRef"])();
+
+  var resizeTextarea = function resizeTextarea() {
+    var node = libRef.current;
+    var nodeSizingData = cacheMeasurements && measurementsCacheRef.current ? measurementsCacheRef.current : getSizingData(node);
+
+    if (!nodeSizingData) {
+      return;
+    }
+
+    measurementsCacheRef.current = nodeSizingData;
+
+    var _calculateNodeHeight = calculateNodeHeight(nodeSizingData, node.value || node.placeholder || 'x', minRows, maxRows),
+        height = _calculateNodeHeight[0],
+        rowHeight = _calculateNodeHeight[1];
+
+    if (heightRef.current !== height) {
+      heightRef.current = height;
+      node.style.setProperty('height', height + "px", 'important');
+      onHeightChange(height, {
+        rowHeight: rowHeight
+      });
+    }
+  };
+
+  var handleChange = function handleChange(event) {
+    if (!isControlled) {
+      resizeTextarea();
+    }
+
+    onChange(event);
+  };
+
+  {
+    Object(react__WEBPACK_IMPORTED_MODULE_2__["useLayoutEffect"])(resizeTextarea);
+    useWindowResizeListener(resizeTextarea);
+  }
+
+  return /*#__PURE__*/Object(react__WEBPACK_IMPORTED_MODULE_2__["createElement"])("textarea", Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, props, {
+    onChange: handleChange,
+    ref: ref
+  }));
+};
+
+var index = /* #__PURE__ */Object(react__WEBPACK_IMPORTED_MODULE_2__["forwardRef"])(TextareaAutosize);
+
+/* harmony default export */ __webpack_exports__["default"] = (index);
+
+
+/***/ }),
+
 /***/ "./node_modules/react/cjs/react.development.js":
 /*!*****************************************************!*\
   !*** ./node_modules/react/cjs/react.development.js ***!
@@ -66605,6 +68731,99 @@ if (false) {} else {
 
 /***/ }),
 
+/***/ "./node_modules/use-composed-ref/dist/use-composed-ref.esm.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/use-composed-ref/dist/use-composed-ref.esm.js ***!
+  \********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var updateRef = function updateRef(ref, value) {
+  if (typeof ref === 'function') {
+    ref(value);
+    return;
+  }
+  ref.current = value;
+};
+
+var useComposedRef = function useComposedRef(libRef, userRef) {
+  var prevUserRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])();
+  return Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(function (instance) {
+    libRef.current = instance;
+
+    if (prevUserRef.current) {
+      updateRef(prevUserRef.current, null);
+    }
+
+    prevUserRef.current = userRef;
+
+    if (!userRef) {
+      return;
+    }
+
+    updateRef(userRef, instance);
+  }, [userRef]);
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (useComposedRef);
+
+
+/***/ }),
+
+/***/ "./node_modules/use-isomorphic-layout-effect/dist/use-isomorphic-layout-effect.browser.esm.js":
+/*!****************************************************************************************************!*\
+  !*** ./node_modules/use-isomorphic-layout-effect/dist/use-isomorphic-layout-effect.browser.esm.js ***!
+  \****************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var index =  react__WEBPACK_IMPORTED_MODULE_0__["useLayoutEffect"] ;
+
+/* harmony default export */ __webpack_exports__["default"] = (index);
+
+
+/***/ }),
+
+/***/ "./node_modules/use-latest/dist/use-latest.esm.js":
+/*!********************************************************!*\
+  !*** ./node_modules/use-latest/dist/use-latest.esm.js ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var use_isomorphic_layout_effect__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! use-isomorphic-layout-effect */ "./node_modules/use-isomorphic-layout-effect/dist/use-isomorphic-layout-effect.browser.esm.js");
+
+
+
+var useLatest = function useLatest(value) {
+  var ref = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(value);
+  Object(use_isomorphic_layout_effect__WEBPACK_IMPORTED_MODULE_1__["default"])(function () {
+    ref.current = value;
+  });
+  return ref;
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (useLatest);
+
+
+/***/ }),
+
 /***/ "./node_modules/webpack/buildin/global.js":
 /*!***********************************!*\
   !*** (webpack)/buildin/global.js ***!
@@ -66693,9 +68912,11 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 //require('./components/sampleTest2');
 
 
-__webpack_require__(/*! ./components/search/QuestionTable */ "./resources/js/components/search/QuestionTable.js");
+__webpack_require__(/*! ./components/search/SearchPage */ "./resources/js/components/search/SearchPage.js");
 
 __webpack_require__(/*! ./components/question/QuestionPage */ "./resources/js/components/question/QuestionPage.js");
+
+__webpack_require__(/*! ./components/makeQuestion/MakeQuestionPage */ "./resources/js/components/makeQuestion/MakeQuestionPage.js");
 
 /***/ }),
 
@@ -66741,6 +68962,563 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/components/makeQuestion/CategorySelector.js":
+/*!******************************************************************!*\
+  !*** ./resources/js/components/makeQuestion/CategorySelector.js ***!
+  \******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+
+
+
+function CategorySelector(props) {
+  var categoryIdRegister = props.register("category_id", {
+    required: "選択してください"
+  });
+
+  var selectChange = function selectChange(event) {
+    var selectedCategoryId = event.target.value;
+    var targetSubcategories = props.subcategories.filter(function (subcategory) {
+      return subcategory.category_id == selectedCategoryId;
+    });
+    props.setTargetSubcategories(targetSubcategories);
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "\u30AB\u30C6\u30B4\u30EA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", _extends({
+    className: props.errors.category_id ? 'invalid' : 'valid'
+  }, categoryIdRegister, {
+    onChange: selectChange
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    hidden: true,
+    value: ""
+  }), props.categories.map(function (category) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      key: category.category_id,
+      value: category.category_id
+    }, category.category_name);
+  })), props.errors.category_id && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "text-danger"
+  }, props.errors.category_id.message));
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (CategorySelector);
+
+/***/ }),
+
+/***/ "./resources/js/components/makeQuestion/ChoiceEditor.js":
+/*!**************************************************************!*\
+  !*** ./resources/js/components/makeQuestion/ChoiceEditor.js ***!
+  \**************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_textarea_autosize__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-textarea-autosize */ "./node_modules/react-textarea-autosize/dist/react-textarea-autosize.browser.esm.js");
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+
+
+
+
+function ChoiceEditor(props) {
+  var resisterString = "choiceText." + props.choiceSymbol;
+  var choiceTextRegister = props.register(resisterString, {
+    required: "入力してください",
+    maxLength: {
+      value: 1000,
+      message: '1000文字以内で入力してください'
+    }
+  });
+
+  var deleteClick = function deleteClick(event) {
+    var symbol = "ABCDEFGH";
+    var beforeChoiceTextsObj = props.getValues("choiceText");
+    if (Object.keys(beforeChoiceTextsObj).length == 2) return;
+    var correctChoiceSymbol = props.getValues("correctChoiceSymbol");
+    var diffAscii = correctChoiceSymbol.charCodeAt(0) - props.choiceSymbol.charCodeAt(0);
+
+    if (diffAscii > 0) {
+      var newCorrectChoiceSymbol = String.fromCharCode(correctChoiceSymbol.charCodeAt(0) - 1);
+      props.setValue("correctChoiceSymbol", newCorrectChoiceSymbol, {
+        shouldValidate: false
+      });
+    } else if (diffAscii == 0) {
+      props.setValue("correctChoiceSymbol", "", {
+        shouldValidate: false
+      });
+    }
+
+    var afterChoiceTextsObj = {};
+    var afterChoiceTextArray = [];
+    var deleted = false;
+
+    for (var i = 0; i < Object.keys(beforeChoiceTextsObj).length; i++) {
+      if (Object.keys(beforeChoiceTextsObj)[i] == props.choiceSymbol) {
+        deleted = true;
+      }
+
+      if (deleted) {
+        if (i + 1 < Object.keys(beforeChoiceTextsObj).length) {
+          afterChoiceTextArray[i] = beforeChoiceTextsObj[symbol[i + 1]];
+        }
+      } else {
+        afterChoiceTextArray[i] = beforeChoiceTextsObj[symbol[i]];
+      }
+    }
+
+    ;
+
+    for (var _i = 0; _i < afterChoiceTextArray.length; _i++) {
+      afterChoiceTextsObj[Object.keys(beforeChoiceTextsObj)[_i]] = afterChoiceTextArray[_i];
+    }
+
+    ;
+    props.setValue("choiceText", afterChoiceTextsObj, {
+      shouldValidate: false
+    }); //バリデーションも画面の再描画もされない。
+
+    props.clearErrors("choiceText"); //バリデーションエラークリア、画面の再描画される。
+  };
+
+  var invalid = function invalid(errors) {
+    return typeof props.errors.choiceText !== 'undefined' && props.choiceSymbol in props.errors.choiceText;
+  };
+
+  var correctAnswerClick = function correctAnswerClick(event) {
+    props.setValue("correctChoiceSymbol", props.choiceSymbol, {
+      shouldValidate: false
+    });
+    props.clearErrors("correctChoiceSymbol"); //バリデーションエラークリア、画面の再描画される。
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "row mb-1"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    className: "col-1 ".concat(props.choiceSymbol == props.getValues("correctChoiceSymbol") ? 'btn btn-danger' : 'btn btn-primary', " "),
+    onClick: correctAnswerClick
+  }, props.choiceSymbol), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_textarea_autosize__WEBPACK_IMPORTED_MODULE_2__["default"], _extends({
+    className: "col ".concat(invalid() ? 'invalid' : 'valid')
+  }, choiceTextRegister)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    className: "col-1",
+    onClick: function onClick(event) {
+      deleteClick(event);
+    }
+  }, "\u524A\u9664"), invalid() && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "text-danger"
+  }, props.errors.choiceText[props.choiceSymbol].message));
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (ChoiceEditor);
+
+/***/ }),
+
+/***/ "./resources/js/components/makeQuestion/ChoicesEditor.js":
+/*!***************************************************************!*\
+  !*** ./resources/js/components/makeQuestion/ChoicesEditor.js ***!
+  \***************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _ChoiceEditor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ChoiceEditor */ "./resources/js/components/makeQuestion/ChoiceEditor.js");
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+function ChoicesEditor(props) {
+  var correctChoiceSymbolRegister = props.register("correctChoiceSymbol", {
+    required: "正解の選択肢を選んでください(アルファベットをクリック)"
+  });
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+      _useState2 = _slicedToArray(_useState, 2),
+      fullChoices = _useState2[0],
+      setFullChoices = _useState2[1];
+
+  var choicesObj = props.getValues("choiceText");
+
+  var addClick = function addClick(event) {
+    var symbol = "ABCDEFGH";
+    var beforeChoiceTextsObj = props.getValues("choiceText");
+    var beforeChoicesCnt = Object.keys(beforeChoiceTextsObj).length;
+
+    if (beforeChoicesCnt < symbol.length) {
+      var afterChoiceTextsObj = _objectSpread({}, beforeChoiceTextsObj);
+
+      afterChoiceTextsObj[symbol[beforeChoicesCnt]] = "";
+      props.setValue("choiceText", afterChoiceTextsObj, {
+        shouldValidate: false
+      }); //バリデーション、画面の再描画されない。
+
+      props.clearErrors("choiceText"); //バリデーションエラークリア、画面の再描画される。
+    }
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    onClick: addClick,
+    disabled: fullChoices
+  }, "\u9078\u629E\u80A2\u3092\u8FFD\u52A0"), Object.keys(choicesObj).map(function (choice_symbol) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ChoiceEditor__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      key: choice_symbol,
+      choiceSymbol: choice_symbol,
+      choiceText: choicesObj[choice_symbol],
+      setValue: props.setValue,
+      getValues: props.getValues,
+      register: props.register,
+      errors: props.errors,
+      clearErrors: props.clearErrors
+    });
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", _extends({
+    type: "hidden",
+    readOnly: "readonly",
+    value: props.getValues("correctChoiceSymbol")
+  }, correctChoiceSymbolRegister)), props.errors.correctChoiceSymbol && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "text-danger"
+  }, props.errors.correctChoiceSymbol.message));
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (ChoicesEditor);
+
+/***/ }),
+
+/***/ "./resources/js/components/makeQuestion/ExplanationEditor.js":
+/*!*******************************************************************!*\
+  !*** ./resources/js/components/makeQuestion/ExplanationEditor.js ***!
+  \*******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_textarea_autosize__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-textarea-autosize */ "./node_modules/react-textarea-autosize/dist/react-textarea-autosize.browser.esm.js");
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+
+
+
+
+function ExplanationEditor(props) {
+  var answerTextRegister = props.register("answerText", {
+    required: "入力してください",
+    maxLength: {
+      value: 3000,
+      message: '3000文字以内で入力してください'
+    }
+  });
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "\u89E3\u8AAC\u6587"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_textarea_autosize__WEBPACK_IMPORTED_MODULE_2__["default"], _extends({
+    className: "col ".concat(props.errors.answerText ? 'invalid' : 'valid')
+  }, answerTextRegister)), props.errors.answerText && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "text-danger"
+  }, props.errors.answerText.message));
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (ExplanationEditor);
+
+/***/ }),
+
+/***/ "./resources/js/components/makeQuestion/MakeQuestionPage.js":
+/*!******************************************************************!*\
+  !*** ./resources/js/components/makeQuestion/MakeQuestionPage.js ***!
+  \******************************************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _QuestionEditor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./QuestionEditor */ "./resources/js/components/makeQuestion/QuestionEditor.js");
+/* harmony import */ var _ChoicesEditor__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ChoicesEditor */ "./resources/js/components/makeQuestion/ChoicesEditor.js");
+/* harmony import */ var _ExplanationEditor__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ExplanationEditor */ "./resources/js/components/makeQuestion/ExplanationEditor.js");
+/* harmony import */ var _CategorySelector__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./CategorySelector */ "./resources/js/components/makeQuestion/CategorySelector.js");
+/* harmony import */ var _SubcategorySelector__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./SubcategorySelector */ "./resources/js/components/makeQuestion/SubcategorySelector.js");
+/* harmony import */ var react_hook_form__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-hook-form */ "./node_modules/react-hook-form/dist/index.esm.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+
+
+
+
+function MakeQuestionPage() {
+  var defaultValues = {
+    "questionText": "",
+    "choiceText": {
+      "A": "",
+      "B": "",
+      "C": "",
+      "D": ""
+    },
+    "answerText": "",
+    "category_id": "",
+    "subcategory_id": "",
+    "correctChoiceSymbol": ""
+  };
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      categories = _useState2[0],
+      setCategories = _useState2[1];
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])([]),
+      _useState4 = _slicedToArray(_useState3, 2),
+      subcategories = _useState4[0],
+      setSubcategories = _useState4[1];
+
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])([]),
+      _useState6 = _slicedToArray(_useState5, 2),
+      targetSubcategories = _useState6[0],
+      setTargetSubcategories = _useState6[1];
+
+  var _useForm = Object(react_hook_form__WEBPACK_IMPORTED_MODULE_8__["useForm"])({
+    mode: 'onBlur',
+    //カーソルを外したタイミングでチェック
+    //mode: 'onSubmit',
+    //reValidateMode: 'onSubmit',
+    criteriaMode: "all",
+    shouldFocusError: false,
+    // エラーフォームのフォーカスを無効にする
+    defaultValues: defaultValues
+  }),
+      register = _useForm.register,
+      setValue = _useForm.setValue,
+      getValues = _useForm.getValues,
+      handleSubmit = _useForm.handleSubmit,
+      _useForm$formState = _useForm.formState,
+      errors = _useForm$formState.errors,
+      isSubmitted = _useForm$formState.isSubmitted,
+      clearErrors = _useForm.clearErrors;
+
+  var onSubmit = function onSubmit(data) {
+    console.log(data);
+  };
+
+  Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
+    var fetchData = /*#__PURE__*/function () {
+      var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var result, data;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return axios.get('/get-categories');
+
+              case 2:
+                result = _context.sent;
+                data = result.data.dbData;
+                setCategories(JSON.parse(JSON.stringify(data.categories)));
+                setSubcategories(JSON.parse(JSON.stringify(data.subcategories)));
+
+              case 6:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
+
+      return function fetchData() {
+        return _ref.apply(this, arguments);
+      };
+    }();
+
+    fetchData();
+  }, []);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "container"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
+    onSubmit: handleSubmit(onSubmit)
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_QuestionEditor__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    register: register,
+    errors: errors
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_ChoicesEditor__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    setValue: setValue,
+    getValues: getValues,
+    register: register,
+    errors: errors,
+    clearErrors: clearErrors
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_ExplanationEditor__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    register: register,
+    errors: errors
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_CategorySelector__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    register: register,
+    errors: errors,
+    categories: categories,
+    setCategories: setCategories,
+    subcategories: subcategories,
+    setTargetSubcategories: setTargetSubcategories
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_SubcategorySelector__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    register: register,
+    errors: errors,
+    targetSubcategories: targetSubcategories
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+    type: "submit",
+    value: "\u30A2\u30C3\u30D7\u30ED\u30FC\u30C9"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "text-danger"
+  }, isSubmitted && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", null, "\u5165\u529B\u30A8\u30E9\u30FC\u304C\u3042\u308A\u307E\u3059\u3002"))));
+}
+
+if (document.getElementById('make-question-page')) {
+  react_dom__WEBPACK_IMPORTED_MODULE_2___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(MakeQuestionPage, null), document.getElementById('make-question-page'));
+}
+
+/***/ }),
+
+/***/ "./resources/js/components/makeQuestion/QuestionEditor.js":
+/*!****************************************************************!*\
+  !*** ./resources/js/components/makeQuestion/QuestionEditor.js ***!
+  \****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_hook_form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-hook-form */ "./node_modules/react-hook-form/dist/index.esm.js");
+/* harmony import */ var react_textarea_autosize__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-textarea-autosize */ "./node_modules/react-textarea-autosize/dist/react-textarea-autosize.browser.esm.js");
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+
+
+
+
+
+function QuestionEditor(props) {
+  var questionTextRegister = props.register("questionText", {
+    required: "入力してください",
+    maxLength: {
+      value: 3000,
+      message: '3000文字以内で入力してください'
+    }
+  });
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "\u554F\u984C\u6587"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_textarea_autosize__WEBPACK_IMPORTED_MODULE_3__["default"], _extends({
+    className: "col ".concat(props.errors.questionText ? 'invalid' : 'valid')
+  }, questionTextRegister)), props.errors.questionText && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "text-danger"
+  }, props.errors.questionText.message));
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (QuestionEditor);
+
+/***/ }),
+
+/***/ "./resources/js/components/makeQuestion/SubcategorySelector.js":
+/*!*********************************************************************!*\
+  !*** ./resources/js/components/makeQuestion/SubcategorySelector.js ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+
+
+
+function SubcategorySelector(props) {
+  var subcategoryIdRegister = props.register("subcategory_id", {
+    required: "選択してください"
+  });
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "\u30B5\u30D6\u30AB\u30C6\u30B4\u30EA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", _extends({
+    className: props.errors.subcategory_id ? 'invalid' : 'valid'
+  }, subcategoryIdRegister), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    hidden: true
+  }), props.targetSubcategories.map(function (subcategory) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      key: subcategory.subcategory_id,
+      value: subcategory.subcategory_id
+    }, subcategory.subcategory_name);
+  })), props.errors.subcategory_id && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "text-danger"
+  }, props.errors.subcategory_id.message));
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (SubcategorySelector);
 
 /***/ }),
 
@@ -66874,7 +69652,7 @@ function Question(props) {
 /*!**********************************************************!*\
   !*** ./resources/js/components/question/QuestionPage.js ***!
   \**********************************************************/
-/*! exports provided: default */
+/*! no exports provided */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -66962,7 +69740,7 @@ function QuestionPage() {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get('/getQA/' + question_id);
+                return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get('/get-qa/' + question_id);
 
               case 2:
                 result = _context.sent;
@@ -67011,8 +69789,9 @@ function QuestionPage() {
   }) : null);
 }
 
-/* harmony default export */ __webpack_exports__["default"] = (QuestionPage);
-react_dom__WEBPACK_IMPORTED_MODULE_2___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(QuestionPage, null), document.getElementById('question-page'));
+if (document.getElementById('question-page')) {
+  react_dom__WEBPACK_IMPORTED_MODULE_2___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(QuestionPage, null), document.getElementById('question-page'));
+}
 
 /***/ }),
 
@@ -67037,6 +69816,51 @@ function Result(props) {
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (Result);
+
+/***/ }),
+
+/***/ "./resources/js/components/search/Pagination.js":
+/*!******************************************************!*\
+  !*** ./resources/js/components/search/Pagination.js ***!
+  \******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+
+function Pagination(props) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "container"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
+    "aria-label": "Page Navigation"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+    className: "pagination"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+    className: "page-item"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "page-link"
+  }, "\u524D")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+    className: "page-item"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "page-link "
+  }, props.paginationData.current_page)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+    className: "page-item"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "page-link"
+  }, "\u6B21")))));
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Pagination);
 
 /***/ }),
 
@@ -67079,7 +69903,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-function QuestionTable() {
+function QuestionTable(props) {
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])([]),
       _useState2 = _slicedToArray(_useState, 2),
       questions = _useState2[0],
@@ -67091,19 +69915,37 @@ function QuestionTable() {
 
   var getQuestions = /*#__PURE__*/function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-      var response;
+      var response, questions, paginationData;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               _context.next = 2;
-              return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get('/getQuestions');
+              return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get('/get-questions', {
+                params: {
+                  page: 1
+                }
+              });
 
             case 2:
               response = _context.sent;
-              setQuestions(response.data.questions);
+              //console.log("response")
+              //console.log(response)
+              questions = response.data.questions.data;
+              paginationData = {
+                "total": response.data.questions.total,
+                "per_page": response.data.questions.per_page,
+                "current_page": response.data.questions.current_page,
+                "last_page": response.data.questions.last_page,
+                "next_page_url": response.data.questions.next_page_url,
+                "prev_page_url": response.data.questions.prev_page_url,
+                "from": response.data.questions.from,
+                "to": response.data.questions.to
+              };
+              setQuestions(questions);
+              props.setPaginationData(JSON.parse(JSON.stringify(paginationData)));
 
-            case 4:
+            case 7:
             case "end":
               return _context.stop();
           }
@@ -67116,22 +69958,73 @@ function QuestionTable() {
     };
   }();
 
-  console.log(questions);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("table", {
     className: "table table-bordered table-striped"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("th", null, "question_id"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("th", null, "created_user_id"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("th", null, "updated_user_id"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("th", null, "state_id"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("th", null, "state_name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("th", null, "subcategory_id"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("th", null, "subcategory_name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("th", null, "category_id"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("th", null, "category_name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("th", null, "question_text"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("tbody", null, questions.map(function (question) {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("th", null, "question_id"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("th", null, "state_name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("th", null, "subcategory_name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("th", null, "category_name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("th", null, "question_text"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("tbody", null, questions.map(function (question) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("tr", {
       key: question.question_id
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
       href: "/question/" + question.question_id
-    }, question.question_id)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, question.created_user_id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, question.updated_user_id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, question.status_id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, question.status.status_name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, question.subcategory_id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, question.subcategory.subcategory_name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, question.subcategory.category_id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, question.subcategory.category.category_name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, question.question_text));
+    }, question.question_id)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, question.status.status_name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, question.subcategory.subcategory_name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, question.subcategory.category.category_name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, question.question_text));
   }))));
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (QuestionTable);
 
-if (document.getElementById('question-table')) {
-  react_dom__WEBPACK_IMPORTED_MODULE_2___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(QuestionTable, null), document.getElementById('question-table'));
+/***/ }),
+
+/***/ "./resources/js/components/search/SearchPage.js":
+/*!******************************************************!*\
+  !*** ./resources/js/components/search/SearchPage.js ***!
+  \******************************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _Pagination__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Pagination */ "./resources/js/components/search/Pagination.js");
+/* harmony import */ var _QuestionTable__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./QuestionTable */ "./resources/js/components/search/QuestionTable.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+
+function SearchPage() {
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      paginationData = _useState2[0],
+      setPaginationData = _useState2[1];
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "container"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Pagination__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    paginationData: paginationData
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_QuestionTable__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    setPaginationData: setPaginationData
+  }));
+}
+
+if (document.getElementById('search-page')) {
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SearchPage, null), document.getElementById('search-page'));
 }
 
 /***/ }),

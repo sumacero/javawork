@@ -15,8 +15,8 @@ class SearchController extends Controller
         $users = User::all();
         return response()->json(['users' => $users]);
     }
-    public function getQuestions(){
-        $questions = Question::with('status','subcategory.category')->get();
+    public function getQuestions(Request $request){
+        $questions = Question::with('status','subcategory.category')->paginate(3);
         return response()->json(['questions' => $questions]);
     }
 }

@@ -16,7 +16,7 @@ function QuestionPage() {
     const [ correctFlag, setCorrectFlag] = useState(false);
     useEffect(() => {
         const fetchData = async () => {
-            const result = await axios.get('/getQA/' + question_id);
+            const result = await axios.get('/get-qa/' + question_id);
             const data = result.data.dbData;
             setQuestion(JSON.parse(JSON.stringify(data.question)));
             setChoices(JSON.parse(JSON.stringify(data.choices)));
@@ -40,9 +40,8 @@ function QuestionPage() {
     );
 }
 
-export default QuestionPage;
 
-ReactDOM.render(
-    <QuestionPage />,
-    document.getElementById('question-page')
-);
+if (document.getElementById('question-page')) {
+    ReactDOM.render(<QuestionPage />,document.getElementById('question-page'));
+}
+

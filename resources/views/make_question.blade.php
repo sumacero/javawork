@@ -5,5 +5,5 @@
     <div class="row justify-content-center">
     </div>
 </div>
-<div id="search-page"></div>
+<div id="make-question-page"></div>
 @endsection

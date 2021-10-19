@@ -25,6 +25,17 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">Java問題作成</div>
+                <a href="/make-question">
+                    <img class="card-img-top" src="images/問題作成.png" alt="DB検索画像" height="300">
+                </a>
+                <div class="card-body">
+                    Javaの問題を作成します。
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 @endsection

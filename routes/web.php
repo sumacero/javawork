@@ -18,8 +18,11 @@ Route::get('/', function () {
 Auth::routes();
 Route::get('/home', 'HomeController@index');
 Route::get('/search', 'SearchController@index');
-Route::get('/getUsers', 'SearchController@getUsers');
-Route::get('/getQuestions', 'SearchController@getQuestions');
+Route::get('/make-question', 'MakeQuestionController@index');
+Route::get('/get-categories', 'MakeQuestionController@getCategories');
+Route::get('/get-users', 'SearchController@getUsers');
+Route::get('/get-questions', 'SearchController@getQuestions');
 Route::get('/question/{question_id?}', 'QuestionController@index');
-Route::get('/getQA/{question_id?}', 'QuestionController@getQA');
+Route::get('/get-qa/{question_id?}', 'QuestionController@getQA');
+
 

@@ -17,6 +17,9 @@ require('./bootstrap');
 //require('./components/sample/Test');
 //require('./components/sampleTest2');
 
-require('./components/search/QuestionTable');
+require('./components/search/SearchPage');
 require('./components/question/QuestionPage');
+require('./components/makeQuestion/MakeQuestionPage');
+
+
 

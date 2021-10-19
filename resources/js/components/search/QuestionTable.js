@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 
 
-function QuestionTable() {
+function QuestionTable(props) {
     
     const [questions, setQuestions] = useState([]);
 
@@ -12,10 +12,27 @@ function QuestionTable() {
     },[])
 
     const getQuestions = async () => {
-        const response = await axios.get('/getQuestions');
-        setQuestions(response.data.questions)
+        const response = await axios.get('/get-questions', {
+            params:{
+                page:1
+            }
+        });
+        //console.log("response")
+        //console.log(response)
+        let questions = response.data.questions.data;
+        let paginationData = {
+            "total": response.data.questions.total,
+            "per_page": response.data.questions.per_page,
+            "current_page": response.data.questions.current_page,
+            "last_page": response.data.questions.last_page,
+            "next_page_url": response.data.questions.next_page_url,
+            "prev_page_url": response.data.questions.prev_page_url,
+            "from": response.data.questions.from,
+            "to": response.data.questions.to,
+        };
+        setQuestions(questions);
+        props.setPaginationData(JSON.parse(JSON.stringify(paginationData)));
     }
-    console.log(questions)
 
     return (
         <div>
@@ -23,13 +40,8 @@ function QuestionTable() {
                 <thead>
                     <tr>
                         <th>question_id</th>
-                        <th>created_user_id</th>
-                        <th>updated_user_id</th>
-                        <th>state_id</th>
                         <th>state_name</th>
-                        <th>subcategory_id</th>
                         <th>subcategory_name</th>
-                        <th>category_id</th>
                         <th>category_name</th>
                         <th>question_text</th>
                     </tr>
@@ -37,13 +49,8 @@ function QuestionTable() {
                 <tbody>
                     {questions.map((question) => <tr key={question.question_id}>
                                                     <td><a href={"/question/" + question.question_id}>{question.question_id}</a></td>
-                                                    <td>{question.created_user_id}</td>
-                                                    <td>{question.updated_user_id}</td>
-                                                    <td>{question.status_id}</td>
                                                     <td>{question.status.status_name}</td>
-                                                    <td>{question.subcategory_id}</td>
                                                     <td>{question.subcategory.subcategory_name}</td>
-                                                    <td>{question.subcategory.category_id}</td>
                                                     <td>{question.subcategory.category.category_name}</td>
                                                     <td>{question.question_text}</td>
                                                 </tr>)}
@@ -54,7 +61,3 @@ function QuestionTable() {
 }
 
 export default QuestionTable;
-
-if (document.getElementById('question-table')) {
-    ReactDOM.render(<QuestionTable />, document.getElementById('question-table'));
-}
