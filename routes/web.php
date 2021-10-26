@@ -24,5 +24,7 @@ Route::get('/get-users', 'SearchController@getUsers');
 Route::get('/get-questions', 'SearchController@getQuestions');
 Route::get('/question/{question_id?}', 'QuestionController@index');
 Route::get('/get-qa/{question_id?}', 'QuestionController@getQA');
+Route::post('/confirm-question', 'ConfirmQuestionController@uploadQuestion');
+
 
 

@@ -1,9 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
+    @if (count($errors)>0)
+    <div>
+        <p>サーバーバリデーションエラーが発生しました。</p>
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{$error}}</li>
+            @endforeach
+        </ul>
     </div>
+    @endif
+    <div id="make-question-page"></div>
 </div>
-<div id="make-question-page"></div>
 @endsection

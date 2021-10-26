@@ -3,22 +3,19 @@ import ReactDOM from 'react-dom';
 import TextareaAutosize from 'react-textarea-autosize';
 
 function ChoiceEditor(props) {
-    const resisterString = "choiceText." + props.choiceSymbol
-    const choiceTextRegister = props.register(resisterString, {
-        required: "入力してください",
-        maxLength: {value:1000, message:'1000文字以内で入力してください'}
-    })
+    const resisterString = "choice_text." + props.choiceSymbol
+    const choiceTextRegister = props.register(resisterString, {})
     const deleteClick = (event) =>{
         const symbol = "ABCDEFGH";
-        const beforeChoiceTextsObj = props.getValues("choiceText");
+        const beforeChoiceTextsObj = props.getValues("choice_text");
         if(Object.keys(beforeChoiceTextsObj).length == 2) return;
-        const correctChoiceSymbol = props.getValues("correctChoiceSymbol");
+        const correctChoiceSymbol = props.getValues("correct_choice_symbol");
         const diffAscii = correctChoiceSymbol.charCodeAt(0) - props.choiceSymbol.charCodeAt(0)
         if(diffAscii > 0){
             const newCorrectChoiceSymbol = String.fromCharCode(correctChoiceSymbol.charCodeAt(0) - 1);
-            props.setValue("correctChoiceSymbol", newCorrectChoiceSymbol, {shouldValidate:false});
+            props.setValue("correct_choice_symbol", newCorrectChoiceSymbol, {shouldValidate:false});
         }else if(diffAscii == 0){
-            props.setValue("correctChoiceSymbol", "", {shouldValidate:false});
+            props.setValue("correct_choice_symbol", "", {shouldValidate:false});
         }
         let afterChoiceTextsObj = {};
         const afterChoiceTextArray = []
@@ -38,21 +35,21 @@ function ChoiceEditor(props) {
         for(let i = 0; i<afterChoiceTextArray.length; i++){
             afterChoiceTextsObj[Object.keys(beforeChoiceTextsObj)[i]] = afterChoiceTextArray[i]
         };
-        props.setValue("choiceText", afterChoiceTextsObj, {shouldValidate:false}); //バリデーションも画面の再描画もされない。
-        props.clearErrors("choiceText"); //バリデーションエラークリア、画面の再描画される。
+        props.setValue("choice_text", afterChoiceTextsObj, {shouldValidate:false}); //バリデーションも画面の再描画もされない。
+        props.clearErrors("choice_text"); //バリデーションエラークリア、画面の再描画される。
     }
     const invalid = (errors) => {
-        return typeof(props.errors.choiceText) !== 'undefined' && props.choiceSymbol in props.errors.choiceText;
+        return typeof(props.errors.choice_text) !== 'undefined' && props.choiceSymbol in props.errors.choice_text;
     }
     const correctAnswerClick = (event) =>{
-        props.setValue("correctChoiceSymbol", props.choiceSymbol, {shouldValidate:false});
-        props.clearErrors("correctChoiceSymbol"); //バリデーションエラークリア、画面の再描画される。
+        props.setValue("correct_choice_symbol", props.choiceSymbol, {shouldValidate:false});
+        props.clearErrors("correct_choice_symbol"); //バリデーションエラークリア、画面の再描画される。
     }
     return (
         <div className="row mb-1">
             <button 
                 type="button"
-                className={`col-1 ${props.choiceSymbol == props.getValues("correctChoiceSymbol") ? 'btn btn-danger':'btn btn-primary'} `} 
+                className={`col-1 ${props.choiceSymbol == props.getValues("correct_choice_symbol") ? 'btn btn-danger':'btn btn-primary'} `} 
                 onClick={correctAnswerClick} 
             >
                 {props.choiceSymbol}
@@ -70,7 +67,7 @@ function ChoiceEditor(props) {
             >
                 削除
             </button>
-            {invalid() && <span className="text-danger">{props.errors.choiceText[props.choiceSymbol].message}</span>}
+            {invalid() && <span className="text-danger">{props.errors.choice_text[props.choiceSymbol].message}</span>}
         </div>
     );
 }

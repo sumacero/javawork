@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 
 function SubcategorySelector(props) {
-    const subcategoryIdRegister = props.register("subcategory_id", {
-        required: "選択してください"
-    })
+    const subcategoryIdRegister = props.register("subcategory_id", {});
     return (
         <div>
             <label>サブカテゴリ</label>

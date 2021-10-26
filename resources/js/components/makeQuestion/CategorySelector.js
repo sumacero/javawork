@@ -2,15 +2,13 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 
 function CategorySelector(props) {
-    const categoryIdRegister = props.register("category_id", {
-        required: "選択してください"
-    })
+    const categoryIdRegister = props.register("category_id", {});
     const selectChange = (event) => {
         const selectedCategoryId = event.target.value;
         const targetSubcategories = props.subcategories.
             filter(subcategory => subcategory.category_id == selectedCategoryId);
         props.setTargetSubcategories(targetSubcategories);
-    }
+    };
     return (
         <div>
             <label>カテゴリ</label>

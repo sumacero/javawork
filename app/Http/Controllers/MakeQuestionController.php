@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Category;
 use App\Subcategory;
+use App\Question;
+use App\Choice;
+use App\Answer;
+use Illuminate\Support\Facades\Auth;
 
 class MakeQuestionController extends Controller
 {

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import TextareaAutosize from 'react-textarea-autosize';
 
 function ExplanationEditor(props) {
-    const answerTextRegister = props.register("answerText", {
+    const answerTextRegister = props.register("answer_text", {
         required: "入力してください",
         maxLength: {value:3000, message:'3000文字以内で入力してください'}
     })
@@ -11,10 +11,10 @@ function ExplanationEditor(props) {
         <div>
             <div>解説文</div>
                 <TextareaAutosize
-                    className={`col ${props.errors.answerText ? 'invalid' : 'valid'}`}
+                    className={`col ${props.errors.answer_text ? 'invalid' : 'valid'}`}
                     {...answerTextRegister}
                 />
-                {props.errors.answerText && <span className="text-danger">{props.errors.answerText.message}</span>}
+                {props.errors.answer_text && <span className="text-danger">{props.errors.answer_text.message}</span>}
         </div>
     );
 }

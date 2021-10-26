@@ -3,20 +3,18 @@ import ReactDOM from 'react-dom';
 import ChoiceEditor from './ChoiceEditor';
 
 function ChoicesEditor(props) {
-    const correctChoiceSymbolRegister = props.register("correctChoiceSymbol", {
-        required: "正解の選択肢を選んでください(アルファベットをクリック)"
-    })
+    const correctChoiceSymbolRegister = props.register("correct_choice_symbol", {})
     const [ fullChoices, setFullChoices] = useState(false);
-    const choicesObj = props.getValues("choiceText");
+    const choicesObj = props.getValues("choice_text");
     const addClick = (event) =>{
         const symbol = "ABCDEFGH";
-        const beforeChoiceTextsObj = props.getValues("choiceText");
+        const beforeChoiceTextsObj = props.getValues("choice_text");
         let beforeChoicesCnt = Object.keys(beforeChoiceTextsObj).length
         if(beforeChoicesCnt < symbol.length){
             let afterChoiceTextsObj = { ...beforeChoiceTextsObj }
             afterChoiceTextsObj[symbol[beforeChoicesCnt]] = "";
-            props.setValue("choiceText", afterChoiceTextsObj, {shouldValidate:false}); //バリデーション、画面の再描画されない。
-            props.clearErrors("choiceText"); //バリデーションエラークリア、画面の再描画される。
+            props.setValue("choice_text", afterChoiceTextsObj, {shouldValidate:false}); //バリデーション、画面の再描画されない。
+            props.clearErrors("choice_text"); //バリデーションエラークリア、画面の再描画される。
         }
     }
     return (
@@ -39,10 +37,10 @@ function ChoicesEditor(props) {
             <input 
                 type="hidden" 
                 readOnly="readonly" 
-                value={props.getValues("correctChoiceSymbol")} 
+                value={props.getValues("correct_choice_symbol")} 
                 {...correctChoiceSymbolRegister}
             />
-            {props.errors.correctChoiceSymbol && <span className="text-danger">{props.errors.correctChoiceSymbol.message}</span>}
+            {props.errors.correct_choice_symbol && <span className="text-danger">{props.errors.correct_choice_symbol.message}</span>}
         </div>
     );
 }
