@@ -20,11 +20,15 @@ Route::get('/home', 'HomeController@index');
 Route::get('/search', 'SearchController@index');
 Route::get('/make-question', 'MakeQuestionController@index');
 Route::get('/get-categories', 'MakeQuestionController@getCategories');
+Route::post('/upload-question', 'MakeQuestionController@uploadQuestion');
+Route::post('/confirm-question', 'ConfirmQuestionController@index');
+Route::get('/edit-question', 'EditQuestionController@index');
+Route::post('/edit-question', 'EditQuestionController@editQuestion');
 Route::get('/get-users', 'SearchController@getUsers');
 Route::get('/get-questions', 'SearchController@getQuestions');
 Route::get('/question/{question_id?}', 'QuestionController@index');
 Route::get('/get-qa/{question_id?}', 'QuestionController@getQA');
-Route::post('/confirm-question', 'ConfirmQuestionController@uploadQuestion');
+Route::post('/commit-question', 'ConfirmQuestionController@commitQuestion');
 
 
 

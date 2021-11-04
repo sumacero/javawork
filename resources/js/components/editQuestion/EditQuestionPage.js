@@ -1,29 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
-import QuestionEditor from './QuestionEditor';
-import ChoicesEditor from './ChoicesEditor';
-import ExplanationEditor from './ExplanationEditor';
-import CategorySelector from './CategorySelector';
-import SubcategorySelector from './SubcategorySelector';
+import QuestionEditor from '../makeQuestion/QuestionEditor';
+import ChoicesEditor from '../makeQuestion/ChoicesEditor';
+import ExplanationEditor from '../makeQuestion/ExplanationEditor';
+import CategorySelector from '../makeQuestion/CategorySelector';
+import SubcategorySelector from '../makeQuestion/SubcategorySelector';
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 
-function MakeQuestionPage(){
+function EditQuestionPage(){
     const csrf_token = document.head.querySelector('meta[name="csrf-token"]').content;
-    const defaultValues = {
-        "question_text":"",
-        "choice_text":{
-            "A":"",
-            "B":"",
-            "C":"",
-            "D":"",
-        },
-        "answer_text":"",
-        "category_id":"",
-        "subcategory_id":"",
-        "correct_choice_symbol":"",
-    };
+    const question_id = parseInt($('#tmp').data('question_id'));
+    const [loadingData, setLoadingData] = useState(true);
     const [ categories, setCategories] = useState([]);
     const [ subcategories, setSubcategories] = useState([]);
     const [ targetSubcategories, setTargetSubcategories] = useState([]);
@@ -93,61 +82,86 @@ function MakeQuestionPage(){
         reValidateMode: 'onChange',
         criteriaMode: "all",
         shouldFocusError: false, // エラーフォームのフォーカスを無効にする
-        defaultValues: defaultValues,
         resolver: yupResolver(schema),
     });
 
     const onSubmit = (data) => {
-        console.log("以下のデータを登録します。")
+        console.log("以下のデータを更新します。")
+        data.question_id = question_id; //送信データにquestion_idを追加
         console.log(data);
         const func = async () => {
             try {
-                let res = await axios.post("upload-question", data);
-                let inserted_question_id = res.data;
+                let res = await axios.post("edit-question", data);
                 alert("問題の編集データをアップロードしました。");
-                moveConfirmPage(inserted_question_id);
+                moveConfirmPage(question_id);
             } catch (error) {
                 console.log(error.response.data);
                 alert("サーバーエラーが発生しました。");
             }
         };
         func();
+        
     }
     //登録した問題の主キーをPOSTし確認画面へ移動する
-    function moveConfirmPage(inserted_question_id){
+    function moveConfirmPage(question_id){
         let form = document.createElement('form');   
         form.method = 'post';
         form.action = '../confirm-question';
         form.innerHTML = '<input type="hidden" name="_token" value=' + csrf_token + '>'
-            + '<input type="hidden" name="question_id" value=' + inserted_question_id + '>';
+            + '<input type="hidden" name="question_id" value=' + question_id + '>';
         document.body.append(form);
         form.submit();
     }
 
     useEffect(() => {
-        const fetchData = async () => {
-            const result = await axios.get('/get-categories');
-            const data = result.data.dbData;
-            setCategories(JSON.parse(JSON.stringify(data.categories)));
-            setSubcategories(JSON.parse(JSON.stringify(data.subcategories)));
+        const getData = async () => {
+            const result1 = await axios.get('/get-categories');
+            const data1 = result1.data.dbData;
+            setCategories(JSON.parse(JSON.stringify(data1.categories)));
+            setSubcategories(JSON.parse(JSON.stringify(data1.subcategories)));
+            const result2 = await axios.get('/get-qa/' + question_id);
+            const data2 = result2.data.dbData;
+            const question = JSON.parse(JSON.stringify(data2.question));
+            const choices = JSON.parse(JSON.stringify(data2.choices));
+            const answer = JSON.parse(JSON.stringify(data2.answer))
+            const subcategories = JSON.parse(JSON.stringify(data1.subcategories));
+            const subcategory = subcategories.find(
+                (subcategory) => subcategory.subcategory_id === question.subcategory_id
+            );
+            const targetSubcategories = subcategories.
+                filter(subcategory => subcategory.category_id == subcategory.category_id);
+            const correctChoice = choices.find(
+                (choice) => choice.choice_id === answer.choice_id
+            );
+            setTargetSubcategories(targetSubcategories);
+            setValue("question_text", question.question_text);
+            for(let i = 0; i<choices.length; i++){
+                setValue("choice_text." + choices[i].choice_symbol, choices[i].choice_text);
+            }
+            setValue("correct_choice_symbol", correctChoice.choice_symbol);
+            setValue("answer_text", answer.answer_text);
+            setValue("category_id", subcategory.category_id);
+            setValue("subcategory_id", subcategory.subcategory_id);
+            setLoadingData(false);
         };
-        fetchData();
-    },[]); 
+        getData();
+    },[]);
     return (
         <div className="container">
             <form name="myform" onSubmit={handleSubmit(onSubmit)}>
-                <input type="hidden" name="_token" value={csrf_token} />
                 <QuestionEditor
                     register = {register}
                     errors = {errors}
                 />
-                <ChoicesEditor
-                    setValue = {setValue}
-                    getValues = {getValues}
-                    register = {register}
-                    errors = {errors}
-                    clearErrors = {clearErrors}
-                />
+                {!loadingData &&
+                    <ChoicesEditor
+                        setValue = {setValue}
+                        getValues = {getValues}
+                        register = {register}
+                        errors = {errors}
+                        clearErrors = {clearErrors}
+                    />
+                }
                 <ExplanationEditor
                     register = {register}
                     errors = {errors}
@@ -165,14 +179,12 @@ function MakeQuestionPage(){
                     errors = {errors}
                     targetSubcategories = {targetSubcategories}
                 />
-                <input type="submit" value="確認画面へ"></input>
-                <input type="submit" value="編集データの保存"></input>
-                <div className="text-danger">{isSubmitted && <span>入力エラーがあります。</span>}</div>
+                <input type="submit" value="更新"></input>
             </form>
         </div>
     );
 }
 
-if (document.getElementById('make-question-page')) {
-    ReactDOM.render(<MakeQuestionPage />,document.getElementById('make-question-page'));
+if (document.getElementById('edit-question-page')) {
+    ReactDOM.render(<EditQuestionPage />,document.getElementById('edit-question-page'));
 }

@@ -16,8 +16,8 @@ class QuestionController extends Controller
     }
     public function getQA($question_id){
         $question = Question::with('status','subcategory.category')->find($question_id);
-        $choices = Choice::where('question_id',$question_id)->get();
-        $answer = Answer::find($question_id);
+        $choices = Choice::where('question_id', $question_id)->get();
+        $answer = Answer::where('question_id', $question_id)->first();
         $dbData = compact('question', 'choices', 'answer');
         return response()->json(['dbData' => $dbData]);
     }

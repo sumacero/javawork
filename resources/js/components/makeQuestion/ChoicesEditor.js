@@ -22,6 +22,7 @@ function ChoicesEditor(props) {
             <button type="button" onClick={addClick} disabled={fullChoices}>
                 選択肢を追加
             </button>
+
             {Object.keys(choicesObj).map((choice_symbol) => 
                 <ChoiceEditor
                     key={choice_symbol}

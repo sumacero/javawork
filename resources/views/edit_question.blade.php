@@ -6,5 +6,5 @@
     </div>
 </div>
 <span id="tmp" data-question_id="{{$question_id}}"></span>
-<div id="confirm-question-page"></div>
+<div id="edit-question-page"></div>
 @endsection

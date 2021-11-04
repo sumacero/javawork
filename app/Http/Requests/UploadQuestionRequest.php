@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ConfirmQuestionRequest extends FormRequest
+class UploadQuestionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class ConfirmQuestionRequest extends FormRequest
      */
     public function authorize()
     {
-        if($this->path() == 'confirm-question'){
+        if($this->path() == 'upload-question' || $this->path() == 'edit-question'){
             return true;
         }else{
             return false;
@@ -29,14 +29,14 @@ class ConfirmQuestionRequest extends FormRequest
     {
         return [
             'question_text' => 'required|max:6000',
-            'choice_text_A' => 'required|max:2000',
-            'choice_text_B' => 'required|max:2000',
-            'choice_text_C' => 'sometimes|required|max:2000',
-            'choice_text_D' => 'sometimes|required|max:2000',
-            'choice_text_E' => 'sometimes|required|max:2000',
-            'choice_text_F' => 'sometimes|required|max:2000',
-            'choice_text_G' => 'sometimes|required|max:2000',
-            'choice_text_H' => 'sometimes|required|max:2000',
+            'choice_text.A' => 'required|max:2000',
+            'choice_text.B' => 'required|max:2000',
+            'choice_text.C' => 'sometimes|required|max:2000',
+            'choice_text.D' => 'sometimes|required|max:2000',
+            'choice_text.E' => 'sometimes|required|max:2000',
+            'choice_text.F' => 'sometimes|required|max:2000',
+            'choice_text.G' => 'sometimes|required|max:2000',
+            'choice_text.H' => 'sometimes|required|max:2000',
             'answer_text' => 'required|max:6000',
             'category_id' => 'required|integer',
             'subcategory_id'=>'required|integer',

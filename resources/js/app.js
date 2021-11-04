@@ -20,6 +20,7 @@ require('./bootstrap');
 require('./components/search/SearchPage');
 require('./components/question/QuestionPage');
 require('./components/makeQuestion/MakeQuestionPage');
-
+require('./components/confirmQuestion/ConfirmQuestionPage');
+require('./components/editQuestion/EditQuestionPage');
 
 
