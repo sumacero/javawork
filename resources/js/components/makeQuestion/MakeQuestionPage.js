@@ -167,7 +167,6 @@ function MakeQuestionPage(){
                 />
                 <input type="submit" value="確認画面へ"></input>
                 <input type="submit" value="編集データの保存"></input>
-                <div className="text-danger">{isSubmitted && <span>入力エラーがあります。</span>}</div>
             </form>
         </div>
     );

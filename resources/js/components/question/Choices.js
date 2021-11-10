@@ -2,6 +2,20 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 
 function Choices(props) {
+    //半角コードを半角に置換、改行コードを<br/>に置換
+    const convertText = (arg)=> {
+        let text = "";
+        let tmp = "";
+        if(arg !== undefined){
+            arg.split(" ").map((item) => {
+                tmp = tmp + item + "&nbsp;";
+            });
+            tmp.split("\n").map((item) => {
+                text = text + item + "<br/>";
+            });
+        }
+        return <span dangerouslySetInnerHTML={{__html: text}}></span>;
+    };
     return (
         <div>
             {props.choices.map((choice) =>
@@ -10,7 +24,7 @@ function Choices(props) {
                         {choice.choice_symbol}
                     </span>
                     <span className="card-body">
-                        <span className="card-text">{choice.choice_text}</span>
+                        <span className="card-text">{convertText(choice.choice_text)}</span>
                     </span>
                 </div>
             )}
