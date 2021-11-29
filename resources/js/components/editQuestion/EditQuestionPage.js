@@ -100,7 +100,6 @@ function EditQuestionPage(){
             }
         };
         func();
-        
     }
     //登録した問題の主キーをPOSTし確認画面へ移動する
     function moveConfirmPage(question_id){

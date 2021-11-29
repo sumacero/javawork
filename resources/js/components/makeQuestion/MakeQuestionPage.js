@@ -165,8 +165,8 @@ function MakeQuestionPage(){
                     errors = {errors}
                     targetSubcategories = {targetSubcategories}
                 />
-                <input type="submit" value="確認画面へ"></input>
-                <input type="submit" value="編集データの保存"></input>
+                <input type="submit" className="btn btn-success" value="確認画面へ"></input>
+                <input type="submit" className="btn btn-success" value="編集データの保存"></input>
             </form>
         </div>
     );

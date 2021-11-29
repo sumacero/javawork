@@ -18,7 +18,7 @@ function Question(props) {
     };
 
     return (
-        <div className="border border-1 border-dark rounded-3 bg-white">
+        <div className="border border-1 border-dark rounded-3 bg-white mb-3">
             <h1 className="bg-primary text-white">問題</h1>
             {props.question &&
                 <p className="text-right">

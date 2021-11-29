@@ -17,7 +17,7 @@ function Choices(props) {
         return <span dangerouslySetInnerHTML={{__html: text}}></span>;
     };
     return (
-        <div>
+        <div className="pb-3">
             {props.choices.map((choice) =>
                 <div key={choice.choice_id} className="card">
                     <span className="card-header">

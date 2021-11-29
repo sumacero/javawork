@@ -7,8 +7,9 @@ function QuestionEditor(props) {
     const questionTextRegister = props.register("question_text", {})
     return (
         <div>
-            <div>問題文</div>
+            <div className="bg-primary text-white">問題文</div>
             <TextareaAutosize
+                minRows={3}
                 className={`col ${props.errors.question_text ? 'invalid' : 'valid'}`}
                 {...questionTextRegister}
             />

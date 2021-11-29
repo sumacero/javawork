@@ -32,9 +32,13 @@ function QuestionPage() {
         <div className="container">
             <Question question={question}/>
             <Choices choices={choices}/>
-            <ChoicesForm choices={choices} setSelectedChoiceId={setSelectedChoiceId}/>
-            <button type="button" className="btn btn-primary" onClick={clickAnswerButton}>回答</button>
-            {answeredFlag ? <Result answer={answer} correctFlag={correctFlag}/> : null}
+            <ChoicesForm choices={choices} setSelectedChoiceId={setSelectedChoiceId} answeredFlag={answeredFlag}/>
+            {selectedChoiceId > 0 ? 
+                <button type="button" className="btn btn-success btn-block mb-3" onClick={clickAnswerButton} disabled={answeredFlag}>回答</button> 
+            : null}
+            {answeredFlag ? 
+                <Result answer={answer} correctFlag={correctFlag}/> 
+            : null}
         </div>
     );
 }

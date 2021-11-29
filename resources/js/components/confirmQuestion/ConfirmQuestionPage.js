@@ -46,7 +46,7 @@ function ConfirmQuestionPage() {
         func();
     }
     const clickEditButton = () => {
-        console.log("編集画面に戻ります");
+        //編集画面に戻る
         location.href = "../edit-question?question_id=" + question_id;
     }
     return (

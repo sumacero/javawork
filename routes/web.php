@@ -10,14 +10,18 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+/*
 Route::get('/', function () {
     return view('welcome');
 });
+*/
 
 Auth::routes();
+Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index');
 Route::get('/search', 'SearchController@index');
+Route::get('/random-question', 'RandomQuestionController@index');
+Route::post('/random-get-qa', 'RandomQuestionController@getQA');
 Route::get('/make-question', 'MakeQuestionController@index');
 Route::get('/get-categories', 'MakeQuestionController@getCategories');
 Route::post('/upload-question', 'MakeQuestionController@uploadQuestion');

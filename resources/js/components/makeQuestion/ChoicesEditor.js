@@ -19,7 +19,7 @@ function ChoicesEditor(props) {
     }
     return (
         <div className="form-group">
-            <button type="button" onClick={addClick} disabled={fullChoices}>
+            <button type="button" className="btn btn-primary" onClick={addClick} disabled={fullChoices}>
                 選択肢を追加
             </button>
 
