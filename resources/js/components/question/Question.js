@@ -19,7 +19,7 @@ function Question(props) {
 
     return (
         <div className="border border-1 border-dark rounded-3 bg-white mb-3">
-            <h1 className="bg-primary text-white">問題</h1>
+            <h1 className="bg-dark text-white">問題</h1>
             {props.question &&
                 <p className="text-right">
                     {props.question.subcategory.category.category_name} - {props.question.subcategory.subcategory_name}

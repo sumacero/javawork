@@ -17,7 +17,7 @@ class CreateAnswersTable extends Migration
             // 列の定義
             $table->bigIncrements('answer_id');
             $table->biginteger('question_id')->unsigned()->unique();
-            $table->biginteger('choice_id')->unsigned()->unique();
+            $table->biginteger('choice_id')->unsigned()->unique()->nullable();
             $table->text('answer_text');
             $table->timestamps();
             // 外部キー設定

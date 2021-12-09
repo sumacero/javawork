@@ -60,7 +60,7 @@ function ChoiceEditor(props) {
             />
             <button
                 type="button"
-                className="col-1 btn btn-secondary"
+                className="col-1 btn btn-dark"
                 onClick={(event) => {
                     deleteClick(event);
                 }}

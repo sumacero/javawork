@@ -19,10 +19,11 @@ function ChoicesEditor(props) {
     }
     return (
         <div className="form-group">
-            <button type="button" className="btn btn-primary" onClick={addClick} disabled={fullChoices}>
-                選択肢を追加
-            </button>
-
+            <div className="text-right">
+                <button type="button" className="btn btn-success" onClick={addClick} disabled={fullChoices}>
+                    選択肢を追加
+                </button>
+            </div>
             {Object.keys(choicesObj).map((choice_symbol) => 
                 <ChoiceEditor
                     key={choice_symbol}

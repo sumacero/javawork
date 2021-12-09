@@ -11,8 +11,21 @@ import * as yup from "yup";
 
 function EditQuestionPage(){
     const csrf_token = document.head.querySelector('meta[name="csrf-token"]').content;
-    const question_id = parseInt($('#tmp').data('question_id'));
-    const [loadingData, setLoadingData] = useState(true);
+    const defaultValues = {
+        "question_text":"",
+        "choice_text":{
+            "A":"",
+            "B":"",
+            "C":"",
+            "D":"",
+        },
+        "answer_text":"",
+        "category_id":"",
+        "subcategory_id":"",
+        "correct_choice_symbol":"",
+    };
+    const [ questionId, setQuestionId ] = useState(parseInt($('#tmp').data('question_id'))); 
+    const [ loadingData, setLoadingData] = useState(true);
     const [ categories, setCategories] = useState([]);
     const [ subcategories, setSubcategories] = useState([]);
     const [ targetSubcategories, setTargetSubcategories] = useState([]);
@@ -82,18 +95,37 @@ function EditQuestionPage(){
         reValidateMode: 'onChange',
         criteriaMode: "all",
         shouldFocusError: false, // エラーフォームのフォーカスを無効にする
+        defaultValues: defaultValues,
         resolver: yupResolver(schema),
     });
 
+    const clickSaveButton = () => {
+        let data = getValues();
+        data.question_id = questionId;
+        console.log("以下のデータを保存します。");
+        console.log(data);
+        const func = async () => {
+            try {
+                let res = await axios.post("save-question", data);
+                setQuestionId(res.data);
+                alert("問題の編集データを一時保存しました。");
+            } catch (error) {
+                console.log(error.response.data);
+                alert("サーバーエラーが発生しました。");
+            }
+        };
+        func();
+    }
+
     const onSubmit = (data) => {
-        console.log("以下のデータを更新します。")
-        data.question_id = question_id; //送信データにquestion_idを追加
+        console.log("以下のデータを更新します。");
+        data.question_id = questionId; //送信データにquestion_idを追加
         console.log(data);
         const func = async () => {
             try {
                 let res = await axios.post("edit-question", data);
                 alert("問題の編集データをアップロードしました。");
-                moveConfirmPage(question_id);
+                moveConfirmPage(questionId);
             } catch (error) {
                 console.log(error.response.data);
                 alert("サーバーエラーが発生しました。");
@@ -118,7 +150,7 @@ function EditQuestionPage(){
             const data1 = result1.data.dbData;
             setCategories(JSON.parse(JSON.stringify(data1.categories)));
             setSubcategories(JSON.parse(JSON.stringify(data1.subcategories)));
-            const result2 = await axios.get('/get-qa/' + question_id);
+            const result2 = await axios.get('/get-qa/' + questionId);
             const data2 = result2.data.dbData;
             const question = JSON.parse(JSON.stringify(data2.question));
             const choices = JSON.parse(JSON.stringify(data2.choices));
@@ -132,21 +164,23 @@ function EditQuestionPage(){
             const correctChoice = choices.find(
                 (choice) => choice.choice_id === answer.choice_id
             );
+            console.log(correctChoice);
             setTargetSubcategories(targetSubcategories);
             setValue("question_text", question.question_text);
             for(let i = 0; i<choices.length; i++){
                 setValue("choice_text." + choices[i].choice_symbol, choices[i].choice_text);
             }
-            setValue("correct_choice_symbol", correctChoice.choice_symbol);
+            correctChoice && setValue("correct_choice_symbol", correctChoice.choice_symbol);
             setValue("answer_text", answer.answer_text);
-            setValue("category_id", subcategory.category_id);
-            setValue("subcategory_id", subcategory.subcategory_id);
+            subcategory && setValue("category_id", subcategory.category_id);
+            subcategory && setValue("subcategory_id", subcategory.subcategory_id);
             setLoadingData(false);
         };
         getData();
     },[]);
     return (
         <div className="container">
+            <p className="text-right">question_id:{questionId}</p>
             <form name="myform" onSubmit={handleSubmit(onSubmit)}>
                 <QuestionEditor
                     register = {register}
@@ -178,8 +212,9 @@ function EditQuestionPage(){
                     errors = {errors}
                     targetSubcategories = {targetSubcategories}
                 />
-                <input type="submit" value="更新"></input>
+                <input type="submit" className="btn btn-outline-dark" value="確認画面へ"></input>
             </form>
+            <button onClick={clickSaveButton} className="btn btn-outline-dark">編集データの保存</button>
         </div>
     );
 }

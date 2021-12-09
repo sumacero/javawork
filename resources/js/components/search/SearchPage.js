@@ -7,11 +7,9 @@ import QuestionTable from './QuestionTable';
 function SearchPage(){
     const [paginationData, setPaginationData] = useState([]);
     const [questions, setQuestions] = useState([]);
-
     useEffect(() => {
         getQuestions()
     },[])
-
     const getQuestions = async () => {
         const response = await axios.get('/get-questions', {
             params:{

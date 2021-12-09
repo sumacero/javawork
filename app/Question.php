@@ -30,6 +30,14 @@ class Question extends Model
     public function subcategory(){
         return $this->belongsTo('App\Subcategory','subcategory_id');
     }
+    public function createuser(){
+        //外部キー:create_user_id, 参照されるキー:id
+        return $this->belongsTo('App\User','create_user_id', 'id');
+    }
+    public function updateuser(){
+        //外部キー:create_user_id, 参照されるキー:id
+        return $this->belongsTo('App\User','update_user_id', 'id');
+    }
 
     //idで昇順
     protected static function boot(){

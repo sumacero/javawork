@@ -24,7 +24,8 @@ function MakeQuestionPage(){
         "subcategory_id":"",
         "correct_choice_symbol":"",
     };
-    const [ categories, setCategories] = useState([]);
+    const [ questionId, setQuestionId ] = useState(null); 
+    const [ categories, setCategories ] = useState([]);
     const [ subcategories, setSubcategories] = useState([]);
     const [ targetSubcategories, setTargetSubcategories] = useState([]);
     function validateChoiceText1(choice_text){
@@ -97,15 +98,15 @@ function MakeQuestionPage(){
         resolver: yupResolver(schema),
     });
 
-    const onSubmit = (data) => {
-        console.log("以下のデータを登録します。")
+    const clickSaveButton = () => {
+        let data = getValues();
+        data.question_id = questionId;
+        console.log("以下のデータを保存します。");
         console.log(data);
         const func = async () => {
             try {
-                let res = await axios.post("upload-question", data);
-                let inserted_question_id = res.data;
-                alert("問題の編集データをアップロードしました。");
-                moveConfirmPage(inserted_question_id);
+                let res = await axios.post("save-question", data);
+                setQuestionId(res.data);
             } catch (error) {
                 console.log(error.response.data);
                 alert("サーバーエラーが発生しました。");
@@ -113,13 +114,32 @@ function MakeQuestionPage(){
         };
         func();
     }
+
+    const onSubmit = (data) => {
+        console.log("以下のデータを登録します。");
+        data.question_id = questionId; //送信データにquestion_idを追加(nullの場合は新規レコード追加)
+        console.log(data);
+        const func = async () => {
+            try {
+                let res = await axios.post("upload-question", data);
+                let question_id = res.data;
+                alert("問題を登録しました");
+                moveConfirmPage(question_id);
+            } catch (error) {
+                console.log(error.response.data);
+                alert("サーバーエラーが発生しました。");
+            }
+        };
+        func();
+    }
+
     //登録した問題の主キーをPOSTし確認画面へ移動する
-    function moveConfirmPage(inserted_question_id){
+    function moveConfirmPage(question_id){
         let form = document.createElement('form');   
         form.method = 'post';
         form.action = '../confirm-question';
         form.innerHTML = '<input type="hidden" name="_token" value=' + csrf_token + '>'
-            + '<input type="hidden" name="question_id" value=' + inserted_question_id + '>';
+            + '<input type="hidden" name="question_id" value=' + question_id + '>';
         document.body.append(form);
         form.submit();
     }
@@ -135,6 +155,7 @@ function MakeQuestionPage(){
     },[]); 
     return (
         <div className="container">
+            <p className="text-right">question_id:{questionId}</p>
             <form name="myform" onSubmit={handleSubmit(onSubmit)}>
                 <input type="hidden" name="_token" value={csrf_token} />
                 <QuestionEditor
@@ -165,9 +186,9 @@ function MakeQuestionPage(){
                     errors = {errors}
                     targetSubcategories = {targetSubcategories}
                 />
-                <input type="submit" className="btn btn-success" value="確認画面へ"></input>
-                <input type="submit" className="btn btn-success" value="編集データの保存"></input>
+                <input type="submit" className="btn btn-outline-dark" value="確認画面へ"></input>
             </form>
+            <button onClick={clickSaveButton} className="btn btn-outline-dark">編集データの保存</button>
         </div>
     );
 }

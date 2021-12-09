@@ -16,7 +16,7 @@ class AuthoritiesTableSeeder extends Seeder
         ];
         DB::table('authorities')->insert($param);
         $param = [
-            'authority_name' => 'guest',
+            'authority_name' => 'service',
         ];
         DB::table('authorities')->insert($param);
     }

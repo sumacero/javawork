@@ -6,7 +6,7 @@ function ChoiceRadio(props) {
         props.setSelectedChoiceId(event.target.value)
     }
     return (
-        <label className="btn btn-outline-success">
+        <label className="btn btn-outline-dark">
             <input type="radio"
                 name="radio"
                 id={props.choice.choice_id}

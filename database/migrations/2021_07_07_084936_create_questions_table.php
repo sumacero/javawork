@@ -18,7 +18,8 @@ class CreateQuestionsTable extends Migration
             $table->bigIncrements('question_id');
             $table->biginteger('create_user_id')->unsigned();
             $table->biginteger('update_user_id')->unsigned();
-            $table->biginteger('status_id')->unsigned();
+            $table->biginteger('status_id')->unsigned(
+)->nullable();
             $table->biginteger('subcategory_id')->unsigned()->nullable();
             $table->text('question_text');
             $table->timestamps();

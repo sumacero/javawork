@@ -9,7 +9,7 @@ function ExplanationEditor(props) {
     })
     return (
         <div>
-            <div className="bg-primary text-white">解説文</div>
+            <div className="bg-dark text-white">解説文</div>
                 <TextareaAutosize
                     minRows={3}
                     className={`col ${props.errors.answer_text ? 'invalid' : 'valid'}`}

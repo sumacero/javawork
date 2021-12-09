@@ -15,14 +15,21 @@ function PracticeMenu(props){
         fetchData();
     },[]);
     return (
-        <div className="container">            
+        <div className="container">
+            <p>問題数:{props.targetQuestionCount}</p>
+            <button 
+                className="btn btn-success btn-block mb-3"
+                onClick={props.clickStartButton}
+                disabled={props.targetQuestionCount === 0}
+            >
+                出題開始
+            </button>
             <CategoryCheckbox 
                 categories={categories} 
                 subcategories={subcategories} 
                 checkedSubcategories={props.checkedSubcategories}
                 setCheckedSubcategories={props.setCheckedSubcategories}
             />
-            <button onClick={props.clickStartButton}>出題開始</button>
         </div>
     );
 }

@@ -4,3 +4,78 @@
     border: solid 5px;
     border-color: red;
 }
+
+.result {
+    position:  relative;        /* 要素の配置方法をと子要素の起点を指定 */
+    /*border: solid 5px red;*/
+}
+
+.success-enter {
+	position:absolute;
+    top:-15px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    border: solid 5px red;
+	width: 100px;/*幅*/
+	height: 100px;/*高さ*/
+	border-radius: 100%;/*角丸*/
+    opacity: 0
+}
+
+.success-enter-done {
+	position:absolute;
+    top:-15px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    transition: all  1s ease;
+    border: solid 5px red;
+	width: 100px;/*幅*/
+	height: 100px;/*高さ*/
+	border-radius: 100%;/*角丸*/
+    opacity: 1
+}
+
+.wrong-enter {
+    position:absolute;
+    top:-30px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 5px; /* 縦棒の幅 */
+    height: 120px; /* 縦棒の長さ */
+    background: blue; /* 縦棒の色 */
+    transform: rotate(-45deg); /* 角度 */
+    margin: auto;
+    opacity: 0
+}
+.wrong-enter-done {
+    position:absolute;
+    top:-30px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    transition: all  1s ease;
+    width: 5px; /* 縦棒の幅 */
+    height: 120px; /* 縦棒の長さ */
+    background: blue; /* 縦棒の色 */
+    transform: rotate(-45deg); /* 角度 */
+    margin: auto;
+    opacity: 1
+}
+
+.wrong-enter-done::after {
+    position:absolute;
+    top:0px;
+    left: 0;
+    right: 0;
+    margin: auto;
+	content: "";
+    transition: all  1s ease;
+    width: 5px; /* 縦棒の幅 */
+    height: 120px; /* 縦棒の長さ */
+    background: blue; /* 縦棒の色 */
+    transform: rotate(90deg); /* 角度 */
+    opacity: 1
+}
