@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 
-function CategoryCheckbox(props) {
+function FilterCategory(props) {
     const targetSubcategories = (category_id) => {
         return props.subcategories.filter(subcategory => subcategory.category_id == category_id);
     }
@@ -19,9 +19,15 @@ function CategoryCheckbox(props) {
     }
     const toggleChecked = (target) => {
         if (props.checkedSubcategories.includes(target)) {
-            props.setCheckedSubcategories([...props.checkedSubcategories.filter((item) => item !== target)]);
+            //チェック済みの場合は項目を削除
+            props.setCheckedSubcategories(
+                [...props.checkedSubcategories.filter((item) => item !== target)]
+            );
         } else {
-            props.setCheckedSubcategories([...props.checkedSubcategories.concat([target])]);
+            //未チェックの場合は項目を追加しソート
+            props.setCheckedSubcategories(
+                [...props.checkedSubcategories.concat([target]).sort((a,b)=>a.subcategory_id - b.subcategory_id)]
+            );
         }
     };
 
@@ -35,6 +41,7 @@ function CategoryCheckbox(props) {
                         type="checkbox"
                         name={"categories"}
                         value={item.category_id}
+                        defaultChecked={props.checkedSubcategories.some(subcategory => subcategory.category_id == item.category_id)}
                         onClick={categoryCheck}
                     />
                     <label className="h5" htmlFor={"category" + item.category_id}>{item.category_name}</label>
@@ -57,4 +64,4 @@ function CategoryCheckbox(props) {
     );
 }
 
-export default CategoryCheckbox;
+export default FilterCategory;

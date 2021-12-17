@@ -38,8 +38,11 @@ Route::post('/upload-question', 'MakeQuestionController@uploadQuestion')->middle
 Route::post('/confirm-question', 'ConfirmQuestionController@index')->middleware('can:service');
 Route::get('/edit-question', 'EditQuestionController@index')->middleware('can:service');
 Route::post('/edit-question', 'EditQuestionController@editQuestion')->middleware('can:service');
+Route::post('/delete-question', 'DeleteQuestionController@deleteQuestion')->middleware('can:service');
 Route::get('/get-users', 'SearchController@getUsers')->middleware('can:service');
+Route::get('/get-statuses', 'SearchController@getStatuses');
 Route::get('/get-questions', 'SearchController@getQuestions')->middleware('can:service');
+Route::post('/filter-questions', 'SearchController@filterQuestions')->middleware('can:service');
 Route::post('/commit-question', 'ConfirmQuestionController@commitQuestion')->middleware('can:service');
 Route::view('/test', 'test');
 

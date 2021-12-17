@@ -117,6 +117,24 @@ function EditQuestionPage(){
         func();
     }
 
+    const clickDeleteButton = () => {
+        let data = getValues();
+        data.question_id = questionId;
+        console.log("以下の問題を削除します。");
+        console.log(data);
+        const func = async () => {
+            try {
+                let res = await axios.post("delete-question", data);
+                alert("問題を削除しました。");
+                window.location.href = '../search';
+            } catch (error) {
+                console.log(error.response.data);
+                alert("サーバーエラーが発生しました。");
+            }
+        };
+        func();
+    }
+
     const onSubmit = (data) => {
         console.log("以下のデータを更新します。");
         data.question_id = questionId; //送信データにquestion_idを追加
@@ -215,6 +233,7 @@ function EditQuestionPage(){
                 <input type="submit" className="btn btn-outline-dark" value="確認画面へ"></input>
             </form>
             <button onClick={clickSaveButton} className="btn btn-outline-dark">編集データの保存</button>
+            <button onClick={clickDeleteButton} className="btn btn-outline-secondary">問題の削除</button>
         </div>
     );
 }
