@@ -81087,23 +81087,22 @@ function EditQuestionPage() {
 
               case 3:
                 res = _context3.sent;
-                alert("問題の編集データをアップロードしました。");
                 moveConfirmPage(questionId);
-                _context3.next = 12;
+                _context3.next = 11;
                 break;
 
-              case 8:
-                _context3.prev = 8;
+              case 7:
+                _context3.prev = 7;
                 _context3.t0 = _context3["catch"](0);
                 console.log(_context3.t0.response.data);
                 alert("サーバーエラーが発生しました。");
 
-              case 12:
+              case 11:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3, null, [[0, 8]]);
+        }, _callee3, null, [[0, 7]]);
       }));
 
       return function func() {
@@ -81189,46 +81188,80 @@ function EditQuestionPage() {
     getData();
   }, []);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-    className: "container"
+    className: "container border"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "row border"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "col border"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
     className: "text-right"
-  }, "question_id:", questionId), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
+  }, "question_id:", questionId))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "row border"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "col border"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
     name: "myform",
     onSubmit: handleSubmit(onSubmit)
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+    type: "hidden",
+    name: "_token",
+    value: csrf_token
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "row border"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "col border p-0"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_makeQuestion_QuestionEditor__WEBPACK_IMPORTED_MODULE_3__["default"], {
     register: register,
     errors: errors
-  }), !loadingData && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_makeQuestion_ChoicesEditor__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }))), !loadingData && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "row border"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "col border"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_makeQuestion_ChoicesEditor__WEBPACK_IMPORTED_MODULE_4__["default"], {
     setValue: setValue,
     getValues: getValues,
     register: register,
     errors: errors,
     clearErrors: clearErrors
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_makeQuestion_ExplanationEditor__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "row border"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "col border p-0"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_makeQuestion_ExplanationEditor__WEBPACK_IMPORTED_MODULE_5__["default"], {
     register: register,
     errors: errors
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_makeQuestion_CategorySelector__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "row border"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "col border"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_makeQuestion_CategorySelector__WEBPACK_IMPORTED_MODULE_6__["default"], {
     register: register,
     errors: errors,
     categories: categories,
     setCategories: setCategories,
     subcategories: subcategories,
     setTargetSubcategories: setTargetSubcategories
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_makeQuestion_SubcategorySelector__WEBPACK_IMPORTED_MODULE_7__["default"], {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "col border"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_makeQuestion_SubcategorySelector__WEBPACK_IMPORTED_MODULE_7__["default"], {
     register: register,
     errors: errors,
     targetSubcategories: targetSubcategories
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "row border"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
     type: "submit",
     className: "btn btn-outline-dark",
     value: "\u78BA\u8A8D\u753B\u9762\u3078"
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+    type: "button",
     onClick: clickSaveButton,
     className: "btn btn-outline-dark"
   }, "\u7DE8\u96C6\u30C7\u30FC\u30BF\u306E\u4FDD\u5B58"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+    type: "button",
     onClick: clickDeleteButton,
     className: "btn btn-outline-secondary"
-  }, "\u554F\u984C\u306E\u524A\u9664"));
+  }, "\u554F\u984C\u306E\u524A\u9664"))))));
 }
 
 if (document.getElementById('edit-question-page')) {
@@ -81373,22 +81406,37 @@ function ChoiceEditor(props) {
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "row mb-1"
+    className: "row border"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col border"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "row border"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-1 border p-0"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
-    className: "col-1 ".concat(props.choiceSymbol == props.getValues("correct_choice_symbol") ? 'btn btn-danger' : 'btn btn-primary', " "),
+    className: "btn w-100 h-100 ".concat(props.choiceSymbol == props.getValues("correct_choice_symbol") ? 'btn btn-danger' : 'btn btn-primary', " "),
     onClick: correctAnswerClick
-  }, props.choiceSymbol), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_textarea_autosize__WEBPACK_IMPORTED_MODULE_2__["default"], _extends({
-    className: "col ".concat(invalid() ? 'invalid' : 'valid')
-  }, choiceTextRegister)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+  }, props.choiceSymbol)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col border p-0"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_textarea_autosize__WEBPACK_IMPORTED_MODULE_2__["default"], _extends({
+    className: "".concat(invalid() ? 'invalid' : 'valid'),
+    minRows: 2,
+    style: {
+      width: "100%",
+      display: "block"
+    }
+  }, choiceTextRegister))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-1 border p-0"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
-    className: "col-1 btn btn-dark",
+    className: "btn btn-dark w-100 h-100",
     onClick: function onClick(event) {
       deleteClick(event);
     }
-  }, "\u524A\u9664"), invalid() && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+  }, "\u524A\u9664")), invalid() && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "text-danger"
-  }, props.errors.choice_text[props.choiceSymbol].message));
+  }, props.errors.choice_text[props.choiceSymbol].message))));
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (ChoiceEditor);
@@ -81461,15 +81509,23 @@ function ChoicesEditor(props) {
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "form-group"
+    className: "row border"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "text-right"
+    className: "col border"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "row border"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col text-right"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
     className: "btn btn-success",
     onClick: addClick,
     disabled: fullChoices
-  }, "\u9078\u629E\u80A2\u3092\u8FFD\u52A0")), Object.keys(choicesObj).map(function (choice_symbol) {
+  }, "\u9078\u629E\u80A2\u3092\u8FFD\u52A0"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "row border"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col border"
+  }, Object.keys(choicesObj).map(function (choice_symbol) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ChoiceEditor__WEBPACK_IMPORTED_MODULE_2__["default"], {
       key: choice_symbol,
       choiceSymbol: choice_symbol,
@@ -81480,13 +81536,13 @@ function ChoicesEditor(props) {
       errors: props.errors,
       clearErrors: props.clearErrors
     });
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", _extends({
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", _extends({
     type: "hidden",
     readOnly: "readonly",
     value: props.getValues("correct_choice_symbol")
   }, correctChoiceSymbolRegister)), props.errors.correct_choice_symbol && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "text-danger"
-  }, props.errors.correct_choice_symbol.message));
+  }, props.errors.correct_choice_symbol.message)));
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (ChoicesEditor);
@@ -81525,7 +81581,11 @@ function ExplanationEditor(props) {
     className: "bg-dark text-white"
   }, "\u89E3\u8AAC\u6587"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_textarea_autosize__WEBPACK_IMPORTED_MODULE_2__["default"], _extends({
     minRows: 3,
-    className: "col ".concat(props.errors.answer_text ? 'invalid' : 'valid')
+    className: "".concat(props.errors.answer_text ? 'invalid' : 'valid'),
+    style: {
+      width: "100%",
+      display: "block"
+    }
   }, answerTextRegister)), props.errors.answer_text && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "text-danger"
   }, props.errors.answer_text.message));
@@ -81750,23 +81810,22 @@ function MakeQuestionPage() {
               case 3:
                 res = _context2.sent;
                 question_id = res.data;
-                alert("問題を登録しました");
                 moveConfirmPage(question_id);
-                _context2.next = 13;
+                _context2.next = 12;
                 break;
 
-              case 9:
-                _context2.prev = 9;
+              case 8:
+                _context2.prev = 8;
                 _context2.t0 = _context2["catch"](0);
                 console.log(_context2.t0.response.data);
                 alert("サーバーエラーが発生しました。");
 
-              case 13:
+              case 12:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[0, 9]]);
+        }, _callee2, null, [[0, 8]]);
       }));
 
       return function func() {
@@ -81820,47 +81879,76 @@ function MakeQuestionPage() {
     fetchData();
   }, []);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-    className: "container"
+    className: "container border"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "row border"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "col border"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
     className: "text-right"
-  }, "question_id:", questionId), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
+  }, "question_id:", questionId))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "row border"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "col border"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
     name: "myform",
     onSubmit: handleSubmit(onSubmit)
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
     type: "hidden",
     name: "_token",
     value: csrf_token
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_QuestionEditor__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "row border"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "col border p-0"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_QuestionEditor__WEBPACK_IMPORTED_MODULE_3__["default"], {
     register: register,
     errors: errors
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_ChoicesEditor__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "row border"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "col border"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_ChoicesEditor__WEBPACK_IMPORTED_MODULE_4__["default"], {
     setValue: setValue,
     getValues: getValues,
     register: register,
     errors: errors,
     clearErrors: clearErrors
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_ExplanationEditor__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "row border"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "col border p-0"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_ExplanationEditor__WEBPACK_IMPORTED_MODULE_5__["default"], {
     register: register,
     errors: errors
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_CategorySelector__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "row border"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "col border"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_CategorySelector__WEBPACK_IMPORTED_MODULE_6__["default"], {
     register: register,
     errors: errors,
     categories: categories,
     setCategories: setCategories,
     subcategories: subcategories,
     setTargetSubcategories: setTargetSubcategories
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_SubcategorySelector__WEBPACK_IMPORTED_MODULE_7__["default"], {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "col border"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_SubcategorySelector__WEBPACK_IMPORTED_MODULE_7__["default"], {
     register: register,
     errors: errors,
     targetSubcategories: targetSubcategories
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "row border"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
     type: "submit",
     className: "btn btn-outline-dark",
     value: "\u78BA\u8A8D\u753B\u9762\u3078"
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+    type: "button",
     onClick: clickSaveButton,
     className: "btn btn-outline-dark"
-  }, "\u7DE8\u96C6\u30C7\u30FC\u30BF\u306E\u4FDD\u5B58"));
+  }, "\u7DE8\u96C6\u30C7\u30FC\u30BF\u306E\u4FDD\u5B58"))))));
 }
 
 if (document.getElementById('make-question-page')) {
@@ -81893,14 +81981,22 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 
 function QuestionEditor(props) {
   var questionTextRegister = props.register("question_text", {});
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "bg-dark text-white"
   }, "\u554F\u984C\u6587"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_textarea_autosize__WEBPACK_IMPORTED_MODULE_3__["default"], _extends({
     minRows: 3,
-    className: "col ".concat(props.errors.question_text ? 'invalid' : 'valid')
+    className: "".concat(props.errors.question_text ? 'invalid' : 'valid'),
+    style: {
+      width: "100%",
+      display: "block"
+    }
   }, questionTextRegister)), props.errors.question_text && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "text-danger"
-  }, props.errors.question_text.message));
+  }, props.errors.question_text.message)));
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (QuestionEditor);
@@ -83145,6 +83241,10 @@ function FilterMenuArea(props) {
     props.filterQuestions();
   };
 
+  var changeKeyword = function changeKeyword(event) {
+    props.setKeyword(event.target.value);
+  };
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
     className: "table table-bordered"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
@@ -83168,6 +83268,19 @@ function FilterMenuArea(props) {
       return setOpenCategoryFilter(true);
     }
   }, "\u9078\u629E"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, targetCategoryText)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+    className: "col-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "d-flex align-items-center justify-content-between"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "\u30AD\u30FC\u30EF\u30FC\u30C9"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    value: props.keyword,
+    onChange: changeKeyword,
+    maxLength: "50",
+    style: {
+      width: "100%",
+      display: "block"
+    }
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
     colSpan: "2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     onClick: clickFilterButton,
@@ -83477,10 +83590,10 @@ function Pagination(props) {
 
 /***/ }),
 
-/***/ "./resources/js/components/search/QuestionTable.js":
-/*!*********************************************************!*\
-  !*** ./resources/js/components/search/QuestionTable.js ***!
-  \*********************************************************/
+/***/ "./resources/js/components/search/QuestionContent.js":
+/*!***********************************************************!*\
+  !*** ./resources/js/components/search/QuestionContent.js ***!
+  \***********************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -83496,7 +83609,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-function QuestionTable(props) {
+function QuestionContent(props) {
   var clickQuestionButton = function clickQuestionButton(question_id) {
     //編集画面へ移動する
     location.href = "../question/" + question_id;
@@ -83507,55 +83620,134 @@ function QuestionTable(props) {
     location.href = "../edit-question?question_id=" + question_id;
   };
 
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
-    className: "table table-bordered table-striped"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-    className: "col-md-1"
-  }, "\u64CD\u4F5C"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "ID"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-    className: "col-md-1"
-  }, "\u30B9\u30C6\u30FC\u30BF\u30B9"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-    className: "col-md-1"
-  }, "\u30B5\u30D6\u30AB\u30C6\u30B4\u30EA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-    className: "col-md-1"
-  }, "\u30AB\u30C6\u30B4\u30EA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "\u554F\u984C\u6587"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "\u4F5C\u6210\u8005"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "\u66F4\u65B0\u8005"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, props.questions.map(function (question) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
-      key: question.question_id
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
-      className: "text-center"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-      className: "btn btn-primary btn-block",
-      onClick: function onClick() {
-        return clickQuestionButton(question.question_id);
-      },
-      disabled: question.status_id != 1
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
-      xmlns: "http://www.w3.org/2000/svg",
-      width: "16",
-      height: "16",
-      fill: "currentColor",
-      className: "bi bi-play-fill",
-      viewBox: "0 0 16 16"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-      d: "M11.596 8.697l-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"
-    }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-      className: "btn btn-primary btn-block",
-      onClick: function onClick() {
-        return clickEditButton(question.question_id);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "border container"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "row border"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col border"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "ID:", props.question.question_id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "\u30B9\u30C6\u30FC\u30BF\u30B9\uFF1A", props.question.status.status_name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "\u30AB\u30C6\u30B4\u30EA\uFF1A", props.question.subcategory && props.question.subcategory.category.category_name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "\u30B5\u30D6\u30AB\u30C6\u30B4\u30EA\uFF1A", props.question.subcategory && props.question.subcategory.subcategory_name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "\u4F5C\u6210\u8005\uFF1A", props.question.createuser.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "\u4F5C\u6210\u65E5\u6642\uFF1A", props.question.created_at), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "\u66F4\u65B0\u8005\uFF1A", props.question.updateuser.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "\u66F4\u65B0\u65E5\u6642\uFF1A", props.question.updated_at), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "btn btn-primary btn-block",
+    onClick: function onClick() {
+      return clickQuestionButton(props.question.question_id);
+    },
+    disabled: props.question.status_id != 1
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "16",
+    height: "16",
+    fill: "currentColor",
+    className: "bi bi-play-fill",
+    viewBox: "0 0 16 16"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+    d: "M11.596 8.697l-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "btn btn-primary btn-block",
+    onClick: function onClick() {
+      return clickEditButton(props.question.question_id);
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: "16",
+    height: "16",
+    fill: "currentColor",
+    className: "bi bi-pencil-fill",
+    viewBox: "0 0 16 16"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
+    d: "M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-8 border"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "row border"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col border"
+  }, "\u8CEA\u554F\u6587", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    style: {
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap",
+      fontFamily: "sans-serif"
+    }
+  }, props.question.question_text))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "row border"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col border"
+  }, "\u9078\u629E\u80A2", props.choices.map(function (choice) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      key: choice.choice_id,
+      style: {
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap",
+        fontFamily: "sans-serif"
       }
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("svg", {
-      xmlns: "http://www.w3.org/2000/svg",
-      width: "16",
-      height: "16",
-      fill: "currentColor",
-      className: "bi bi-pencil-fill",
-      viewBox: "0 0 16 16"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", {
-      d: "M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"
-    })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, question.question_id), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, question.status.status_name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, question.subcategory && question.subcategory.subcategory_name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, question.subcategory && question.subcategory.category.category_name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, question.question_text), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, question.createuser.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, question.updateuser.name));
-  }))));
+    }, choice.choice_symbol, "\uFF1A", choice.choice_text);
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "row border"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col border"
+  }, "\u89E3\u7B54", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    style: {
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap",
+      fontFamily: "sans-serif"
+    }
+  }, props.answer && props.answer.answer_text))))));
 }
 
-/* harmony default export */ __webpack_exports__["default"] = (QuestionTable);
+/* harmony default export */ __webpack_exports__["default"] = (QuestionContent);
+
+/***/ }),
+
+/***/ "./resources/js/components/search/QuestionList.js":
+/*!********************************************************!*\
+  !*** ./resources/js/components/search/QuestionList.js ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _QuestionContent__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./QuestionContent */ "./resources/js/components/search/QuestionContent.js");
+
+
+
+
+
+function QuestionList(props) {
+  var clickQuestionButton = function clickQuestionButton(question_id) {
+    //編集画面へ移動する
+    location.href = "../question/" + question_id;
+  };
+
+  var clickEditButton = function clickEditButton(question_id) {
+    //編集画面へ移動する
+    location.href = "../edit-question?question_id=" + question_id;
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, props.questions.map(function (question) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      key: question.question_id
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_QuestionContent__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      question: question,
+      choices: props.choices.filter(function (choice) {
+        return choice.question_id === question.question_id;
+      }),
+      answer: props.answers.find(function (answer) {
+        return answer.question_id === question.question_id;
+      })
+    }));
+  }));
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (QuestionList);
 
 /***/ }),
 
@@ -83578,7 +83770,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _FilterMenuArea__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./FilterMenuArea */ "./resources/js/components/search/FilterMenuArea.js");
 /* harmony import */ var _Pagination__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Pagination */ "./resources/js/components/search/Pagination.js");
-/* harmony import */ var _QuestionTable__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./QuestionTable */ "./resources/js/components/search/QuestionTable.js");
+/* harmony import */ var _QuestionList__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./QuestionList */ "./resources/js/components/search/QuestionList.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -83602,7 +83794,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-
+ //import QuestionTable from './QuestionTable';
 
 function SearchPage() {
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(false),
@@ -83635,15 +83827,30 @@ function SearchPage() {
       checkedSubcategories = _useState12[0],
       setCheckedSubcategories = _useState12[1];
 
-  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])([]),
+  var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(""),
       _useState14 = _slicedToArray(_useState13, 2),
-      paginationData = _useState14[0],
-      setPaginationData = _useState14[1];
+      keyword = _useState14[0],
+      setKeyword = _useState14[1];
 
   var _useState15 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])([]),
       _useState16 = _slicedToArray(_useState15, 2),
-      questions = _useState16[0],
-      setQuestions = _useState16[1];
+      paginationData = _useState16[0],
+      setPaginationData = _useState16[1];
+
+  var _useState17 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])([]),
+      _useState18 = _slicedToArray(_useState17, 2),
+      questions = _useState18[0],
+      setQuestions = _useState18[1];
+
+  var _useState19 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])([]),
+      _useState20 = _slicedToArray(_useState19, 2),
+      choices = _useState20[0],
+      setChoices = _useState20[1];
+
+  var _useState21 = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])([]),
+      _useState22 = _slicedToArray(_useState21, 2),
+      answers = _useState22[0],
+      setAnswers = _useState22[1];
 
   Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(function () {
     getStatuses();
@@ -83710,7 +83917,7 @@ function SearchPage() {
 
   var getQuestions = /*#__PURE__*/function () {
     var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-      var response, questions, paginationData;
+      var response, dbData, questions, choices, answers, paginationData;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
@@ -83724,21 +83931,27 @@ function SearchPage() {
 
             case 2:
               response = _context3.sent;
-              questions = response.data.questions.data;
+              console.log(response.data);
+              dbData = response.data.dbData;
+              questions = dbData.questions.data;
+              choices = dbData.choices;
+              answers = dbData.answers;
               paginationData = {
-                "total": response.data.questions.total,
-                "per_page": response.data.questions.per_page,
-                "current_page": response.data.questions.current_page,
-                "last_page": response.data.questions.last_page,
-                "next_page_url": response.data.questions.next_page_url,
-                "prev_page_url": response.data.questions.prev_page_url,
-                "from": response.data.questions.from,
-                "to": response.data.questions.to
+                "total": dbData.questions.total,
+                "per_page": dbData.questions.per_page,
+                "current_page": dbData.questions.current_page,
+                "last_page": dbData.questions.last_page,
+                "next_page_url": dbData.questions.next_page_url,
+                "prev_page_url": dbData.questions.prev_page_url,
+                "from": dbData.questions.from,
+                "to": dbData.questions.to
               };
               setQuestions(questions);
+              setChoices(choices);
+              setAnswers(answers);
               setPaginationData(JSON.parse(JSON.stringify(paginationData)));
 
-            case 7:
+            case 13:
             case "end":
               return _context3.stop();
           }
@@ -83753,7 +83966,7 @@ function SearchPage() {
 
   var filterQuestions = /*#__PURE__*/function () {
     var _ref4 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
-      var response, questions, paginationData;
+      var response, dbData, questions, choices, answers, paginationData;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
         while (1) {
           switch (_context4.prev = _context4.next) {
@@ -83763,27 +83976,34 @@ function SearchPage() {
                 params: {
                   "page": 1,
                   "statuses": JSON.stringify(checkedStatuses),
-                  "subcategories": JSON.stringify(checkedSubcategories)
+                  "subcategories": JSON.stringify(checkedSubcategories),
+                  "keyword": keyword
                 }
               });
 
             case 2:
               response = _context4.sent;
-              questions = response.data.questions.data;
+              console.log(response.data);
+              dbData = response.data.dbData;
+              questions = dbData.questions.data;
+              choices = dbData.choices;
+              answers = dbData.answers;
               paginationData = {
-                "total": response.data.questions.total,
-                "per_page": response.data.questions.per_page,
-                "current_page": response.data.questions.current_page,
-                "last_page": response.data.questions.last_page,
-                "next_page_url": response.data.questions.next_page_url,
-                "prev_page_url": response.data.questions.prev_page_url,
-                "from": response.data.questions.from,
-                "to": response.data.questions.to
+                "total": dbData.questions.total,
+                "per_page": dbData.questions.per_page,
+                "current_page": dbData.questions.current_page,
+                "last_page": dbData.questions.last_page,
+                "next_page_url": dbData.questions.next_page_url,
+                "prev_page_url": dbData.questions.prev_page_url,
+                "from": dbData.questions.from,
+                "to": dbData.questions.to
               };
               setQuestions(questions);
+              setChoices(choices);
+              setAnswers(answers);
               setPaginationData(JSON.parse(JSON.stringify(paginationData)));
 
-            case 7:
+            case 13:
             case "end":
               return _context4.stop();
           }
@@ -83807,13 +84027,17 @@ function SearchPage() {
     subcategories: subcategories,
     checkedSubcategories: checkedSubcategories,
     setCheckedSubcategories: setCheckedSubcategories,
+    keyword: keyword,
+    setKeyword: setKeyword,
     filterQuestions: filterQuestions
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Pagination__WEBPACK_IMPORTED_MODULE_5__["default"], {
     setPaginationData: setPaginationData,
     paginationData: paginationData,
     setQuestions: setQuestions
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_QuestionTable__WEBPACK_IMPORTED_MODULE_6__["default"], {
-    questions: questions
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_QuestionList__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    questions: questions,
+    choices: choices,
+    answers: answers
   }));
 }
 

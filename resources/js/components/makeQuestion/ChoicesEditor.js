@@ -18,31 +18,39 @@ function ChoicesEditor(props) {
         }
     }
     return (
-        <div className="form-group">
-            <div className="text-right">
-                <button type="button" className="btn btn-success" onClick={addClick} disabled={fullChoices}>
-                    選択肢を追加
-                </button>
-            </div>
-            {Object.keys(choicesObj).map((choice_symbol) => 
-                <ChoiceEditor
-                    key={choice_symbol}
-                    choiceSymbol={choice_symbol}
-                    choiceText={choicesObj[choice_symbol]}
-                    setValue={props.setValue}
-                    getValues={props.getValues}
-                    register={props.register}
-                    errors={props.errors}
-                    clearErrors = {props.clearErrors}
+        <div className="row border">
+            <div className="col border">
+                <div className="row border">
+                    <div className="col text-right">
+                        <button type="button" className="btn btn-success" onClick={addClick} disabled={fullChoices}>
+                            選択肢を追加
+                        </button>
+                    </div>
+                </div>
+                <div className="row border">
+                    <div className="col border">
+                        {Object.keys(choicesObj).map((choice_symbol) => 
+                            <ChoiceEditor
+                                key={choice_symbol}
+                                choiceSymbol={choice_symbol}
+                                choiceText={choicesObj[choice_symbol]}
+                                setValue={props.setValue}
+                                getValues={props.getValues}
+                                register={props.register}
+                                errors={props.errors}
+                                clearErrors = {props.clearErrors}
+                            />
+                        )}
+                    </div>
+                </div>
+                <input 
+                    type="hidden" 
+                    readOnly="readonly" 
+                    value={props.getValues("correct_choice_symbol")} 
+                    {...correctChoiceSymbolRegister}
                 />
-            )}
-            <input 
-                type="hidden" 
-                readOnly="readonly" 
-                value={props.getValues("correct_choice_symbol")} 
-                {...correctChoiceSymbolRegister}
-            />
-            {props.errors.correct_choice_symbol && <span className="text-danger">{props.errors.correct_choice_symbol.message}</span>}
+                {props.errors.correct_choice_symbol && <span className="text-danger">{props.errors.correct_choice_symbol.message}</span>}
+            </div>
         </div>
     );
 }

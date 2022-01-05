@@ -12,7 +12,8 @@ function ExplanationEditor(props) {
             <div className="bg-dark text-white">解説文</div>
                 <TextareaAutosize
                     minRows={3}
-                    className={`col ${props.errors.answer_text ? 'invalid' : 'valid'}`}
+                    className={`${props.errors.answer_text ? 'invalid' : 'valid'}`}
+                    style={{width:"100%", display:"block"}}
                     {...answerTextRegister}
                 />
                 {props.errors.answer_text && <span className="text-danger">{props.errors.answer_text.message}</span>}

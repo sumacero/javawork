@@ -123,7 +123,6 @@ function MakeQuestionPage(){
             try {
                 let res = await axios.post("upload-question", data);
                 let question_id = res.data;
-                alert("問題を登録しました");
                 moveConfirmPage(question_id);
             } catch (error) {
                 console.log(error.response.data);
@@ -154,41 +153,69 @@ function MakeQuestionPage(){
         fetchData();
     },[]); 
     return (
-        <div className="container">
-            <p className="text-right">question_id:{questionId}</p>
-            <form name="myform" onSubmit={handleSubmit(onSubmit)}>
-                <input type="hidden" name="_token" value={csrf_token} />
-                <QuestionEditor
-                    register = {register}
-                    errors = {errors}
-                />
-                <ChoicesEditor
-                    setValue = {setValue}
-                    getValues = {getValues}
-                    register = {register}
-                    errors = {errors}
-                    clearErrors = {clearErrors}
-                />
-                <ExplanationEditor
-                    register = {register}
-                    errors = {errors}
-                />
-                <CategorySelector
-                    register = {register}
-                    errors = {errors}
-                    categories = {categories}
-                    setCategories = {setCategories}
-                    subcategories = {subcategories}
-                    setTargetSubcategories = {setTargetSubcategories}
-                />
-                <SubcategorySelector
-                    register = {register}
-                    errors = {errors}
-                    targetSubcategories = {targetSubcategories}
-                />
-                <input type="submit" className="btn btn-outline-dark" value="確認画面へ"></input>
-            </form>
-            <button onClick={clickSaveButton} className="btn btn-outline-dark">編集データの保存</button>
+        <div className="container border">
+            <div className="row border">
+                <div className="col border">
+                    <p className="text-right">question_id:{questionId}</p>
+                </div>
+            </div>
+            <div className="row border">
+                <div className="col border">
+                    <form name="myform" onSubmit={handleSubmit(onSubmit)}>
+                        <input type="hidden" name="_token" value={csrf_token} />
+                        <div className="row border">
+                            <div className="col border p-0">
+                                <QuestionEditor
+                                    register = {register}
+                                    errors = {errors}
+                                />
+                            </div>
+                        </div>
+                        <div className="row border">
+                            <div className="col border">
+                                <ChoicesEditor
+                                    setValue = {setValue}
+                                    getValues = {getValues}
+                                    register = {register}
+                                    errors = {errors}
+                                    clearErrors = {clearErrors}
+                                />
+                            </div>
+                        </div>
+                        <div className="row border">
+                            <div className="col border p-0">
+                                <ExplanationEditor
+                                    register = {register}
+                                    errors = {errors}
+                                />
+                            </div>
+                        </div>
+                        <div className="row border">
+                            <div className="col border">
+                                <CategorySelector
+                                    register = {register}
+                                    errors = {errors}
+                                    categories = {categories}
+                                    setCategories = {setCategories}
+                                    subcategories = {subcategories}
+                                    setTargetSubcategories = {setTargetSubcategories}
+                                />
+                            </div>
+                            <div className="col border">
+                                <SubcategorySelector
+                                    register = {register}
+                                    errors = {errors}
+                                    targetSubcategories = {targetSubcategories}
+                                />
+                            </div>
+                        </div>
+                        <div className="row border">
+                            <input type="submit" className="btn btn-outline-dark" value="確認画面へ"></input>
+                            <button type="button" onClick={clickSaveButton} className="btn btn-outline-dark">編集データの保存</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     );
 }

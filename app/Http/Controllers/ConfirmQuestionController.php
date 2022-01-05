@@ -15,7 +15,6 @@ class ConfirmQuestionController extends Controller
 {
     public function index(Request $request){
         $question_id = $request->input('question_id');
-        var_dump($question_id);
         return view('confirm_question')->with('question_id', $question_id);
     }
     public function commitQuestion(Request $request){

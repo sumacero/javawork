@@ -16,6 +16,9 @@ function FilterMenuArea(props){
     const clickFilterButton = ()=>{
         props.filterQuestions();
     }
+    const changeKeyword =(event)=>{
+        props.setKeyword(event.target.value);
+    }
  
     return(
         <div>
@@ -44,6 +47,16 @@ function FilterMenuArea(props){
                         </td>
                         <td>
                             {targetCategoryText}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="col-2">
+                            <div className="d-flex align-items-center justify-content-between">
+                                <span>キーワード</span>
+                            </div>
+                        </td>
+                        <td>
+                            <input type="text" value={props.keyword} onChange={changeKeyword} maxLength="50" style={{width:"100%", display:"block"}}></input>
                         </td>
                     </tr>
                     <tr>

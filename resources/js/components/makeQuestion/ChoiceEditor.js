@@ -46,28 +46,40 @@ function ChoiceEditor(props) {
         props.clearErrors("correct_choice_symbol"); //バリデーションエラークリア、画面の再描画される。
     }
     return (
-        <div className="row mb-1">
-            <button 
-                type="button"
-                className={`col-1 ${props.choiceSymbol == props.getValues("correct_choice_symbol") ? 'btn btn-danger':'btn btn-primary'} `} 
-                onClick={correctAnswerClick} 
-            >
-                {props.choiceSymbol}
-            </button>
-            <TextareaAutosize
-                className={`col ${invalid() ? 'invalid' : 'valid'}`}
-                {...choiceTextRegister}
-            />
-            <button
-                type="button"
-                className="col-1 btn btn-dark"
-                onClick={(event) => {
-                    deleteClick(event);
-                }}
-            >
-                削除
-            </button>
-            {invalid() && <span className="text-danger">{props.errors.choice_text[props.choiceSymbol].message}</span>}
+        <div className="row border">
+            <div className="col border">
+                <div className="row border">
+                    <div className="col-1 border p-0">
+                        <button 
+                            type="button"
+                            className={`btn w-100 h-100 ${props.choiceSymbol == props.getValues("correct_choice_symbol") ? 'btn btn-danger':'btn btn-primary'} `} 
+                            onClick={correctAnswerClick} 
+                        >
+                            {props.choiceSymbol}
+                        </button>
+                    </div>
+                    <div className="col border p-0">
+                        <TextareaAutosize
+                            className={`${invalid() ? 'invalid' : 'valid'}`}
+                            minRows={2}
+                            style={{width:"100%", display:"block"}}
+                            {...choiceTextRegister}
+                        />
+                    </div>
+                    <div className="col-1 border p-0">
+                        <button
+                            type="button"
+                            className="btn btn-dark w-100 h-100"
+                            onClick={(event) => {
+                                deleteClick(event);
+                            }}
+                        >
+                            削除
+                        </button>
+                    </div>
+                    {invalid() && <span className="text-danger">{props.errors.choice_text[props.choiceSymbol].message}</span>}
+                </div>
+            </div>
         </div>
     );
 }

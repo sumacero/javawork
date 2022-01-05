@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import FilterMenuArea from './FilterMenuArea';
 import Pagination from './Pagination';
-import QuestionTable from './QuestionTable';
+import QuestionList from './QuestionList';
+//import QuestionTable from './QuestionTable';
 
 function SearchPage(){
     const [ openFilterWindow, setOpenFilterWindow] = useState(false);
@@ -12,8 +13,11 @@ function SearchPage(){
     const [ categories, setCategories] = useState([]);
     const [ subcategories, setSubcategories] = useState([]);
     const [ checkedSubcategories, setCheckedSubcategories] = useState([]);
+    const [ keyword, setKeyword] = useState("");
     const [ paginationData, setPaginationData] = useState([]);
     const [ questions, setQuestions] = useState([]);
+    const [ choices, setChoices] = useState([]);
+    const [ answers, setAnswers] = useState([]);
     useEffect(() => {
         getStatuses();
         getCategories();
@@ -36,18 +40,24 @@ function SearchPage(){
                 "page":1
             }
         });
-        let questions = response.data.questions.data;
+        console.log(response.data);
+        let dbData = response.data.dbData;
+        let questions = dbData.questions.data;
+        let choices = dbData.choices;
+        let answers = dbData.answers;
         let paginationData = {
-            "total": response.data.questions.total,
-            "per_page": response.data.questions.per_page,
-            "current_page": response.data.questions.current_page,
-            "last_page": response.data.questions.last_page,
-            "next_page_url": response.data.questions.next_page_url,
-            "prev_page_url": response.data.questions.prev_page_url,
-            "from": response.data.questions.from,
-            "to": response.data.questions.to,
+            "total": dbData.questions.total,
+            "per_page": dbData.questions.per_page,
+            "current_page": dbData.questions.current_page,
+            "last_page": dbData.questions.last_page,
+            "next_page_url": dbData.questions.next_page_url,
+            "prev_page_url": dbData.questions.prev_page_url,
+            "from": dbData.questions.from,
+            "to": dbData.questions.to,
         };
         setQuestions(questions);
+        setChoices(choices);
+        setAnswers(answers);
         setPaginationData(JSON.parse(JSON.stringify(paginationData)));
     }
     const filterQuestions = async () => {
@@ -56,20 +66,27 @@ function SearchPage(){
                 "page":1,
                 "statuses":JSON.stringify(checkedStatuses),
                 "subcategories":JSON.stringify(checkedSubcategories),
+                "keyword":keyword
             }
         });
-        let questions = response.data.questions.data;
+        console.log(response.data);
+        let dbData = response.data.dbData;
+        let questions = dbData.questions.data;
+        let choices = dbData.choices;
+        let answers = dbData.answers;
         let paginationData = {
-            "total": response.data.questions.total,
-            "per_page": response.data.questions.per_page,
-            "current_page": response.data.questions.current_page,
-            "last_page": response.data.questions.last_page,
-            "next_page_url": response.data.questions.next_page_url,
-            "prev_page_url": response.data.questions.prev_page_url,
-            "from": response.data.questions.from,
-            "to": response.data.questions.to,
+            "total": dbData.questions.total,
+            "per_page": dbData.questions.per_page,
+            "current_page": dbData.questions.current_page,
+            "last_page": dbData.questions.last_page,
+            "next_page_url": dbData.questions.next_page_url,
+            "prev_page_url": dbData.questions.prev_page_url,
+            "from": dbData.questions.from,
+            "to": dbData.questions.to,
         };
         setQuestions(questions);
+        setChoices(choices);
+        setAnswers(answers);
         setPaginationData(JSON.parse(JSON.stringify(paginationData)));
     }
     return(
@@ -83,10 +100,12 @@ function SearchPage(){
                 subcategories={subcategories} 
                 checkedSubcategories={checkedSubcategories}
                 setCheckedSubcategories={setCheckedSubcategories}
+                keyword={keyword}
+                setKeyword={setKeyword}
                 filterQuestions={filterQuestions}
             />
             <Pagination setPaginationData={setPaginationData} paginationData={paginationData} setQuestions={setQuestions}/>
-            <QuestionTable questions={questions}/>
+            <QuestionList questions={questions} choices={choices} answers={answers}/>
         </div>
     )
 }
