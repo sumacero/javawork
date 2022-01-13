@@ -18,6 +18,7 @@ function QuestionList(props) {
             {props.questions.map((question) => 
                 <div key={question.question_id}>
                     <QuestionContent
+                        loginUser={props.loginUser}
                         question={question}
                         choices={props.choices.filter((choice)=>choice.question_id === question.question_id )}
                         answer={props.answers.find((answer)=>answer.question_id === question.question_id )}

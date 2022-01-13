@@ -8,6 +8,7 @@ import SubcategorySelector from '../makeQuestion/SubcategorySelector';
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
+import { CSSTransition } from 'react-transition-group';
 
 function EditQuestionPage(){
     const csrf_token = document.head.querySelector('meta[name="csrf-token"]').content;
@@ -29,6 +30,8 @@ function EditQuestionPage(){
     const [ categories, setCategories] = useState([]);
     const [ subcategories, setSubcategories] = useState([]);
     const [ targetSubcategories, setTargetSubcategories] = useState([]);
+    const [ popupFlag, setPopupFlag] = useState(false);
+    const [ popupMsg, setPopupMsg] = useState("");
     function validateChoiceText1(choice_text){
         //フォームが存在し、かつ値が空文字の場合はエラー
         return !(typeof choice_text !== "undefined" && choice_text == "");
@@ -108,7 +111,8 @@ function EditQuestionPage(){
             try {
                 let res = await axios.post("save-question", data);
                 setQuestionId(res.data);
-                alert("問題の編集データを一時保存しました。");
+                setPopupMsg("編集データを保存しました");
+                setPopupFlag(!popupFlag);
             } catch (error) {
                 console.log(error.response.data);
                 alert("サーバーエラーが発生しました。");
@@ -262,6 +266,9 @@ function EditQuestionPage(){
                     </form>
                 </div>
             </div>
+            <CSSTransition in={popupFlag} classNames="popup" timeout={1000}>
+                <div>{popupMsg}</div>
+            </CSSTransition>
         </div>
     );
 }

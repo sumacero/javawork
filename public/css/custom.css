@@ -10,6 +10,23 @@
     /*border: solid 5px red;*/
 }
 
+.popup-enter, .popup-enter-done, .popup-exit, .popup-exit-done {
+    display:none;
+}
+
+.popup-enter-active, .popup-exit-active {
+	position:absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    text-align:center;
+    border: solid 1px;
+    width: 100%;/*幅*/
+    height: 5%;/*高さ*/
+    background-color: antiquewhite;
+    display:block;
+}
+
 .success-enter {
 	position:absolute;
     top:-15px;

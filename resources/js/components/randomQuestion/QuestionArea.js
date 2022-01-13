@@ -29,7 +29,7 @@ function QuestionArea(props) {
     }
     return (
         <div className="container">
-            <p className="text-right">正解:{correctCount}/不正解:{wrongCount}</p>
+            <p className="text-right">正解:{correctCount}/不正解:{wrongCount}/正答率:{correctCount/(correctCount+wrongCount)*100 + "%"}</p>
             <Question question={props.question}/>
             <Choices choices={props.choices}/>
             <ChoicesForm choices={props.choices} setSelectedChoiceId={props.setSelectedChoiceId} answeredFlag={props.answeredFlag}/>

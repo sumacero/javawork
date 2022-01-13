@@ -7,6 +7,7 @@ import QuestionList from './QuestionList';
 //import QuestionTable from './QuestionTable';
 
 function SearchPage(){
+    const [ loginUser, setLoginUser] = useState();
     const [ openFilterWindow, setOpenFilterWindow] = useState(false);
     const [ statuses, setStatuses] = useState([]);
     const [ checkedStatuses, setCheckedStatuses] = useState([]);
@@ -19,10 +20,16 @@ function SearchPage(){
     const [ choices, setChoices] = useState([]);
     const [ answers, setAnswers] = useState([]);
     useEffect(() => {
+        getLoginUser();
         getStatuses();
         getCategories();
         getQuestions();
     },[]);
+    const getLoginUser = async () => {
+            const result = await axios.get('/get-login-user');
+            const data = result.data;
+            setLoginUser(JSON.parse(JSON.stringify(data.loginUser)));
+    };
     const getStatuses = async () => {
             const result = await axios.get('/get-statuses');
             const data = result.data;
@@ -105,7 +112,7 @@ function SearchPage(){
                 filterQuestions={filterQuestions}
             />
             <Pagination setPaginationData={setPaginationData} paginationData={paginationData} setQuestions={setQuestions}/>
-            <QuestionList questions={questions} choices={choices} answers={answers}/>
+            <QuestionList loginUser={loginUser} questions={questions} choices={choices} answers={answers}/>
         </div>
     )
 }

@@ -15,14 +15,14 @@ class UsersTableSeeder extends Seeder
             'authority_id' => '1',
             'name' => 'デバッグ用管理者ユーザ',
             'email' => 'test1@sumacero.com',
-            'password' => 'password',
+            'password' => bcrypt('password'),
         ];
         DB::table('users')->insert($param);
         $param = [
             'authority_id' => '2',
             'name' => 'デバッグ用ゲストユーザ',
             'email' => 'test2@sumacero.com',
-            'password' => 'password',
+            'password' => bcrypt('password'),
         ];
         DB::table('users')->insert($param);
     }
