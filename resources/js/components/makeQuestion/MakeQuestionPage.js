@@ -108,7 +108,7 @@ function MakeQuestionPage(){
         console.log(data);
         const func = async () => {
             try {
-                let res = await axios.post("save-question", data);
+                let res = await axios.post("/save-question", data);
                 setQuestionId(res.data);
                 setPopupMsg("編集データを保存しました");
                 setPopupFlag(!popupFlag);
@@ -119,14 +119,13 @@ function MakeQuestionPage(){
         };
         func();
     }
-
     const onSubmit = (data) => {
         console.log("以下のデータを登録します。");
         data.question_id = questionId; //送信データにquestion_idを追加(nullの場合は新規レコード追加)
         console.log(data);
         const func = async () => {
             try {
-                let res = await axios.post("upload-question", data);
+                let res = await axios.post("/upload-question", data);
                 let question_id = res.data;
                 moveConfirmPage(question_id);
             } catch (error) {
@@ -136,17 +135,19 @@ function MakeQuestionPage(){
         };
         func();
     }
+    
 
     //登録した問題の主キーをPOSTし確認画面へ移動する
     function moveConfirmPage(question_id){
         let form = document.createElement('form');   
         form.method = 'post';
-        form.action = '../confirm-question';
+        form.action = 'confirm-question';
         form.innerHTML = '<input type="hidden" name="_token" value=' + csrf_token + '>'
             + '<input type="hidden" name="question_id" value=' + question_id + '>';
         document.body.append(form);
         form.submit();
     }
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -156,7 +157,8 @@ function MakeQuestionPage(){
             setSubcategories(JSON.parse(JSON.stringify(data.subcategories)));
         };
         fetchData();
-    },[]); 
+    },[]);
+
     return (
         <div className="container border">
             <div className="row border">

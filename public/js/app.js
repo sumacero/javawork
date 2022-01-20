@@ -81789,7 +81789,7 @@ function MakeQuestionPage() {
               case 0:
                 _context.prev = 0;
                 _context.next = 3;
-                return axios.post("save-question", data);
+                return axios.post("/save-question", data);
 
               case 3:
                 res = _context.sent;
@@ -81836,7 +81836,7 @@ function MakeQuestionPage() {
               case 0:
                 _context2.prev = 0;
                 _context2.next = 3;
-                return axios.post("upload-question", data);
+                return axios.post("/upload-question", data);
 
               case 3:
                 res = _context2.sent;
@@ -81871,7 +81871,7 @@ function MakeQuestionPage() {
   function moveConfirmPage(question_id) {
     var form = document.createElement('form');
     form.method = 'post';
-    form.action = '../confirm-question';
+    form.action = 'confirm-question';
     form.innerHTML = '<input type="hidden" name="_token" value=' + csrf_token + '>' + '<input type="hidden" name="question_id" value=' + question_id + '>';
     document.body.append(form);
     form.submit();
@@ -82890,7 +82890,7 @@ function RandomQuestionPage() {
           switch (_context.prev = _context.next) {
             case 0:
               _context.next = 2;
-              return axios__WEBPACK_IMPORTED_MODULE_3___default.a.post('get-target-question-count', checkedSubcategories);
+              return axios__WEBPACK_IMPORTED_MODULE_3___default.a.post('/get-target-question-count', checkedSubcategories);
 
             case 2:
               result = _context.sent;
@@ -82918,7 +82918,7 @@ function RandomQuestionPage() {
           switch (_context2.prev = _context2.next) {
             case 0:
               _context2.next = 2;
-              return axios__WEBPACK_IMPORTED_MODULE_3___default.a.post('random-get-qa', checkedSubcategories);
+              return axios__WEBPACK_IMPORTED_MODULE_3___default.a.post('/random-get-qa', checkedSubcategories);
 
             case 2:
               result = _context2.sent;

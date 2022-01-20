@@ -25,7 +25,7 @@ Auth::routes([
 */
 Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index');
-Route::get('/random-question', 'RandomQuestionController@index');
+Route::get('/test-question', 'RandomQuestionController@index');
 Route::get('/get-categories', 'MakeQuestionController@getCategories');
 Route::post('/get-target-question-count', 'RandomQuestionController@getTargetQuestionCount');
 Route::post('/random-get-qa', 'RandomQuestionController@getQA');

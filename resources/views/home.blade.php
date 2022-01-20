@@ -6,7 +6,7 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-header">Java演習(ランダム出題)</div>
-                <a href="{{ url('/random-question') }}">
+                <a href="{{ url('/test-question') }}">
                     <img class="card-img-top" src="images/演習問題.png" alt="DB検索画像" height="300">
                 </a>
                 <div class="card-body">
