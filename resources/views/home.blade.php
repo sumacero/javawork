@@ -6,7 +6,7 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-header">Java演習(ランダム出題)</div>
-                <a href="/random-question">
+                <a href="{{ url('/random-question') }}">
                     <img class="card-img-top" src="images/演習問題.png" alt="DB検索画像" height="300">
                 </a>
                 <div class="card-body">
@@ -18,7 +18,7 @@
         <div class="col-md-4">        
             <div class="card">
                 <div class="card-header">Java問題検索</div>
-                <a href="/search">
+                <a href="{{ url('/search') }}">
                     <img class="card-img-top" src="images/searchDB.jpg" alt="DB検索画像" height="300">
                 </a>
                 <div class="card-body">
@@ -31,7 +31,7 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-header">Java問題作成</div>
-                <a href="/make-question">
+                <a href="{{ url('/make-question') }}">
                     <img class="card-img-top" src="images/問題作成.png" alt="DB検索画像" height="300">
                 </a>
                 <div class="card-body">
