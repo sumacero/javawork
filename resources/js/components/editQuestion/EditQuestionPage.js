@@ -105,8 +105,6 @@ function EditQuestionPage(){
     const clickSaveButton = () => {
         let data = getValues();
         data.question_id = questionId;
-        console.log("以下のデータを保存します。");
-        console.log(data);
         const func = async () => {
             try {
                 let res = await axios.post("save-question", data);
@@ -124,15 +122,12 @@ function EditQuestionPage(){
     const clickDeleteButton = () => {
         let data = getValues();
         data.question_id = questionId;
-        console.log("以下の問題を削除します。");
-        console.log(data);
         const func = async () => {
             try {
                 let res = await axios.post("delete-question", data);
                 alert("問題を削除しました。");
-                window.location.href = '../search';
+                window.location.href = 'search';
             } catch (error) {
-                console.log(error.response.data);
                 alert("サーバーエラーが発生しました。");
             }
         };
@@ -140,9 +135,7 @@ function EditQuestionPage(){
     }
 
     const onSubmit = (data) => {
-        console.log("以下のデータを更新します。");
         data.question_id = questionId; //送信データにquestion_idを追加
-        console.log(data);
         const func = async () => {
             try {
                 let res = await axios.post("edit-question", data);
@@ -158,7 +151,7 @@ function EditQuestionPage(){
     function moveConfirmPage(question_id){
         let form = document.createElement('form');   
         form.method = 'post';
-        form.action = '../confirm-question';
+        form.action = 'confirm-question';
         form.innerHTML = '<input type="hidden" name="_token" value=' + csrf_token + '>'
             + '<input type="hidden" name="question_id" value=' + question_id + '>';
         document.body.append(form);
@@ -167,11 +160,11 @@ function EditQuestionPage(){
 
     useEffect(() => {
         const getData = async () => {
-            const result1 = await axios.get('/get-categories');
+            const result1 = await axios.get('get-categories');
             const data1 = result1.data.dbData;
             setCategories(JSON.parse(JSON.stringify(data1.categories)));
             setSubcategories(JSON.parse(JSON.stringify(data1.subcategories)));
-            const result2 = await axios.get('/get-qa/' + questionId);
+            const result2 = await axios.get('get-qa/' + questionId);
             const data2 = result2.data.dbData;
             const question = JSON.parse(JSON.stringify(data2.question));
             const choices = JSON.parse(JSON.stringify(data2.choices));
@@ -185,7 +178,6 @@ function EditQuestionPage(){
             const correctChoice = choices.find(
                 (choice) => choice.choice_id === answer.choice_id
             );
-            console.log(correctChoice);
             setTargetSubcategories(targetSubcategories);
             setValue("question_text", question.question_text);
             for(let i = 0; i<choices.length; i++){

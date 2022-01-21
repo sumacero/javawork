@@ -7,7 +7,7 @@ function PracticeMenu(props){
     const [ subcategories, setSubcategories] = useState([]);
     useEffect(() => {
         const fetchData = async () => {
-            const result = await axios.get('/get-categories');
+            const result = await axios.get('get-categories');
             const data = result.data.dbData;
             setCategories(JSON.parse(JSON.stringify(data.categories)));
             setSubcategories(JSON.parse(JSON.stringify(data.subcategories)));

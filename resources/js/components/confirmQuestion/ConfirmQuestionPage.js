@@ -16,9 +16,8 @@ function ConfirmQuestionPage() {
     const [ correctSymbol, setCorrectSymbol] =useState("");
     useEffect(() => {
         const fetchData = async () => {
-            const result = await axios.get('/get-qa/' + question_id);
+            const result = await axios.get('get-qa/' + question_id);
             const data = result.data.dbData;
-            console.log(data);
             setQuestion(JSON.parse(JSON.stringify(data.question)));
             setChoices(JSON.parse(JSON.stringify(data.choices)));
             setAnswer(JSON.parse(JSON.stringify(data.answer)));
@@ -40,7 +39,7 @@ function ConfirmQuestionPage() {
             try {
                 let res = await axios.post("commit-question", postData);
                 alert("問題の登録が完了しました");
-                location.href = "../home";
+                location.href = ".";
             } catch (error) {
                 console.log(error.response.data);
                 alert("サーバーエラーが発生しました。");
@@ -50,7 +49,7 @@ function ConfirmQuestionPage() {
     }
     const clickEditButton = () => {
         //編集画面に戻る
-        location.href = "../edit-question?question_id=" + question_id;
+        location.href = "edit-question?question_id=" + question_id;
     }
     return (
         <div className="container">

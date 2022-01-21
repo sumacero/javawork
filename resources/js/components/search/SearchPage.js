@@ -26,28 +26,27 @@ function SearchPage(){
         getQuestions();
     },[]);
     const getLoginUser = async () => {
-            const result = await axios.get('/get-login-user');
+            const result = await axios.get('get-login-user');
             const data = result.data;
             setLoginUser(JSON.parse(JSON.stringify(data.loginUser)));
     };
     const getStatuses = async () => {
-            const result = await axios.get('/get-statuses');
+            const result = await axios.get('get-statuses');
             const data = result.data;
             setStatuses(JSON.parse(JSON.stringify(data.statuses)));
     };
     const getCategories = async () => {
-            const result = await axios.get('/get-categories');
+            const result = await axios.get('get-categories');
             const data = result.data.dbData;
             setCategories(JSON.parse(JSON.stringify(data.categories)));
             setSubcategories(JSON.parse(JSON.stringify(data.subcategories)));
     };
     const getQuestions = async () => {
-        const response = await axios.get('/get-questions', {
+        const response = await axios.get('get-questions', {
             params:{
                 "page":1
             }
         });
-        console.log(response.data);
         let dbData = response.data.dbData;
         let questions = dbData.questions.data;
         let choices = dbData.choices;
@@ -68,7 +67,7 @@ function SearchPage(){
         setPaginationData(JSON.parse(JSON.stringify(paginationData)));
     }
     const filterQuestions = async () => {
-        const response = await axios.post('/filter-questions', {
+        const response = await axios.post('filter-questions', {
             params:{
                 "page":1,
                 "statuses":JSON.stringify(checkedStatuses),
@@ -76,7 +75,6 @@ function SearchPage(){
                 "keyword":keyword
             }
         });
-        console.log(response.data);
         let dbData = response.data.dbData;
         let questions = dbData.questions.data;
         let choices = dbData.choices;

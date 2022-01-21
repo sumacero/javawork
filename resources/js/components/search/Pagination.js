@@ -4,7 +4,7 @@ import axios from 'axios';
 
 function Pagination(props){
     const getQuestions = async (move_page) => {
-        const response = await axios.get('/get-questions', {
+        const response = await axios.get('get-questions', {
             params:{
                 page:move_page
             }

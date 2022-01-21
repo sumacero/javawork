@@ -5,11 +5,11 @@ import axios from 'axios';
 function QuestionContent(props){
     const clickQuestionButton = (question_id) => {
         //編集画面へ移動する
-        location.href = "../question/" + question_id;
+        location.href = "question/" + question_id;
     }
     const clickEditButton = (question_id) => {
         //編集画面へ移動する
-        location.href = "../edit-question?question_id=" + question_id;
+        location.href = "edit-question?question_id=" + question_id;
     }
     return(
         <div className="border container">

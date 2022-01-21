@@ -104,11 +104,9 @@ function MakeQuestionPage(){
     const clickSaveButton = () => {
         let data = getValues();
         data.question_id = questionId;
-        console.log("以下のデータを保存します。");
-        console.log(data);
         const func = async () => {
             try {
-                let res = await axios.post("/save-question", data);
+                let res = await axios.post("save-question", data);
                 setQuestionId(res.data);
                 setPopupMsg("編集データを保存しました");
                 setPopupFlag(!popupFlag);
@@ -120,12 +118,10 @@ function MakeQuestionPage(){
         func();
     }
     const onSubmit = (data) => {
-        console.log("以下のデータを登録します。");
         data.question_id = questionId; //送信データにquestion_idを追加(nullの場合は新規レコード追加)
-        console.log(data);
         const func = async () => {
             try {
-                let res = await axios.post("/upload-question", data);
+                let res = await axios.post("upload-question", data);
                 let question_id = res.data;
                 moveConfirmPage(question_id);
             } catch (error) {
@@ -151,7 +147,7 @@ function MakeQuestionPage(){
 
     useEffect(() => {
         const fetchData = async () => {
-            const result = await axios.get('/get-categories');
+            const result = await axios.get('get-categories');
             const data = result.data.dbData;
             setCategories(JSON.parse(JSON.stringify(data.categories)));
             setSubcategories(JSON.parse(JSON.stringify(data.subcategories)));

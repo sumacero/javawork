@@ -80699,12 +80699,11 @@ function ConfirmQuestionPage() {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return axios.get('/get-qa/' + question_id);
+                return axios.get('get-qa/' + question_id);
 
               case 2:
                 result = _context.sent;
                 data = result.data.dbData;
-                console.log(data);
                 setQuestion(JSON.parse(JSON.stringify(data.question)));
                 setChoices(JSON.parse(JSON.stringify(data.choices)));
                 setAnswer(JSON.parse(JSON.stringify(data.answer)));
@@ -80713,7 +80712,7 @@ function ConfirmQuestionPage() {
                 });
                 setCorrectSymbol(correctChoice.choice_symbol);
 
-              case 10:
+              case 9:
               case "end":
                 return _context.stop();
             }
@@ -80754,7 +80753,7 @@ function ConfirmQuestionPage() {
               case 3:
                 res = _context2.sent;
                 alert("問題の登録が完了しました");
-                location.href = "../home";
+                location.href = ".";
                 _context2.next = 12;
                 break;
 
@@ -80782,7 +80781,7 @@ function ConfirmQuestionPage() {
 
   var clickEditButton = function clickEditButton() {
     //編集画面に戻る
-    location.href = "../edit-question?question_id=" + question_id;
+    location.href = "edit-question?question_id=" + question_id;
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -80991,8 +80990,6 @@ function EditQuestionPage() {
   var clickSaveButton = function clickSaveButton() {
     var data = getValues();
     data.question_id = questionId;
-    console.log("以下のデータを保存します。");
-    console.log(data);
 
     var func = /*#__PURE__*/function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
@@ -81038,8 +81035,6 @@ function EditQuestionPage() {
   var clickDeleteButton = function clickDeleteButton() {
     var data = getValues();
     data.question_id = questionId;
-    console.log("以下の問題を削除します。");
-    console.log(data);
 
     var func = /*#__PURE__*/function () {
       var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
@@ -81055,17 +81050,16 @@ function EditQuestionPage() {
               case 3:
                 res = _context2.sent;
                 alert("問題を削除しました。");
-                window.location.href = '../search';
-                _context2.next = 12;
+                window.location.href = 'search';
+                _context2.next = 11;
                 break;
 
               case 8:
                 _context2.prev = 8;
                 _context2.t0 = _context2["catch"](0);
-                console.log(_context2.t0.response.data);
                 alert("サーバーエラーが発生しました。");
 
-              case 12:
+              case 11:
               case "end":
                 return _context2.stop();
             }
@@ -81082,10 +81076,7 @@ function EditQuestionPage() {
   };
 
   var onSubmit = function onSubmit(data) {
-    console.log("以下のデータを更新します。");
     data.question_id = questionId; //送信データにquestion_idを追加
-
-    console.log(data);
 
     var func = /*#__PURE__*/function () {
       var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
@@ -81130,7 +81121,7 @@ function EditQuestionPage() {
   function moveConfirmPage(question_id) {
     var form = document.createElement('form');
     form.method = 'post';
-    form.action = '../confirm-question';
+    form.action = 'confirm-question';
     form.innerHTML = '<input type="hidden" name="_token" value=' + csrf_token + '>' + '<input type="hidden" name="question_id" value=' + question_id + '>';
     document.body.append(form);
     form.submit();
@@ -81145,7 +81136,7 @@ function EditQuestionPage() {
             switch (_context4.prev = _context4.next) {
               case 0:
                 _context4.next = 2;
-                return axios.get('/get-categories');
+                return axios.get('get-categories');
 
               case 2:
                 result1 = _context4.sent;
@@ -81153,7 +81144,7 @@ function EditQuestionPage() {
                 setCategories(JSON.parse(JSON.stringify(data1.categories)));
                 setSubcategories(JSON.parse(JSON.stringify(data1.subcategories)));
                 _context4.next = 8;
-                return axios.get('/get-qa/' + questionId);
+                return axios.get('get-qa/' + questionId);
 
               case 8:
                 result2 = _context4.sent;
@@ -81171,7 +81162,6 @@ function EditQuestionPage() {
                 correctChoice = choices.find(function (choice) {
                   return choice.choice_id === answer.choice_id;
                 });
-                console.log(correctChoice);
                 setTargetSubcategories(targetSubcategories);
                 setValue("question_text", question.question_text);
 
@@ -81185,7 +81175,7 @@ function EditQuestionPage() {
                 subcategory && setValue("subcategory_id", subcategory.subcategory_id);
                 setLoadingData(false);
 
-              case 26:
+              case 25:
               case "end":
                 return _context4.stop();
             }
@@ -81777,8 +81767,6 @@ function MakeQuestionPage() {
   var clickSaveButton = function clickSaveButton() {
     var data = getValues();
     data.question_id = questionId;
-    console.log("以下のデータを保存します。");
-    console.log(data);
 
     var func = /*#__PURE__*/function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
@@ -81789,7 +81777,7 @@ function MakeQuestionPage() {
               case 0:
                 _context.prev = 0;
                 _context.next = 3;
-                return axios.post("/save-question", data);
+                return axios.post("save-question", data);
 
               case 3:
                 res = _context.sent;
@@ -81822,10 +81810,7 @@ function MakeQuestionPage() {
   };
 
   var onSubmit = function onSubmit(data) {
-    console.log("以下のデータを登録します。");
     data.question_id = questionId; //送信データにquestion_idを追加(nullの場合は新規レコード追加)
-
-    console.log(data);
 
     var func = /*#__PURE__*/function () {
       var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
@@ -81836,7 +81821,7 @@ function MakeQuestionPage() {
               case 0:
                 _context2.prev = 0;
                 _context2.next = 3;
-                return axios.post("/upload-question", data);
+                return axios.post("upload-question", data);
 
               case 3:
                 res = _context2.sent;
@@ -81886,7 +81871,7 @@ function MakeQuestionPage() {
             switch (_context3.prev = _context3.next) {
               case 0:
                 _context3.next = 2;
-                return axios.get('/get-categories');
+                return axios.get('get-categories');
 
               case 2:
                 result = _context3.sent;
@@ -82641,7 +82626,7 @@ function PracticeMenu(props) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return axios.get('/get-categories');
+                return axios.get('get-categories');
 
               case 2:
                 result = _context.sent;
@@ -82890,7 +82875,7 @@ function RandomQuestionPage() {
           switch (_context.prev = _context.next) {
             case 0:
               _context.next = 2;
-              return axios__WEBPACK_IMPORTED_MODULE_3___default.a.post('/get-target-question-count', checkedSubcategories);
+              return axios__WEBPACK_IMPORTED_MODULE_3___default.a.post('get-target-question-count', checkedSubcategories);
 
             case 2:
               result = _context.sent;
@@ -82918,7 +82903,7 @@ function RandomQuestionPage() {
           switch (_context2.prev = _context2.next) {
             case 0:
               _context2.next = 2;
-              return axios__WEBPACK_IMPORTED_MODULE_3___default.a.post('/random-get-qa', checkedSubcategories);
+              return axios__WEBPACK_IMPORTED_MODULE_3___default.a.post('random-get-qa', checkedSubcategories);
 
             case 2:
               result = _context2.sent;
@@ -83527,7 +83512,7 @@ function Pagination(props) {
           switch (_context.prev = _context.next) {
             case 0:
               _context.next = 2;
-              return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get('/get-questions', {
+              return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get('get-questions', {
                 params: {
                   page: move_page
                 }
@@ -83647,12 +83632,12 @@ __webpack_require__.r(__webpack_exports__);
 function QuestionContent(props) {
   var clickQuestionButton = function clickQuestionButton(question_id) {
     //編集画面へ移動する
-    location.href = "../question/" + question_id;
+    location.href = "question/" + question_id;
   };
 
   var clickEditButton = function clickEditButton(question_id) {
     //編集画面へ移動する
-    location.href = "../edit-question?question_id=" + question_id;
+    location.href = "edit-question?question_id=" + question_id;
   };
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -83912,7 +83897,7 @@ function SearchPage() {
           switch (_context.prev = _context.next) {
             case 0:
               _context.next = 2;
-              return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get('/get-login-user');
+              return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get('get-login-user');
 
             case 2:
               result = _context.sent;
@@ -83940,7 +83925,7 @@ function SearchPage() {
           switch (_context2.prev = _context2.next) {
             case 0:
               _context2.next = 2;
-              return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get('/get-statuses');
+              return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get('get-statuses');
 
             case 2:
               result = _context2.sent;
@@ -83968,7 +83953,7 @@ function SearchPage() {
           switch (_context3.prev = _context3.next) {
             case 0:
               _context3.next = 2;
-              return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get('/get-categories');
+              return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get('get-categories');
 
             case 2:
               result = _context3.sent;
@@ -83997,7 +83982,7 @@ function SearchPage() {
           switch (_context4.prev = _context4.next) {
             case 0:
               _context4.next = 2;
-              return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get('/get-questions', {
+              return axios__WEBPACK_IMPORTED_MODULE_3___default.a.get('get-questions', {
                 params: {
                   "page": 1
                 }
@@ -84005,7 +83990,6 @@ function SearchPage() {
 
             case 2:
               response = _context4.sent;
-              console.log(response.data);
               dbData = response.data.dbData;
               questions = dbData.questions.data;
               choices = dbData.choices;
@@ -84025,7 +84009,7 @@ function SearchPage() {
               setAnswers(answers);
               setPaginationData(JSON.parse(JSON.stringify(paginationData)));
 
-            case 13:
+            case 12:
             case "end":
               return _context4.stop();
           }
@@ -84046,7 +84030,7 @@ function SearchPage() {
           switch (_context5.prev = _context5.next) {
             case 0:
               _context5.next = 2;
-              return axios__WEBPACK_IMPORTED_MODULE_3___default.a.post('/filter-questions', {
+              return axios__WEBPACK_IMPORTED_MODULE_3___default.a.post('filter-questions', {
                 params: {
                   "page": 1,
                   "statuses": JSON.stringify(checkedStatuses),
@@ -84057,7 +84041,6 @@ function SearchPage() {
 
             case 2:
               response = _context5.sent;
-              console.log(response.data);
               dbData = response.data.dbData;
               questions = dbData.questions.data;
               choices = dbData.choices;
@@ -84077,7 +84060,7 @@ function SearchPage() {
               setAnswers(answers);
               setPaginationData(JSON.parse(JSON.stringify(paginationData)));
 
-            case 13:
+            case 12:
             case "end":
               return _context5.stop();
           }
