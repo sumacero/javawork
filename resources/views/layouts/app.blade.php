@@ -21,7 +21,10 @@
 
     <!-- カスタムcss -->
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
-    
+
+    <!-- ファビコン -->
+    <link rel="shortcut icon" type="image/x-icon"  href="{{ asset('/favicon.ico') }}">
+
 </head>
 <body>
     <div id="app">

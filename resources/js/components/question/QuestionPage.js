@@ -17,7 +17,7 @@ function QuestionPage() {
     const [ correctSymbol, setCorrectSymbol] =useState("");
     useEffect(() => {
         const fetchData = async () => {
-            const result = await axios.get('/get-qa/' + question_id);
+            const result = await axios.get('../get-qa/' + question_id);
             const data = result.data.dbData;
             setQuestion(JSON.parse(JSON.stringify(data.question)));
             setChoices(JSON.parse(JSON.stringify(data.choices)));
