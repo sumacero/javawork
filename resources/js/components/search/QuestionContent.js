@@ -47,7 +47,7 @@ function QuestionContent(props){
                 <div className="col-8 border">
                     <div className="row border">
                         <div className="col border">
-                            質問文
+                            問題文
                             <div
                                 style={{
                                     overflow: "hidden",
