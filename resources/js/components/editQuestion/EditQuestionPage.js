@@ -113,7 +113,8 @@ function EditQuestionPage(){
                 setPopupFlag(!popupFlag);
             } catch (error) {
                 console.log(error.response.data);
-                alert("サーバーエラーが発生しました。");
+                setPopupMsg("保存できませんでした。入力した値を確認してください。");
+                setPopupFlag(!popupFlag);
             }
         };
         func();

@@ -9,16 +9,16 @@ function Pagination(props){
                 page:move_page
             }
         });
-        let questions = response.data.questions.data;
+        let questions = response.data.dbData.questions.data;
         let paginationData = {
-            "total": response.data.questions.total,
-            "per_page": response.data.questions.per_page,
-            "current_page": response.data.questions.current_page,
-            "last_page": response.data.questions.last_page,
-            "next_page_url": response.data.questions.next_page_url,
-            "prev_page_url": response.data.questions.prev_page_url,
-            "from": response.data.questions.from,
-            "to": response.data.questions.to,
+            "total": response.data.dbData.questions.total,
+            "per_page": response.data.dbData.questions.per_page,
+            "current_page": response.data.dbData.questions.current_page,
+            "last_page": response.data.dbData.questions.last_page,
+            "next_page_url": response.data.dbData.questions.next_page_url,
+            "prev_page_url": response.data.dbData.questions.prev_page_url,
+            "from": response.data.dbData.questions.from,
+            "to": response.data.dbData.questions.to,
         };
         props.setQuestions(questions);
         props.setPaginationData(JSON.parse(JSON.stringify(paginationData)));

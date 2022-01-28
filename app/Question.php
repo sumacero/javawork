@@ -43,7 +43,7 @@ class Question extends Model
     protected static function boot(){
         parent::boot();
         static::addGlobalScope('question_id',function(Builder $builder){
-            $builder->orderBy('question_id','asc');
+            $builder->orderBy('questions.question_id','asc');
         });
     }
 }

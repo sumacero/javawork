@@ -43,15 +43,15 @@ function FilterCategoryModal(props){
         <div>
             <span id="overlay" style={overlay}>
                 <span id="modalContent" style={modalContent}>
-                    カテゴリモーダルコンポーネント
+                    <p>カテゴリを選択してください</p>
                     <FilterCategory
                         categories={props.categories} 
                         subcategories={props.subcategories} 
                         checkedSubcategories={props.checkedSubcategories}
                         setCheckedSubcategories={props.setCheckedSubcategories}
                     />
-                    <button onClick={clickEnterButton}>決定</button>
-                    <button onClick={clickCancelButton}>クローズ</button>
+                    <button className="btn btn-primary btn-block" onClick={clickEnterButton}>決定</button>
+                    <button className="btn btn-primary btn-block" onClick={clickCancelButton}>キャンセル</button>
                 </span>
             </span>
         </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\User;
 use App\Question;
 use App\Status;
@@ -40,8 +41,13 @@ class SearchController extends Controller
         $subcategories = json_decode($prm['subcategories'],true);
         $subcategoryIds = array_column( $subcategories, 'subcategory_id');
         $keyword = $prm['keyword'];
-        $keywordList = explode(" ", $keyword);
-
+        $splitKeyword = explode(" ", $keyword);
+        $keywordList = [];
+        foreach ($splitKeyword as $keyword) {
+            if ($keyword != " " && $keyword != ""){
+                $keywordList[] = $keyword;
+            }
+        }
         $questions = Question::with('status','subcategory.category','createuser','updateuser');
         if(count($statusIds)>0){
             $questions = $questions->whereIn('status_id', $statusIds);
@@ -49,19 +55,17 @@ class SearchController extends Controller
         if(count($subcategoryIds)>0){
             $questions = $questions->whereIn('subcategory_id', $subcategoryIds);
         }
-        if($keywordList[0] != ""){
-            
-            foreach ($keywordList as $keyword) {
-                //問題文でフィルタ
-                $questions = $questions
-                ->where('question_text', 'Like', '%'.$keyword.'%')
-                ->orWhereHas('answer', function($query) use($keyword) {
-                    return $query->where('answer_text', 'Like', '%'.$keyword.'%');
-                });
-            }
-        }
-
-        $questions = $questions->paginate(20);
+        $keywordFilterQuestionIds = DB::table('questions')
+            ->join('answers', 'questions.question_id', 'answers.question_id')
+            ->where(function($query) use($keywordList){
+                foreach ($keywordList as $keyword) {
+                    $query->where(DB::raw('CONCAT(questions.question_text, " ", answers.answer_text)'), 'like', '%'.$keyword.'%');
+                }
+            })
+            ->pluck('questions.question_id');
+        $questions = $questions
+            ->whereIn('question_id', $keywordFilterQuestionIds)
+            ->paginate(20);
         $questionIds = $questions->pluck('question_id');
         $choices = Choice::whereIn('question_id', $questionIds)->get();
         $answers = Answer::whereIn('question_id', $questionIds)->get();

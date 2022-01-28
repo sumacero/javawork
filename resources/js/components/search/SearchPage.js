@@ -75,6 +75,7 @@ function SearchPage(){
                 "keyword":keyword
             }
         });
+        console.log(response.data);
         let dbData = response.data.dbData;
         let questions = dbData.questions.data;
         let choices = dbData.choices;

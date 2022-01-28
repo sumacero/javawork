@@ -44,14 +44,14 @@ function FilterStatusModal(props){
         <div>
             <span id="overlay" style={overlay}>
                 <span id="modalContent" style={modalContent}>
-                    ステータスモーダルコンポーネント
+                    <p>ステータスを選択してください</p>
                     <FilterStatus
                         statuses={props.statuses} 
                         checkedStatuses={props.checkedStatuses}
                         setCheckedStatuses={props.setCheckedStatuses}
                     />
-                    <button onClick={clickEnterButton}>決定</button>
-                    <button onClick={clickCancelButton}>クローズ</button>
+                    <button className="btn btn-primary btn-block" onClick={clickEnterButton}>決定</button>
+                    <button className="btn btn-primary btn-block" onClick={clickCancelButton}>キャンセル</button>
                 </span>
             </span>
         </div>
