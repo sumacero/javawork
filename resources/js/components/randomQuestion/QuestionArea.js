@@ -5,40 +5,46 @@ import Question from '../question/Question';
 import Choices from '../question/Choices';
 import ChoicesForm from '../question/ChoicesForm';
 import Result from '../question/Result';
-import useSessionStrage from '../SessionStrage';
 
 function QuestionArea(props) {
-    const [ correctCount, setCorrectCount] =useState(0);
-    const [ wrongCount, setWrongCount] =useState(0);
-    const [ score, setScore] = useSessionStrage("score", null);
-
+    let correctCount = 0;
+    let wrongCount = 0;
+    let data = {
+        correctCount:correctCount,
+        wrongCount:wrongCount
+    }
     const clickAnswerButton = () =>{
         props.setAnsweredFlag(true);
-        if(props.answer.choice_id == props.selectedChoiceId){
+        if(props.question.answer.choice_id == props.selectedChoiceId){
             props.setCorrectFlag(true);
-            setCorrectCount(correctCount + 1);
+            data = {
+                correctCount:props.score.correctCount + 1,
+                wrongCount:props.score.wrongCount
+            }
         }else{
             props.setCorrectFlag(false);
-            setWrongCount(wrongCount + 1);
+            data = {
+                correctCount:props.score.correctCount,
+                wrongCount:props.score.wrongCount+1
+            }
         }
-        const data = {
-            correctCount:correctCount,
-            wrongCount:wrongCount
-        }
-        setScore(data);
+        props.setScore(data);
     }
     return (
         <div className="container">
-            <p className="text-right">正解:{correctCount}/不正解:{wrongCount}/正答率:{correctCount/(correctCount+wrongCount)*100 + "%"}</p>
+            <p className="text-right">
+                正答率:{Math.round(props.score.correctCount/(props.score.correctCount+props.score.wrongCount)*1000)/10 + "%"}
+                 ( 正解数:{props.score.correctCount} / 出題数:{props.score.correctCount+props.score.wrongCount} )
+            </p>
             <Question question={props.question}/>
-            <Choices choices={props.choices}/>
-            <ChoicesForm choices={props.choices} setSelectedChoiceId={props.setSelectedChoiceId} answeredFlag={props.answeredFlag}/>
+            <Choices choices={props.question.choices}/>
+            <ChoicesForm choices={props.question.choices} setSelectedChoiceId={props.setSelectedChoiceId} answeredFlag={props.answeredFlag}/>
             {props.selectedChoiceId > 0 ? 
                 <button className="btn btn-success btn-block mb-3" onClick={clickAnswerButton} disabled={props.answeredFlag}>回答</button> 
             : null}
-            <Result answer={props.answer} answeredFlag={props.answeredFlag} correctFlag={props.correctFlag} correctSymbol={props.correctSymbol}/> 
+            <Result answer={props.question.answer} answeredFlag={props.answeredFlag} correctFlag={props.correctFlag} correctSymbol={props.correctSymbol}/> 
             {props.answeredFlag ?
-                    <button className="btn btn-outline-dark btn-block mb-3" onClick={props.clickStartButton}>次の問題へ</button>
+                    <button className="btn btn-outline-dark btn-block mb-3" onClick={props.clickNextButton}>次の問題へ</button>
             : null}
         </div>
     );

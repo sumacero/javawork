@@ -12,10 +12,10 @@ class Question extends Model
 
     //hasMany設定
     public function choices(){
-        return $this->hasMany('App\Choice');
+        return $this->hasMany('App\Choice', 'question_id');
     }
     public function bookmarks(){
-        return $this->hasMany('App\Bookmark');
+        return $this->hasMany('App\Bookmark', 'question_id');
     }
 
     //hasOne設定

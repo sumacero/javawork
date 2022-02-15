@@ -9,6 +9,8 @@ function FilterStatusModal(props){
         background: "white",
         padding: "10px",
         borderRadius: "3px",
+        width: "90%",
+        height: "90%",
     };
     const overlay = {
         position: "fixed",
@@ -23,14 +25,14 @@ function FilterStatusModal(props){
         zIndex: "100000",
     }; 
     const clickCancelButton = ()=>{
-        props.setCheckedStatuses(props.beforeCheckedStatuses);
+        props.setCheckedStatusIds(props.beforeCheckedStatusIds);
         props.setOpenStatusFilter(false)
     }
     const clickEnterButton = ()=>{
-        props.setBeforeCheckedStatuses(props.checkedStatuses);
+        props.setBeforeCheckedStatusIds(props.checkedStatusIds);
         let text = "";
-        props.checkedStatuses.map((status)=>
-            text = text + status.status_name + " "
+        props.checkedStatusIds.map((statusId)=>
+            text = text + props.statuses.find(status => status.status_id == statusId).status_name + " "
         );
         if(text == ""){
             text = "条件なし";
@@ -43,12 +45,12 @@ function FilterStatusModal(props){
     return(
         <div>
             <span id="overlay" style={overlay}>
-                <span id="modalContent" style={modalContent}>
+                <span id="modalContent" style={modalContent} className="overflow-auto">
                     <p>ステータスを選択してください</p>
                     <FilterStatus
                         statuses={props.statuses} 
-                        checkedStatuses={props.checkedStatuses}
-                        setCheckedStatuses={props.setCheckedStatuses}
+                        checkedStatusIds={props.checkedStatusIds}
+                        setCheckedStatusIds={props.setCheckedStatusIds}
                     />
                     <button className="btn btn-primary btn-block" onClick={clickEnterButton}>決定</button>
                     <button className="btn btn-primary btn-block" onClick={clickCancelButton}>キャンセル</button>

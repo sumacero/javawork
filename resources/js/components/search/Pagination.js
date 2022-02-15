@@ -3,39 +3,19 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 
 function Pagination(props){
-    const getQuestions = async (move_page) => {
-        const response = await axios.get('get-questions', {
-            params:{
-                page:move_page
-            }
-        });
-        let questions = response.data.dbData.questions.data;
-        let paginationData = {
-            "total": response.data.dbData.questions.total,
-            "per_page": response.data.dbData.questions.per_page,
-            "current_page": response.data.dbData.questions.current_page,
-            "last_page": response.data.dbData.questions.last_page,
-            "next_page_url": response.data.dbData.questions.next_page_url,
-            "prev_page_url": response.data.dbData.questions.prev_page_url,
-            "from": response.data.dbData.questions.from,
-            "to": response.data.dbData.questions.to,
-        };
-        props.setQuestions(questions);
-        props.setPaginationData(JSON.parse(JSON.stringify(paginationData)));
-    }
     const clickPrevButton = (event) =>{
         if(props.paginationData.current_page == 1) return;
-        getQuestions(props.paginationData.current_page - 1);
+        props.filterQuestions(props.paginationData.current_page - 1);
     }
     const clickNextButton = (event) =>{
         if(props.paginationData.current_page == props.paginationData.last_page) return;
-        getQuestions(props.paginationData.current_page + 1);
+        props.filterQuestions(props.paginationData.current_page + 1);
     }
     const clickFirstButton = (event) =>{
-        getQuestions(1);
+        props.filterQuestions(1);
     }
     const clickLastButton = (event) =>{
-        getQuestions(props.paginationData.last_page);
+        props.filterQuestions(props.paginationData.last_page);
     }
     return(
         <div className="container">

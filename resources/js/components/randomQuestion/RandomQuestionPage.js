@@ -3,18 +3,22 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import PracticeMenu from './PracticeMenu';
 import QuestionArea from './QuestionArea';
+import useSessionStrage from '../SessionStrage';
 
 function RandomQuestionPage() {
     const [ started, setStarted ] = useState(false);
     const [ targetQuestionCount, setTargetQuestionCount] = useState(0);
     const [ question, setQuestion] = useState("");
-    const [ choices, setChoices ] = useState([]);
-    const [ answer, setAnswer] = useState("");
     const [ checkedSubcategories, setCheckedSubcategories] = useState([]);
     const [ answeredFlag, setAnsweredFlag ] = useState(false);
     const [ selectedChoiceId, setSelectedChoiceId] = useState(0);
     const [ correctFlag, setCorrectFlag] = useState(false);
     const [ correctSymbol, setCorrectSymbol] =useState("");
+    const data = {
+        correctCount:0,
+        wrongCount:0
+    }
+    const [ score, setScore] = useSessionStrage("score", data);
 
     const fetchTargetQuestionCount = async () => {
         const result = await axios.post('get-target-question-count', checkedSubcategories);
@@ -24,9 +28,8 @@ function RandomQuestionPage() {
     const fetchRandomQA = async () => {
         const result = await axios.post('random-get-qa', checkedSubcategories);
         const data = result.data.dbData;
-        setQuestion(JSON.parse(JSON.stringify(data.question)));
-        setChoices(JSON.parse(JSON.stringify(data.choices)));
-        setAnswer(JSON.parse(JSON.stringify(data.answer)));
+        console.log(data);
+        setQuestion(JSON.parse(JSON.stringify(data)));
         if(Array.isArray(data.choices)){
             const correctChoice = data.choices.find((choice)=>choice.choice_id === data.answer.choice_id);
             setCorrectSymbol(correctChoice.choice_symbol);
@@ -43,39 +46,39 @@ function RandomQuestionPage() {
 
     const clickStartButton = () => {
         setStarted(true);
-        setQuestion("");
-        setChoices([]);
-        setAnswer("");
+        fetchRandomQA();
+        setScore(data);
+    }
+    const clickNextButton = () => {
         setAnsweredFlag(false);
         setSelectedChoiceId(0);
         setCorrectFlag(false);
-        setCorrectSymbol("");
         fetchRandomQA();
     }
     return (
         <div className="container">
-            { started ?
+            { started && question !== "" &&
                 <QuestionArea
                     question={question}
-                    choices={choices}
-                    answer={answer}
                     setAnsweredFlag={setAnsweredFlag}
                     answeredFlag={answeredFlag}
                     setSelectedChoiceId={setSelectedChoiceId}
                     selectedChoiceId={selectedChoiceId}
                     clickStartButton={clickStartButton}
+                    clickNextButton={clickNextButton}
                     setCorrectFlag={setCorrectFlag}
                     correctFlag={correctFlag}
                     correctSymbol={correctSymbol}
+                    setScore={setScore}
+                    score={score}
                 />
-            :
+            }
+            { !started &&
                 <PracticeMenu
                     targetQuestionCount={targetQuestionCount}
                     setCheckedSubcategories={setCheckedSubcategories}
                     checkedSubcategories={checkedSubcategories}
                     setQuestion={setQuestion}
-                    setChoices={setChoices}
-                    setAnswer={setAnswer}
                     clickStartButton={clickStartButton}
                 />
             }

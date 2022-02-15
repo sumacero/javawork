@@ -9,6 +9,8 @@ function FilterCategoryModal(props){
         background: "white",
         padding: "10px",
         borderRadius: "3px",
+        width: "90%",
+        height: "90%",
     };
     const overlay = {
         position: "fixed",
@@ -22,16 +24,16 @@ function FilterCategoryModal(props){
         justifyContent: "center",
         zIndex: "100000",
     };
-    const [beforeCheckedSubcategories, setBeforeCheckedSubcategories] = useState([]);
+    const [beforeCheckedSubcategoryIds, setBeforeCheckedSubcategoryIds] = useState([]);
     const clickCancelButton = ()=>{
-        props.setCheckedSubcategories(props.beforeCheckedSubcategories);
+        props.setCheckedSubcategoryIds(props.beforeCheckedSubcategoryIds);
         props.setOpenCategoryFilter(false);
     }
     const clickEnterButton = ()=>{
-        props.setBeforeCheckedSubcategories(props.checkedSubcategories);
+        props.setBeforeCheckedSubcategoryIds(props.checkedSubcategoryIds);
         let text = "";
-        props.checkedSubcategories.map((subcategory)=>
-            text = text + subcategory.subcategory_name + " "
+        props.checkedSubcategoryIds.map((subcategoryId) =>
+            text = text + props.subcategories.find(subcategory => subcategory.subcategory_id == subcategoryId).subcategory_name + " "
         );
         if(text == ""){
             text = "条件なし";
@@ -42,13 +44,13 @@ function FilterCategoryModal(props){
     return(
         <div>
             <span id="overlay" style={overlay}>
-                <span id="modalContent" style={modalContent}>
+                <span id="modalContent" style={modalContent} className="overflow-auto">
                     <p>カテゴリを選択してください</p>
                     <FilterCategory
                         categories={props.categories} 
                         subcategories={props.subcategories} 
-                        checkedSubcategories={props.checkedSubcategories}
-                        setCheckedSubcategories={props.setCheckedSubcategories}
+                        checkedSubcategoryIds={props.checkedSubcategoryIds}
+                        setCheckedSubcategoryIds={props.setCheckedSubcategoryIds}
                     />
                     <button className="btn btn-primary btn-block" onClick={clickEnterButton}>決定</button>
                     <button className="btn btn-primary btn-block" onClick={clickCancelButton}>キャンセル</button>

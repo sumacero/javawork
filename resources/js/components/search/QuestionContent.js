@@ -63,7 +63,7 @@ function QuestionContent(props){
                     <div className="row border">
                         <div className="col border">
                             選択肢
-                            {props.choices.map((choice) => 
+                            {props.question.choices.map((choice) => 
                                 <div
                                     key={choice.choice_id}
                                     style={{
@@ -89,7 +89,7 @@ function QuestionContent(props){
                                     fontFamily: "sans-serif"
                                 }}
                             >
-                                {props.answer && props.answer.answer_text}
+                                {props.question.answer && props.question.answer.answer_text}
                             </div>
                         </div>
                     </div>

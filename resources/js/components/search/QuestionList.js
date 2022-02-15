@@ -20,8 +20,6 @@ function QuestionList(props) {
                     <QuestionContent
                         loginUser={props.loginUser}
                         question={question}
-                        choices={props.choices.filter((choice)=>choice.question_id === question.question_id )}
-                        answer={props.answers.find((answer)=>answer.question_id === question.question_id )}
                     />
                 </div>
             )}

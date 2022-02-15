@@ -43,7 +43,7 @@ Route::get('/get-login-user', 'GetUserController@getUser');
 Route::get('/get-users', 'SearchController@getUsers');
 Route::get('/get-statuses', 'SearchController@getStatuses');
 Route::get('/get-questions', 'SearchController@getQuestions');
-Route::post('/filter-questions', 'SearchController@filterQuestions');
+Route::get('/filter-questions', 'SearchController@filterQuestions');
 Route::post('/commit-question', 'ConfirmQuestionController@commitQuestion')->middleware('can:admin');
 Route::view('/test', 'test');
 

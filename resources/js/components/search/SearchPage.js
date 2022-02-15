@@ -10,15 +10,13 @@ function SearchPage(){
     const [ loginUser, setLoginUser] = useState();
     const [ openFilterWindow, setOpenFilterWindow] = useState(false);
     const [ statuses, setStatuses] = useState([]);
-    const [ checkedStatuses, setCheckedStatuses] = useState([]);
+    const [ checkedStatusIds, setCheckedStatusIds] = useState([]);
     const [ categories, setCategories] = useState([]);
     const [ subcategories, setSubcategories] = useState([]);
-    const [ checkedSubcategories, setCheckedSubcategories] = useState([]);
+    const [ checkedSubcategoryIds, setCheckedSubcategoryIds] = useState([]);
     const [ keyword, setKeyword] = useState("");
     const [ paginationData, setPaginationData] = useState([]);
     const [ questions, setQuestions] = useState([]);
-    const [ choices, setChoices] = useState([]);
-    const [ answers, setAnswers] = useState([]);
     useEffect(() => {
         getLoginUser();
         getStatuses();
@@ -48,51 +46,42 @@ function SearchPage(){
             }
         });
         let dbData = response.data.dbData;
-        let questions = dbData.questions.data;
-        let choices = dbData.choices;
-        let answers = dbData.answers;
+        let questions = dbData.data;
         let paginationData = {
-            "total": dbData.questions.total,
-            "per_page": dbData.questions.per_page,
-            "current_page": dbData.questions.current_page,
-            "last_page": dbData.questions.last_page,
-            "next_page_url": dbData.questions.next_page_url,
-            "prev_page_url": dbData.questions.prev_page_url,
-            "from": dbData.questions.from,
-            "to": dbData.questions.to,
+            "total": dbData.total,
+            "per_page": dbData.per_page,
+            "current_page": dbData.current_page,
+            "last_page": dbData.last_page,
+            "next_page_url": dbData.next_page_url,
+            "prev_page_url": dbData.prev_page_url,
+            "from": dbData.from,
+            "to": dbData.to,
         };
         setQuestions(questions);
-        setChoices(choices);
-        setAnswers(answers);
         setPaginationData(JSON.parse(JSON.stringify(paginationData)));
     }
-    const filterQuestions = async () => {
-        const response = await axios.post('filter-questions', {
+    const filterQuestions = async (page) => {
+        const response = await axios.get('filter-questions', {
             params:{
-                "page":1,
-                "statuses":JSON.stringify(checkedStatuses),
-                "subcategories":JSON.stringify(checkedSubcategories),
+                "page":page,
+                "status_ids":JSON.stringify(checkedStatusIds),
+                "subcategory_ids":JSON.stringify(checkedSubcategoryIds),
                 "keyword":keyword
             }
         });
-        console.log(response.data);
         let dbData = response.data.dbData;
-        let questions = dbData.questions.data;
-        let choices = dbData.choices;
-        let answers = dbData.answers;
+        let questions = dbData.data;
         let paginationData = {
-            "total": dbData.questions.total,
-            "per_page": dbData.questions.per_page,
-            "current_page": dbData.questions.current_page,
-            "last_page": dbData.questions.last_page,
-            "next_page_url": dbData.questions.next_page_url,
-            "prev_page_url": dbData.questions.prev_page_url,
-            "from": dbData.questions.from,
-            "to": dbData.questions.to,
+            "total": dbData.total,
+            "per_page": dbData.per_page,
+            "current_page": dbData.current_page,
+            "last_page": dbData.last_page,
+            "next_page_url": dbData.next_page_url,
+            "prev_page_url": dbData.prev_page_url,
+            "from": dbData.from,
+            "to": dbData.to,
         };
         setQuestions(questions);
-        setChoices(choices);
-        setAnswers(answers);
         setPaginationData(JSON.parse(JSON.stringify(paginationData)));
     }
     return(
@@ -100,18 +89,18 @@ function SearchPage(){
             <FilterMenuArea
                 setOpenFilterWindow={setOpenFilterWindow}
                 statuses={statuses}
-                checkedStatuses={checkedStatuses}
-                setCheckedStatuses={setCheckedStatuses}
+                checkedStatusIds={checkedStatusIds}
+                setCheckedStatusIds={setCheckedStatusIds}
                 categories={categories} 
                 subcategories={subcategories} 
-                checkedSubcategories={checkedSubcategories}
-                setCheckedSubcategories={setCheckedSubcategories}
+                checkedSubcategoryIds={checkedSubcategoryIds}
+                setCheckedSubcategoryIds={setCheckedSubcategoryIds}
                 keyword={keyword}
                 setKeyword={setKeyword}
                 filterQuestions={filterQuestions}
             />
-            <Pagination setPaginationData={setPaginationData} paginationData={paginationData} setQuestions={setQuestions}/>
-            <QuestionList loginUser={loginUser} questions={questions} choices={choices} answers={answers}/>
+            <Pagination setPaginationData={setPaginationData} paginationData={paginationData} setQuestions={setQuestions} filterQuestions={filterQuestions}/>
+            <QuestionList loginUser={loginUser} questions={questions}/>
         </div>
     )
 }

@@ -8,13 +8,13 @@ import FilterCategoryModal from './FilterCategoryModal';
 function FilterMenuArea(props){
     const [openStatusFilter, setOpenStatusFilter] = useState(false);
     const [targetStatusText, setTargetStatusText] = useState("条件なし");
-    const [beforeCheckedStatuses, setBeforeCheckedStatuses] = useState([]); 
+    const [beforeCheckedStatusIds, setBeforeCheckedStatusIds] = useState([]); 
     const [openCategoryFilter, setOpenCategoryFilter] = useState(false);
     const [targetCategoryText, setTargetCategoryText] = useState("条件なし");
-    const [beforeCheckedSubcategories, setBeforeCheckedSubcategories] = useState([]); 
+    const [beforeCheckedSubcategoryIds, setBeforeCheckedSubcategoryIds] = useState([]); 
 
     const clickFilterButton = ()=>{
-        props.filterQuestions();
+        props.filterQuestions(1);
     }
     const changeKeyword =(event)=>{
         props.setKeyword(event.target.value);
@@ -73,10 +73,10 @@ function FilterMenuArea(props){
                     setOpenStatusFilter={setOpenStatusFilter}
                     setTargetStatusText={setTargetStatusText}
                     statuses={props.statuses} 
-                    checkedStatuses={props.checkedStatuses}
-                    setCheckedStatuses={props.setCheckedStatuses}
-                    beforeCheckedStatuses={beforeCheckedStatuses}
-                    setBeforeCheckedStatuses={setBeforeCheckedStatuses}
+                    checkedStatusIds={props.checkedStatusIds}
+                    setCheckedStatusIds={props.setCheckedStatusIds}
+                    beforeCheckedStatusIds={beforeCheckedStatusIds}
+                    setBeforeCheckedStatusIds={setBeforeCheckedStatusIds}
                 />
             }
             {openCategoryFilter &&
@@ -85,10 +85,10 @@ function FilterMenuArea(props){
                     setTargetCategoryText={setTargetCategoryText}
                     categories={props.categories} 
                     subcategories={props.subcategories} 
-                    checkedSubcategories={props.checkedSubcategories}
-                    setCheckedSubcategories={props.setCheckedSubcategories}
-                    beforeCheckedSubcategories={beforeCheckedSubcategories}
-                    setBeforeCheckedSubcategories={setBeforeCheckedSubcategories}
+                    checkedSubcategoryIds={props.checkedSubcategoryIds}
+                    setCheckedSubcategoryIds={props.setCheckedSubcategoryIds}
+                    beforeCheckedSubcategoryIds={beforeCheckedSubcategoryIds}
+                    setBeforeCheckedSubcategoryIds={setBeforeCheckedSubcategoryIds}
                 />
             }
         </div>

@@ -8,28 +8,36 @@ function FilterCategory(props) {
     const categoryCheck = (event) =>{
         const category_id = event.target.value;
         if(event.target.checked){
+            let newSubcategories = targetSubcategories(category_id)
             //現在のチェック項目と新規追記項目を統合
-            let tmpArray = [...props.checkedSubcategories.concat(targetSubcategories(category_id))]
+            let tmpArray = [...props.checkedSubcategoryIds.concat(newSubcategories.map((obj) => obj.subcategory_id))]
             //項目の重複を配列から削除し、ソート
-            tmpArray = Array.from(new Set(tmpArray)).sort((a,b)=>a.subcategory_id - b.subcategory_id);
-            props.setCheckedSubcategories(tmpArray);
+            tmpArray = Array.from(new Set(tmpArray)).sort((a,b)=>a - b);
+            props.setCheckedSubcategoryIds(tmpArray);
         }else{
-            props.setCheckedSubcategories([...props.checkedSubcategories.filter((item) => item.category_id != category_id)]);
+            let checkedOffSubcategories = props.subcategories.filter((subcategory)=>subcategory.category_id == category_id)
+            let checkedOffSubcategoryIds = checkedOffSubcategories.map((obj)=>obj.subcategory_id)
+            props.setCheckedSubcategoryIds([...props.checkedSubcategoryIds.filter((item) => !checkedOffSubcategoryIds.includes(item))]);
         }
     }
     const toggleChecked = (target) => {
-        if (props.checkedSubcategories.includes(target)) {
+        if (props.checkedSubcategoryIds.includes(target)) {
             //チェック済みの場合は項目を削除
-            props.setCheckedSubcategories(
-                [...props.checkedSubcategories.filter((item) => item !== target)]
+            props.setCheckedSubcategoryIds(
+                [...props.checkedSubcategoryIds.filter((item) => item !== target)]
             );
         } else {
             //未チェックの場合は項目を追加しソート
-            props.setCheckedSubcategories(
-                [...props.checkedSubcategories.concat([target]).sort((a,b)=>a.subcategory_id - b.subcategory_id)]
+            props.setCheckedSubcategoryIds(
+                [...props.checkedSubcategoryIds.concat([target]).sort((a,b)=>a - b)]
             );
         }
     };
+
+    const defaultCheckedFlag = (category_id) => {
+        let defaultCheckedCount = targetSubcategories(category_id).filter(item => props.checkedSubcategoryIds.includes(item.subcategory_id)).length;
+        return defaultCheckedCount>0;
+    }
 
     return (
         <form>
@@ -41,7 +49,9 @@ function FilterCategory(props) {
                         type="checkbox"
                         name={"categories"}
                         value={item.category_id}
-                        defaultChecked={props.checkedSubcategories.some(subcategory => subcategory.category_id == item.category_id)}
+                        defaultChecked={
+                            defaultCheckedFlag(item.category_id)
+                        }
                         onClick={categoryCheck}
                     />
                     <label className="h5" htmlFor={"category" + item.category_id}>{item.category_name}</label>
@@ -51,8 +61,8 @@ function FilterCategory(props) {
                                 id={"subcategory" + item.subcategory_id}
                                 type="checkbox"
                                 name={"subcategories[" + item.subcategory_id +"]"}
-                                checked={props.checkedSubcategories.includes(item)}
-                                onChange={() => toggleChecked(item)}
+                                checked={props.checkedSubcategoryIds.includes(item.subcategory_id)}
+                                onChange={() => toggleChecked(item.subcategory_id)}
                             />
                             <label htmlFor={"subcategory" + item.subcategory_id}>{item.subcategory_name}</label>
                         </div>
