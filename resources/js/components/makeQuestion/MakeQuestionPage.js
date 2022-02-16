@@ -123,6 +123,7 @@ function MakeQuestionPage(){
         const func = async () => {
             try {
                 let res = await axios.post("upload-question", data);
+                console.log(res);
                 let question_id = res.data;
                 moveConfirmPage(question_id);
             } catch (error) {

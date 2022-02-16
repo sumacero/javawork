@@ -9,8 +9,6 @@ import Result from './Result';
 function QuestionPage() {
     const [ question_id, setQuestion_id] = useState(location.pathname.split('/').slice(-1)[0]);
     const [ question, setQuestion] = useState("");
-    //const [ choices, setChoices ] = useState([]);
-    //const [ answer, setAnswer] = useState("");
     const [ answeredFlag, setAnsweredFlag ] = useState(false);
     const [ selectedChoiceId, setSelectedChoiceId] = useState(0);
     const [ correctFlag, setCorrectFlag] = useState(false);

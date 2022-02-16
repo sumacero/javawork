@@ -167,9 +167,9 @@ function EditQuestionPage(){
             setSubcategories(JSON.parse(JSON.stringify(data1.subcategories)));
             const result2 = await axios.get('get-qa/' + questionId);
             const data2 = result2.data.dbData;
-            const question = JSON.parse(JSON.stringify(data2.question));
-            const choices = JSON.parse(JSON.stringify(data2.choices));
-            const answer = JSON.parse(JSON.stringify(data2.answer))
+            const question = JSON.parse(JSON.stringify(data2));
+            const choices = question.choices;
+            const answer = question.answer
             const subcategories = JSON.parse(JSON.stringify(data1.subcategories));
             const subcategory = subcategories.find(
                 (subcategory) => subcategory.subcategory_id === question.subcategory_id
