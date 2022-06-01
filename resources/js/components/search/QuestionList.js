@@ -5,14 +5,6 @@ import QuestionContent from './QuestionContent';
 
 
 function QuestionList(props) {
-    const clickQuestionButton = (question_id) => {
-        //編集画面へ移動する
-        location.href = "../question/" + question_id;
-    }
-    const clickEditButton = (question_id) => {
-        //編集画面へ移動する
-        location.href = "../edit-question?question_id=" + question_id;
-    }
     return (
         <div>
             {props.questions.map((question) => 
@@ -20,6 +12,12 @@ function QuestionList(props) {
                     <QuestionContent
                         loginUser={props.loginUser}
                         question={question}
+                        getMylistdirs={props.getMylistdirs}
+                        mylistdirs={props.mylistdirs}
+                        addMylist={props.addMylist}
+                        setActiveQuestionId={props.setActiveQuestionId}
+                        setSelectedMylistdirId={props.setSelectedMylistdirId}
+                        selectedMylistdirId={props.selectedMylistdirId}
                     />
                 </div>
             )}

@@ -45,6 +45,15 @@ Route::get('/get-statuses', 'SearchController@getStatuses');
 Route::get('/get-questions', 'SearchController@getQuestions');
 Route::get('/filter-questions', 'SearchController@filterQuestions');
 Route::post('/commit-question', 'ConfirmQuestionController@commitQuestion')->middleware('can:admin');
+Route::get('/mylist', 'MylistController@index')->middleware('can:service');
+Route::get('/get-mylistdirs-question', 'MylistController@getMylistdirsQuestion')->middleware('can:service');
+Route::get('/get-mylistdirs', 'MylistController@getMylistdirs')->middleware('can:service');
+Route::get('/get-mylists', 'MylistController@getMylists')->middleware('can:service');
+Route::post('/make-mylistdir', 'MylistController@makeMylistdir')->middleware('can:service');
+Route::post('/add-mylist', 'MylistController@addMylist')->middleware('can:service');
+Route::post('/delete-mylist', 'MylistController@deleteMylist')->middleware('can:service');
+Route::post('/delete-mylistdir', 'MylistController@deleteMylistdir')->middleware('can:service');
+Route::post('/change-mylistdir-name', 'MylistController@changeMylistdirName')->middleware('can:service');
 Route::view('/test', 'test');
 
 

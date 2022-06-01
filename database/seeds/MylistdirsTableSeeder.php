@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class BookmarksTableSeeder extends Seeder
+class MylistdirsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,9 +12,9 @@ class BookmarksTableSeeder extends Seeder
     public function run()
     {
         $param = [
-            'question_id' => '1',
             'user_id' => '1',
+            'mylistdir_name' => 'マイリスト1'
         ];
-        DB::table('bookmarks')->insert($param);
+        DB::table('mylistdirs')->insert($param);
     }
 }

@@ -14,9 +14,6 @@ class Question extends Model
     public function choices(){
         return $this->hasMany('App\Choice', 'question_id');
     }
-    public function bookmarks(){
-        return $this->hasMany('App\Bookmark', 'question_id');
-    }
 
     //hasOne設定
     Public function answer(){

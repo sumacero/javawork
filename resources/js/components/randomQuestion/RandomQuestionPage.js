@@ -12,6 +12,7 @@ function RandomQuestionPage() {
     const [ checkedSubcategories, setCheckedSubcategories] = useState([]);
     const [ answeredFlag, setAnsweredFlag ] = useState(false);
     const [ selectedChoiceId, setSelectedChoiceId] = useState(0);
+    const [ selectedChoiceSymbol, setSelectedChoiceSymbol] = useState("");
     const [ correctFlag, setCorrectFlag] = useState(false);
     const [ correctSymbol, setCorrectSymbol] =useState("");
     const data = {
@@ -64,6 +65,8 @@ function RandomQuestionPage() {
                     answeredFlag={answeredFlag}
                     setSelectedChoiceId={setSelectedChoiceId}
                     selectedChoiceId={selectedChoiceId}
+                    setSelectedChoiceSymbol={setSelectedChoiceSymbol}
+                    selectedChoiceSymbol={selectedChoiceSymbol}
                     clickStartButton={clickStartButton}
                     clickNextButton={clickNextButton}
                     setCorrectFlag={setCorrectFlag}

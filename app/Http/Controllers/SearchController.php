@@ -26,7 +26,6 @@ class SearchController extends Controller
 
     public function getQuestions(Request $request){
         $questions = Question::with('status','subcategory.category','createuser','updateuser','choices','answer');
-        $questionIds = $questions->pluck('question_id');
         $questions = $questions->paginate(5);
         return response()->json(['dbData' => $questions]);
     }

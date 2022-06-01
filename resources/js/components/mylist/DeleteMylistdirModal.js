@@ -1,16 +1,14 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import FilterCategory from './FilterCategory';
 
-
-function FilterCategoryModal(props){
+function DeleteMylistdirModal(props){
     const modalContent = {
         background: "white",
         padding: "10px",
         borderRadius: "3px",
         width: "90%",
-        height: "90%",
+        height: "50%",
     };
     const overlay = {
         position: "fixed",
@@ -24,6 +22,7 @@ function FilterCategoryModal(props){
         justifyContent: "center",
         zIndex: "100000",
     };
+    const [formError, setFormError] = useState("");
     useEffect(() => {
         document.addEventListener('click', closeModal)
         event.stopPropagation()
@@ -31,42 +30,26 @@ function FilterCategoryModal(props){
             document.removeEventListener('click',closeModal)
         }
     },[]);
-    const modalRef = useRef()
-    //const [beforeCheckedSubcategoryIds, setBeforeCheckedSubcategoryIds] = useState([]);
+    const modalRef = useRef();
     const closeModal = useCallback((event)=>{
         if(!modalRef.current.contains(event.target)) clickCancelButton();
     },[]);
     const clickCancelButton = ()=>{
-        props.setCheckedSubcategoryIds(props.beforeCheckedSubcategoryIds);
-        props.setOpenCategoryFilter(false);
+        props.setOpenDeleteMylistdirModal(false)
         document.removeEventListener('click',closeModal);
     }
     const clickEnterButton = ()=>{
-        props.setBeforeCheckedSubcategoryIds(props.checkedSubcategoryIds);
-        let text = "";
-        props.checkedSubcategoryIds.map((subcategoryId) =>
-            text = text + props.subcategories.find(subcategory => subcategory.subcategory_id == subcategoryId).subcategory_name + " "
-        );
-        if(text == ""){
-            text = "条件なし";
-        }
-        props.setTargetCategoryText(text);
-        props.setOpenCategoryFilter(false);
+        props.deleteMylistdir();
+        props.setOpenDeleteMylistdirModal(false)
         document.removeEventListener('click',closeModal);
     }
-    useEffect
     return(
         <div>
             <span id="overlay" style={overlay}>
                 <span id="modalContent" style={modalContent} className="overflow-auto" ref={modalRef}>
-                    <p>カテゴリを選択してください</p>
-                    <FilterCategory
-                        categories={props.categories} 
-                        subcategories={props.subcategories} 
-                        checkedSubcategoryIds={props.checkedSubcategoryIds}
-                        setCheckedSubcategoryIds={props.setCheckedSubcategoryIds}
-                    />
-                    <button className="btn btn-primary btn-block" onClick={clickEnterButton}>決定</button>
+                    <p>以下のマイリストを削除します。よろしいですか。</p>
+                    <div>マイリスト名：{props.selectedMylistdir.mylistdir_name}</div>
+                    <button className="btn btn-primary btn-block" onClick={clickEnterButton}>削除</button>
                     <button className="btn btn-primary btn-block" onClick={clickCancelButton}>キャンセル</button>
                 </span>
             </span>
@@ -74,4 +57,4 @@ function FilterCategoryModal(props){
     )
 }
 
-export default FilterCategoryModal;
+export default DeleteMylistdirModal;

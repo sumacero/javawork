@@ -11,6 +11,7 @@ function QuestionPage() {
     const [ question, setQuestion] = useState("");
     const [ answeredFlag, setAnsweredFlag ] = useState(false);
     const [ selectedChoiceId, setSelectedChoiceId] = useState(0);
+    const [ selectedChoiceSymbol, setSelectedChoiceSymbol] = useState("");
     const [ correctFlag, setCorrectFlag] = useState(false);
     const [ correctSymbol, setCorrectSymbol] =useState("");
     useEffect(() => {
@@ -26,6 +27,8 @@ function QuestionPage() {
     const clickAnswerButton = () =>{
         setAnsweredFlag(true);
         setCorrectFlag(question.answer.choice_id == selectedChoiceId)
+        const selectedChoiceSymbol = question.choices.find((choice) => choice.choice_id == selectedChoiceId).choice_symbol;
+        setSelectedChoiceSymbol(selectedChoiceSymbol);
     }
     return (
         <div className="container">
@@ -33,11 +36,21 @@ function QuestionPage() {
             <span>
                 <Question question={question} />
                 <Choices choices={question.choices}/>
-                <ChoicesForm choices={question.choices} setSelectedChoiceId={setSelectedChoiceId} answeredFlag={answeredFlag}/>
+                <ChoicesForm
+                    choices={question.choices}
+                    setSelectedChoiceId={setSelectedChoiceId}
+                    answeredFlag={answeredFlag}
+                />
                 {selectedChoiceId > 0 ? 
-                    <button type="button" className="btn btn-dark btn-block mb-3" onClick={clickAnswerButton} disabled={answeredFlag}>回答</button> 
+                    <button type="button" className="btn btn-outline-dark btn-block mb-3" onClick={clickAnswerButton} disabled={answeredFlag}>回答</button> 
                 : null}
-                <Result answer={question.answer} answeredFlag={answeredFlag} correctFlag={correctFlag} correctSymbol={correctSymbol}/>
+                <Result
+                    answer={question.answer}
+                    answeredFlag={answeredFlag}
+                    correctFlag={correctFlag}
+                    correctSymbol={correctSymbol}
+                    selectedChoiceSymbol={selectedChoiceSymbol}
+                />
             </span>
             }
         </div>

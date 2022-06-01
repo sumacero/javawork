@@ -15,7 +15,8 @@
 }
 
 .popup-enter-active, .popup-exit-active {
-	position:absolute;
+	position:fixed;
+    bottom:0;
     left: 0;
     right: 0;
     margin: auto;
@@ -29,10 +30,9 @@
 
 .success-enter {
 	position:absolute;
-    top:-15px;
-    left: 0;
+    top:0;
+    left: 95%;
     right: 0;
-    margin: auto;
     border: solid 5px red;
 	width: 100px;/*幅*/
 	height: 100px;/*高さ*/
@@ -42,10 +42,9 @@
 
 .success-enter-done {
 	position:absolute;
-    top:-15px;
-    left: 0;
+    top: 0;
+    left: 95%;
     right: 0;
-    margin: auto;
     transition: all  1s ease;
     border: solid 5px red;
 	width: 100px;/*幅*/
@@ -56,29 +55,27 @@
 
 .wrong-enter {
     position:absolute;
-    top:-30px;
-    left: 0;
+    /* top:-30px; */
+    top:0px;
+    left: 100%;
     right: 0;
-    margin: auto;
     width: 5px; /* 縦棒の幅 */
     height: 120px; /* 縦棒の長さ */
     background: blue; /* 縦棒の色 */
     transform: rotate(-45deg); /* 角度 */
-    margin: auto;
     opacity: 0
 }
 .wrong-enter-done {
     position:absolute;
-    top:-30px;
-    left: 0;
+    /* top:-30px; */
+    top:0px;
+    left: 100%;
     right: 0;
-    margin: auto;
     transition: all  1s ease;
     width: 5px; /* 縦棒の幅 */
     height: 120px; /* 縦棒の長さ */
     background: blue; /* 縦棒の色 */
     transform: rotate(-45deg); /* 角度 */
-    margin: auto;
     opacity: 1
 }
 
@@ -87,7 +84,6 @@
     top:0px;
     left: 0;
     right: 0;
-    margin: auto;
 	content: "";
     transition: all  1s ease;
     width: 5px; /* 縦棒の幅 */

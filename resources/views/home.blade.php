@@ -40,6 +40,19 @@
             </div>
         </div>
         @endcan
+        @can('service') 
+        <div class="col-md-4">        
+            <div class="card">
+                <div class="card-header">問題マイリスト設定</div>
+                <a href="{{ url('/mylist') }}">
+                    <img class="card-img-top" src="images/マイリスト.jpg" alt="DB検索画像" height="300">
+                </a>
+                <div class="card-body">
+                    問題のマイリストを設定します。
+                </div>
+            </div>
+        </div>
+        @endcan
     </div>
 </div>
 @endsection

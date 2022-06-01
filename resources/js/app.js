@@ -23,6 +23,7 @@ require('./components/question/QuestionPage');
 require('./components/makeQuestion/MakeQuestionPage');
 require('./components/confirmQuestion/ConfirmQuestionPage');
 require('./components/editQuestion/EditQuestionPage');
+require('./components/mylist/MylistPage');
 require('./components/testdir/Animation');
 
 
