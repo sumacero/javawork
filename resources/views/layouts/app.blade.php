@@ -26,7 +26,7 @@
     <link rel="shortcut icon" type="image/x-icon"  href="{{ asset('/favicon.ico') }}">
 
 </head>
-<body>
+<body class="bg-white">
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">

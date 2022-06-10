@@ -62,8 +62,8 @@ function ConfirmQuestionPage() {
                 </div>
                 <div>
                     <p>以上の内容で登録します。よろしいですか？</p>
-                    <button type="button" className="btn btn-primary" onClick={clickCommitButton}>確定</button>
-                    <button type="button" className="btn btn-primary" onClick={clickEditButton}>修正(編集画面へ戻る)</button>
+                    <button type="button" className="btn btn-primary btn-block mb-3" onClick={clickCommitButton}>確定</button>
+                    <button type="button" className="btn btn-primary btn-block mb-3" onClick={clickEditButton}>修正(編集画面へ戻る)</button>
                 </div>
             </span>
             }

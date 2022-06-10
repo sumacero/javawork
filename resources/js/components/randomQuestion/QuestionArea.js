@@ -115,7 +115,7 @@ function QuestionArea(props) {
             : null}
             {(loginUser && loginUser.authority_id <= "2") &&
                 <div className="text-right">
-                    <button className="btn btn-outline-success" onClick={()=>clickMylistButton(props.question.question_id)}>
+                    <button className="btn btn-success" onClick={()=>clickMylistButton(props.question.question_id)}>
                         この問題をマイリストに登録
                     </button>
                 </div>
