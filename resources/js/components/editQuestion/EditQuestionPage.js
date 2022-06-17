@@ -181,8 +181,15 @@ function EditQuestionPage(){
             );
             setTargetSubcategories(targetSubcategories);
             setValue("question_text", question.question_text);
-            for(let i = 0; i<choices.length; i++){
-                setValue("choice_text." + choices[i].choice_symbol, choices[i].choice_text);
+            let tmpSymbol = "ABCDEFGH";
+            let tmpChoices = getValues("choice_text");
+            for(let i = 0; i<tmpSymbol.length; i++){
+                if(i < choices.length){
+                    setValue("choice_text." + choices[i].choice_symbol, choices[i].choice_text);
+                }else{
+                    delete tmpChoices[tmpSymbol[i]];
+                    setValue("choice_text", tmpChoices);
+                }
             }
             correctChoice && setValue("correct_choice_symbol", correctChoice.choice_symbol);
             setValue("answer_text", answer.answer_text);
