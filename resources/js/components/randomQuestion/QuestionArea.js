@@ -98,6 +98,7 @@ function QuestionArea(props) {
             <ChoicesForm
                 choices={props.question.choices} 
                 setSelectedChoiceId={props.setSelectedChoiceId}
+                selectedChoiceId={props.selectedChoiceId}
                 answeredFlag={props.answeredFlag}
             />
             {props.selectedChoiceId > 0 ? 

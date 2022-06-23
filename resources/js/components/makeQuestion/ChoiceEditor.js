@@ -54,6 +54,7 @@ function ChoiceEditor(props) {
                             type="button"
                             className={`btn w-100 h-100 ${props.choiceSymbol == props.getValues("correct_choice_symbol") ? 'btn btn-danger':'btn btn-primary'} `} 
                             onClick={correctAnswerClick} 
+                            tabIndex="-1"
                         >
                             {props.choiceSymbol}
                         </button>
@@ -73,6 +74,7 @@ function ChoiceEditor(props) {
                             onClick={(event) => {
                                 deleteClick(event);
                             }}
+                            tabIndex="-1"
                         >
                             削除
                         </button>

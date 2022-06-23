@@ -22,7 +22,12 @@ function ChoicesEditor(props) {
             <div className="col border">
                 <div className="row border">
                     <div className="col text-right">
-                        <button type="button" className="btn btn-success" onClick={addClick} disabled={fullChoices}>
+                        <button 
+                            type="button"
+                            className="btn btn-success"
+                            onClick={addClick}
+                            disabled={fullChoices}
+                            tabIndex="-1">
                             選択肢を追加
                         </button>
                     </div>
@@ -46,7 +51,7 @@ function ChoicesEditor(props) {
                 <input 
                     type="hidden" 
                     readOnly="readonly" 
-                    value={props.getValues("correct_choice_symbol")} 
+                    value={props.getValues("correct_choice_symbol")}
                     {...correctChoiceSymbolRegister}
                 />
                 {props.errors.correct_choice_symbol && <span className="text-danger">{props.errors.correct_choice_symbol.message}</span>}

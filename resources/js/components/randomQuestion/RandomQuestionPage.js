@@ -53,6 +53,7 @@ function RandomQuestionPage() {
     const clickNextButton = () => {
         setAnsweredFlag(false);
         setSelectedChoiceId(0);
+        setSelectedChoiceSymbol("");
         setCorrectFlag(false);
         fetchRandomQA();
     }

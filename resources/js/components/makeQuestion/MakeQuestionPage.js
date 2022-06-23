@@ -215,8 +215,19 @@ function MakeQuestionPage(){
                             </div>
                         </div>
                         <div className="row border">
-                            <input type="submit" className="btn btn-outline-dark" value="確認画面へ"></input>
-                            <button type="button" onClick={clickSaveButton} className="btn btn-outline-dark">編集データの保存</button>
+                            <input 
+                                type="submit"
+                                className="btn btn-outline-dark"
+                                value="確認画面へ"
+                                tabIndex="-1">
+                            </input>
+                            <button
+                                type="button"
+                                onClick={clickSaveButton}
+                                className="btn btn-outline-dark"
+                                tabIndex="-1">
+                                編集データの保存
+                            </button>
                         </div>
                     </form>
                 </div>
