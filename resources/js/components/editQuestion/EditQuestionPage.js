@@ -5,6 +5,7 @@ import ChoicesEditor from '../makeQuestion/ChoicesEditor';
 import ExplanationEditor from '../makeQuestion/ExplanationEditor';
 import CategorySelector from '../makeQuestion/CategorySelector';
 import SubcategorySelector from '../makeQuestion/SubcategorySelector';
+import DeleteQuestionModal from './DeleteQuestionModal';
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
@@ -32,6 +33,7 @@ function EditQuestionPage(){
     const [ targetSubcategories, setTargetSubcategories] = useState([]);
     const [ popupFlag, setPopupFlag] = useState(false);
     const [ popupMsg, setPopupMsg] = useState("");
+    const [openDeleteQuestionModal, setOpenDeleteQuestionModal] = useState(false);
     function validateChoiceText1(choice_text){
         //フォームが存在し、かつ値が空文字の場合はエラー
         return !(typeof choice_text !== "undefined" && choice_text == "");
@@ -109,7 +111,7 @@ function EditQuestionPage(){
             try {
                 let res = await axios.post("save-question", data);
                 setQuestionId(res.data);
-                setPopupMsg("編集データを保存しました");
+                setPopupMsg("編集データを保存しました。ステータスが編集中になりました。");
                 setPopupFlag(!popupFlag);
             } catch (error) {
                 console.log(error.response.data);
@@ -119,8 +121,10 @@ function EditQuestionPage(){
         };
         func();
     }
-
     const clickDeleteButton = () => {
+        setOpenDeleteQuestionModal(true);
+    }
+    const deleteQuestion = () => {
         let data = getValues();
         data.question_id = questionId;
         const func = async () => {
@@ -134,7 +138,6 @@ function EditQuestionPage(){
         };
         func();
     }
-
     const onSubmit = (data) => {
         data.question_id = questionId; //送信データにquestion_idを追加
         const func = async () => {
@@ -283,6 +286,12 @@ function EditQuestionPage(){
                     </form>
                 </div>
             </div>
+            {openDeleteQuestionModal &&
+                <DeleteQuestionModal
+                    setOpenDeleteQuestionModal={setOpenDeleteQuestionModal}
+                    deleteQuestion={deleteQuestion}
+                />
+            }
             <CSSTransition in={popupFlag} classNames="popup" timeout={1000}>
                 <div>{popupMsg}</div>
             </CSSTransition>

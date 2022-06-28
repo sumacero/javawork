@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 
-function MakeMylistdirModal(props){
+function DeleteQuestionModal(props){
     const modalContent = {
         background: "white",
         padding: "10px",
@@ -22,7 +22,6 @@ function MakeMylistdirModal(props){
         justifyContent: "center",
         zIndex: "100000",
     };
-    const [mylistdirNameText, setMylistdirNameText] = useState("");
     const [formError, setFormError] = useState("");
     useEffect(() => {
         document.addEventListener('click', closeModal)
@@ -36,37 +35,20 @@ function MakeMylistdirModal(props){
         if(!modalRef.current.contains(event.target)) clickCancelButton();
     },[]);
     const clickCancelButton = ()=>{
-        props.setOpenMakeMylistdirModal(false);
+        props.setOpenDeleteQuestionModal(false)
         document.removeEventListener('click',closeModal);
     }
     const clickEnterButton = ()=>{
-        props.makeMylistdir(mylistdirNameText);
-        props.setOpenMakeMylistdirModal(false);
+        props.deleteQuestion();
+        props.setOpenDeleteQuestionModal(false)
         document.removeEventListener('click',closeModal);
-    }
-    const changeMylistdirNameText =(event)=>{
-        const text = event.target.value;
-        let mylistdirNames = []
-        if(props.mylistdirs.length>0){
-            mylistdirNames = props.mylistdirs.map((mylistdir) => mylistdir.mylistdir_name);
-        }
-        if (text.length>50){
-            setFormError("50文字以内で入力してください。");
-        }else if (mylistdirNames.includes(text)){
-            setFormError("既にこのマイリスト名は使われています。");
-        }else{
-            setFormError("");
-            setMylistdirNameText(event.target.value);
-        }
     }
     return(
         <div>
             <span id="overlay" style={overlay}>
                 <span id="modalContent" style={modalContent} className="overflow-auto" ref={modalRef}>
-                    <p>マイリストを新規作成します。マイリスト名を入力してください。</p>
-                    <input type="text" onChange={changeMylistdirNameText}></input>
-                    {formError && <span className="text-danger">{formError}</span>}
-                    <button className="btn btn-primary btn-block" onClick={clickEnterButton} disabled={formError || !mylistdirNameText}>作成</button>
+                    <p>編集中の問題を削除します。よろしいですか。</p>
+                    <button className="btn btn-primary btn-block" onClick={clickEnterButton}>削除</button>
                     <button className="btn btn-primary btn-block" onClick={clickCancelButton}>キャンセル</button>
                 </span>
             </span>
@@ -74,4 +56,4 @@ function MakeMylistdirModal(props){
     )
 }
 
-export default MakeMylistdirModal;
+export default DeleteQuestionModal;

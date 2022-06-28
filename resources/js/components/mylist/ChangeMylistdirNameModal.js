@@ -60,7 +60,7 @@ function ChangeMylistdirNameModal(props){
         <div>
             <span id="overlay" style={overlay}>
                 <span id="modalContent" style={modalContent} className="overflow-auto" ref={modalRef}>
-                    <p>マイリスト名を入力してください。</p>
+                    <p>マイリスト名を変更します。新規名称を入力してください。</p>
                     <div>現在のマイリスト名：{props.selectedMylistdir.mylistdir_name}</div>
                     <input type="text" defaultValue={props.selectedMylistdir.mylistdir_name} onChange={changeMylistdirNameText} style={{width:"100%"}}></input>
                     {formError && <span className="text-danger">{formError}</span>}
