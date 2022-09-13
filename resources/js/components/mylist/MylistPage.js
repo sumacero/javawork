@@ -33,6 +33,8 @@ function MylistPage() {
                 setSelectedMylistdir(mylistdirs[0]);
                 getMylists(mylistdirs[0].mylistdir_id, 1);
             }
+        }else{
+            setMylistdirs("");
         }
     };
     useEffect(() => {
@@ -117,7 +119,7 @@ function MylistPage() {
             setPopupFlag(!popupFlag);
             getMylistDirs();
             setSelectedMylistdir(makedMylistdir);
-            getMylists(makedMylistdir.mylistdir_id, 1);
+            //getMylists(makedMylistdir.mylistdir_id, 1);
         } catch(error){
             console.log(error.response.data);
             setPopupMsg("DBエラー：マイリストの作成に失敗しました。");
