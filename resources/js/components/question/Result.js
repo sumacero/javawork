@@ -3,11 +3,6 @@ import ReactDOM from 'react-dom';
 import { CSSTransition } from 'react-transition-group';
 
 function Result(props) {
-    useEffect(() => {
-        const element = document.documentElement;
-        const bottom = element.scrollHeight - element.clientHeight;
-        window.scroll(0, bottom);
-    },[props.answeredFlag]);
     //半角コードを半角に置換、改行コードを<br/>に置換
     const convertText = (arg)=> {
         let text = "";

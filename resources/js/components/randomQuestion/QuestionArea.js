@@ -21,9 +21,9 @@ function QuestionArea(props) {
     useEffect(() => {
         if (loginUser && loginUser.authority_id <= "2") {
             getMylistdirs();
-            console.log("登録済みユーザー");
+            //console.log("登録済みユーザー");
         }else{
-            console.log("ゲスト");
+            //console.log("ゲスト");
         }
     },[loginUser]);
 
@@ -111,9 +111,9 @@ function QuestionArea(props) {
                 correctSymbol={props.correctSymbol}
                 selectedChoiceSymbol={props.selectedChoiceSymbol}
             />
-            {props.answeredFlag ?
+            {props.answeredFlag &&
                     <button className="btn btn-outline-dark btn-block mb-3" onClick={props.clickNextButton}>次の問題へ</button>
-            : null}
+            }
             {(loginUser && loginUser.authority_id <= "2") &&
                 <div className="text-right">
                     <button className="btn btn-success" onClick={()=>clickMylistButton(props.question.question_id)}>

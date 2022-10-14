@@ -29,7 +29,6 @@ function RandomQuestionPage() {
     const fetchRandomQA = async () => {
         const result = await axios.post('random-get-qa', checkedSubcategories);
         const data = result.data.dbData;
-        console.log(data);
         setQuestion(JSON.parse(JSON.stringify(data)));
         if(Array.isArray(data.choices)){
             const correctChoice = data.choices.find((choice)=>choice.choice_id === data.answer.choice_id);
@@ -56,6 +55,7 @@ function RandomQuestionPage() {
         setSelectedChoiceSymbol("");
         setCorrectFlag(false);
         fetchRandomQA();
+        window.scrollTo(0, 0);
     }
     return (
         <div className="container">
@@ -86,6 +86,9 @@ function RandomQuestionPage() {
                     clickStartButton={clickStartButton}
                 />
             }
+            <button className="btn btn-success" onClick={()=>console.log(window.pageYOffset)}>
+                現在のカーソル位置
+            </button>
         </div>
     );
 }
