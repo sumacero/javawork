@@ -149,6 +149,11 @@ function MylistPage() {
     }
     return (
         <div className="container">
+            <div
+                className={mylistdirs.length==20 ? "text-danger" : ""}
+            >
+                マイリスト数：{mylistdirs.length} / 20
+            </div>
             {mylistdirs !== "" &&
                 <div className="row border mb-2">
                     <div className="col border">
@@ -169,7 +174,13 @@ function MylistPage() {
                     </div>
                 </div>
             }
-            <button className="btn btn-primary btn-block" onClick={clickMakeMylistdirButton}>マイリストの作成</button>
+             <button
+                className="btn btn-primary btn-block"
+                onClick={clickMakeMylistdirButton}
+                disabled={mylistdirs.length >= 20}
+            >
+                マイリストの作成
+            </button>
             {openMakeMylistdirModal &&
                 <MakeMylistdirModal
                     setOpenMakeMylistdirModal={setOpenMakeMylistdirModal}

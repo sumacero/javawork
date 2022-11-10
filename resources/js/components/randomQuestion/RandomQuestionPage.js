@@ -86,9 +86,6 @@ function RandomQuestionPage() {
                     clickStartButton={clickStartButton}
                 />
             }
-            <button className="btn btn-success" onClick={()=>console.log(window.pageYOffset)}>
-                現在のカーソル位置
-            </button>
         </div>
     );
 }

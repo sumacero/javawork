@@ -34,6 +34,11 @@ class MylistController extends Controller
     }
     public function makeMylistdir(Request $request){
         $loginUserId = Auth::user()->id;
+        $mylistdirsCount = Mylistdir::with('mylists','mylists.question')->where('user_id', $loginUserId)->count();
+        if($mylistdirsCount >= 20){
+            $error_message = "既に20件のマイリストフォルダが登録されているためこれ以上登録できません";
+            return response()->json(['error' => $error_message], 500);
+        } 
         $mylistdirName = $request->params["mylistdir_name"];
         DB::beginTransaction();
         $mylistdir = new Mylistdir;

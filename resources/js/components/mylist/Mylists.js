@@ -20,7 +20,7 @@ function Mylists(props){
                     <button className="btn btn-primary btn-block" onClick={clickDeleteMylistdirButton}>マイリストの削除</button>
                 </div>
             </div>
-            <div>登録問題数:{props.paginationData.total}</div>
+            <div>登録問題数：{props.paginationData.total}</div>
             {props.paginationData.total>0 ?
                 <div>
                     <Pagination setPaginationData={props.setPaginationData} paginationData={props.paginationData} movePage={props.movePage}/>
