@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 
 function ChoiceRadio(props) {
+    const [active, setActive] = useState(false);
     const doChangeAnswer = (event) => {
         props.setSelectedChoiceId(event.target.value)
     }

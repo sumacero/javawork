@@ -50,6 +50,7 @@ function RandomQuestionPage() {
         setScore(data);
     }
     const clickNextButton = () => {
+        setQuestion("");
         setAnsweredFlag(false);
         setSelectedChoiceId(0);
         setSelectedChoiceSymbol("");
