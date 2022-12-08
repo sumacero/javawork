@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSubcategoriesTable extends Migration
+class CreateCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,16 @@ class CreateSubcategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('subcategories', function (Blueprint $table) {
+        Schema::create('categories', function (Blueprint $table) {
             // 列の定義
-            $table->bigIncrements('subcategory_id');
-            $table->bigInteger('category_id')->unsigned();
-            $table->string('subcategory_name');
+            $table->bigIncrements('category_id');
+            $table->bigInteger('workbook_id')->unsigned();
+            $table->string('category_name');
             $table->timestamps();
             // 外部キー設定
-            $table->foreign('category_id')->references('category_id')->on('categories');
+            $table->foreign('workbook_id')->references('workbook_id')->on('workbooks');
             // 複合列のユニーク設定
-            $table->unique(['category_id','subcategory_name']);
+            $table->unique(['workbook_id','category_name']);
         });
     }
 
@@ -33,6 +33,6 @@ class CreateSubcategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('subcategories');
+        Schema::dropIfExists('categories');
     }
 }

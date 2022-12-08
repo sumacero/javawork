@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class MylistdirsTableSeeder extends Seeder
+class AnswerLogsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,10 +13,10 @@ class MylistdirsTableSeeder extends Seeder
     {
         $param = [
             'user_id' => '1',
-            'mylistdir_name' => 'マイリスト1',
-            // 0:false, 1:true
-            'is_open' => '1'
+            'question_id' => '1',
+            'answer_count' => '0',
+            'correct_count' => '0',
         ];
-        DB::table('mylistdirs')->insert($param);
+        DB::table('answer_logs')->insert($param);
     }
 }

@@ -18,6 +18,7 @@ class CreateMylistdirsTable extends Migration
             $table->bigIncrements('mylistdir_id');
             $table->bigInteger('user_id')->unsigned();
             $table->string('mylistdir_name');
+            $table->boolean('is_open');
             $table->timestamps();
             // 外部キー設定
             $table->foreign('user_id')->references('id')->on('users');

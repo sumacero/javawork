@@ -18,16 +18,21 @@ class CreateQuestionsTable extends Migration
             $table->bigIncrements('question_id');
             $table->biginteger('create_user_id')->unsigned();
             $table->biginteger('update_user_id')->unsigned();
-            $table->biginteger('status_id')->unsigned(
-)->nullable();
-            $table->biginteger('subcategory_id')->unsigned()->nullable();
+            $table->biginteger('status_id')->unsigned();
+            $table->biginteger('category_id')->unsigned()->nullable();
+            $table->biginteger('question_number')->unsigned()->nullable();
             $table->text('question_text');
+            $table->string('question_image_path');
+            $table->text('answer_text');
+            $table->string('answer_image_path');
             $table->timestamps();
             // 外部キー設定
             $table->foreign('create_user_id')->references('id')->on('users');
             $table->foreign('update_user_id')->references('id')->on('users');
             $table->foreign('status_id')->references('status_id')->on('statuses');
-            $table->foreign('subcategory_id')->references('subcategory_id')->on('subcategories');
+            $table->foreign('category_id')->references('category_id')->on('categories');
+            // 複合列のユニーク設定
+            $table->unique(['category_id','question_number']);
         });
     }
 

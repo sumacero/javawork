@@ -15,8 +15,12 @@ class QuestionsTableSeeder extends Seeder
             'create_user_id' => '1',
             'update_user_id' => '1',
             'status_id' => '1',
-            'subcategory_id' => '13',
-            'question_text' => '"Oracle Certified Java Programmer, Silver SE 11 認定資格"について最も正しいものはどれですか。'
+            'category_id' => '1',
+            'question_number' => '1',
+            'question_text' => 'パッケージに関する説明として、正しいものを選びなさい。(3つ選択)',
+            'question_image_path' => '',
+            'answer_text' => '解説文・・・',
+            'answer_image_path' => '',
         ];
         DB::table('questions')->insert($param);
     }
