@@ -22,7 +22,7 @@ class MylistController extends Controller
     }
     public function getMylists(Request $request){
         $mylistdirId = $request["mylistdir_id"];     
-        $mylists = Mylist::with('question.status','question.subcategory.category','question.choices','question.answer')
+        $mylists = Mylist::with('question.status','question.category.workbook','question.choices')
             ->where('mylistdir_id', $mylistdirId);
         $mylists = $mylists->paginate(3);
         return response()->json(['dbData' => $mylists]);

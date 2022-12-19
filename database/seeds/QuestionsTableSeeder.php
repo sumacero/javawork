@@ -17,10 +17,6 @@ class QuestionsTableSeeder extends Seeder
             'status_id' => '1',
             'category_id' => '1',
             'question_number' => '1',
-            'question_text' => 'パッケージに関する説明として、正しいものを選びなさい。(3つ選択)',
-            'question_image_path' => '',
-            'answer_text' => '解説文・・・',
-            'answer_image_path' => '',
         ];
         DB::table('questions')->insert($param);
     }

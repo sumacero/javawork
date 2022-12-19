@@ -65,6 +65,17 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
         ],
 
+        'sftp' => [
+            'driver' => 'sftp',
+            'host' => '192.168.56.100',
+            'username' => 'sumacero',
+            'password' => 'sumacero1223',
+            // 'privateKey' => '（プライベートキーへのパス）',
+            'port' => 22,
+            'root' => '/home/sumacero/share/javawork',
+            'timeout' => 30,
+        ],
+
     ],
 
 ];

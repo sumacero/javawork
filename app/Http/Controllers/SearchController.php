@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\User;
 use App\Question;
+use App\Image;
 use App\Status;
 use App\Choice;
-use App\Answer;
 
 class SearchController extends Controller
 {
@@ -25,8 +25,19 @@ class SearchController extends Controller
     }
 
     public function getQuestions(Request $request){
-        $questions = Question::with('status','subcategory.category','createuser','updateuser','choices','answer');
-        $questions = $questions->paginate(5);
+        $questions = Question::with('status','category.workbook','createuser','updateuser','choices','images')->paginate(5);
+        // image_fileプロパティを追加
+        foreach($questions as &$question){
+            $questionId = $question["question_id"];
+            foreach ($question["images"] as &$image) {
+                $imagePath = $image["image_path"];
+                $imageFile = \Storage::disk('sftp')->get($imagePath);
+                $imageFile = base64_encode($imageFile);
+                $image["image_file"] = $imageFile;
+            }
+            unset($image);
+        }
+        unset($question);
         return response()->json(['dbData' => $questions]);
     }
 
@@ -35,7 +46,7 @@ class SearchController extends Controller
         //リクエストデータの読み取り
         //------------------------------------------------------------------
         $statudIds = json_decode($request->input('status_ids'),true);
-        $subcategoryIds = json_decode($request->input('subcategory_ids'),true);
+        $categoryIds = json_decode($request->input('category_ids'),true);
         $keyword = $request->input('keyword');
         $splitKeyword = explode(" ", $keyword);
         $keywordList = [];
@@ -44,19 +55,18 @@ class SearchController extends Controller
                 $keywordList[] = $keyword;
             }
         }
-        $questions = Question::with('status','subcategory.category','createuser','updateuser','choices','answer');
+        $questions = Question::with('status','category.workbook','createuser','updateuser','choices');
         if(count($statudIds)>0){
             $questions = $questions->whereIn('status_id', $statudIds);
         }
-        if(count($subcategoryIds)>0){
-            $questions = $questions->whereIn('subcategory_id', $subcategoryIds);
+        if(count($categoryIds)>0){
+            $questions = $questions->whereIn('category_id', $categoryIds);
         }
         if(count($keywordList)>0){
             $keywordFilterQuestionIds = DB::table('questions')
-                ->join('answers', 'questions.question_id', 'answers.question_id')
                 ->where(function($query) use($keywordList){
                     foreach ($keywordList as $keyword) {
-                        $query->where(DB::raw('CONCAT(questions.question_text, " ", answers.answer_text)'), 'like', '%'.$keyword.'%');
+                        $query->where(DB::raw('CONCAT(questions.question_text, " ", questions.answer_text)'), 'like', '%'.$keyword.'%');
                     }
                 })
                 ->pluck('questions.question_id');

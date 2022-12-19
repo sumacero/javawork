@@ -19,11 +19,13 @@ function Question(props) {
 
     return (
         <div className="border border-1 border-dark rounded-3 bg-white mb-3">
-            <h1 className="bg-dark text-white">問題</h1>
-            <p className="text-right">
-                {props.question.subcategory.category.category_name} - {props.question.subcategory.subcategory_name}
-            </p>
+            <h1 className="bg-dark text-white">問題{props.question.question_number}</h1>
             <p>{convertText(props.question.question_text)}</p>
+            {props.questionImages.map((questionImage) =>
+                <span key={questionImage}>
+                    <img className="img-fluid" src={"data:image/png;base64," + questionImage} alt="questionImage"></img>
+                </span>
+            )}
         </div>
     );
 }

@@ -21,10 +21,6 @@ class CreateQuestionsTable extends Migration
             $table->biginteger('status_id')->unsigned();
             $table->biginteger('category_id')->unsigned()->nullable();
             $table->biginteger('question_number')->unsigned()->nullable();
-            $table->text('question_text');
-            $table->string('question_image_path');
-            $table->text('answer_text');
-            $table->string('answer_image_path');
             $table->timestamps();
             // 外部キー設定
             $table->foreign('create_user_id')->references('id')->on('users');

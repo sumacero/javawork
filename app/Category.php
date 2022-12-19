@@ -11,8 +11,13 @@ class Category extends Model
     protected $primaryKey = "category_id";
 
     //hasMany設定
-    public function subcategories(){
-        return $this->hasMany('App\Subcategory');
+    public function questions(){
+        return $this->hasMany('App\Question');
+    }
+
+    //belongsTo設定
+    public function workbook(){
+        return $this->belongsTo('App\Workbook','workbook_id');
     }
 
     //idで昇順

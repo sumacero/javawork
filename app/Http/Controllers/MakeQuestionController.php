@@ -5,11 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\UploadQuestionRequest;
 use App\User;
+use App\Workbook;
 use App\Category;
-use App\Subcategory;
 use App\Question;
 use App\Choice;
-use App\Answer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
@@ -20,9 +19,9 @@ class MakeQuestionController extends Controller
         return view('make_question');
     }
     public function getCategories(){
+        $workbooks = Workbook::all();
         $categories = Category::all();
-        $subcategories = Subcategory::all();
-        $dbData = compact('categories', 'subcategories');
+        $dbData = compact('workbooks', 'categories');
         return response()->json(['dbData' => $dbData]);
     }
     //問題を一時保存する関数(ステータス:編集中、バリデーション無し、未完成状態で保存可能)

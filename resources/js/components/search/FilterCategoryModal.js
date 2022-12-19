@@ -32,20 +32,19 @@ function FilterCategoryModal(props){
         }
     },[]);
     const modalRef = useRef()
-    //const [beforeCheckedSubcategoryIds, setBeforeCheckedSubcategoryIds] = useState([]);
     const closeModal = useCallback((event)=>{
         if(!modalRef.current.contains(event.target)) clickCancelButton();
     },[]);
     const clickCancelButton = ()=>{
-        props.setCheckedSubcategoryIds(props.beforeCheckedSubcategoryIds);
+        props.setCheckedCategoryIds(props.beforeCheckedCategoryIds);
         props.setOpenCategoryFilter(false);
         document.removeEventListener('click',closeModal);
     }
     const clickEnterButton = ()=>{
-        props.setBeforeCheckedSubcategoryIds(props.checkedSubcategoryIds);
+        props.setBeforeCheckedCategoryIds(props.checkedCategoryIds);
         let text = "";
-        props.checkedSubcategoryIds.map((subcategoryId) =>
-            text = text + props.subcategories.find(subcategory => subcategory.subcategory_id == subcategoryId).subcategory_name + " "
+        props.checkedCategoryIds.map((categoryId) =>
+            text = text + props.categories.find(category => category.category_id == categoryId).category_name + " "
         );
         if(text == ""){
             text = "条件なし";
@@ -61,10 +60,10 @@ function FilterCategoryModal(props){
                 <span id="modalContent" style={modalContent} className="overflow-auto" ref={modalRef}>
                     <p>カテゴリを選択してください</p>
                     <FilterCategory
+                        workbooks={props.workbooks} 
                         categories={props.categories} 
-                        subcategories={props.subcategories} 
-                        checkedSubcategoryIds={props.checkedSubcategoryIds}
-                        setCheckedSubcategoryIds={props.setCheckedSubcategoryIds}
+                        checkedCategoryIds={props.checkedCategoryIds}
+                        setCheckedCategoryIds={props.setCheckedCategoryIds}
                     />
                     <button className="btn btn-primary btn-block" onClick={clickEnterButton}>決定</button>
                     <button className="btn btn-primary btn-block" onClick={clickCancelButton}>キャンセル</button>

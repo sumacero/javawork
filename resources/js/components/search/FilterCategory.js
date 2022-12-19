@@ -2,69 +2,70 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 
 function FilterCategory(props) {
-    const targetSubcategories = (category_id) => {
-        return props.subcategories.filter(subcategory => subcategory.category_id == category_id);
+    const targetCategories = (workbook_id) => {
+        return props.categories.filter(category => category.workbook_id == workbook_id);
     }
-    const categoryCheck = (event) =>{
-        const category_id = event.target.value;
+    const workbookCheck = (event) =>{
+        const workbook_id = event.target.value;
         if(event.target.checked){
-            let newSubcategories = targetSubcategories(category_id)
+            let newCategories = targetCategories(workbook_id)
             //現在のチェック項目と新規追記項目を統合
-            let tmpArray = [...props.checkedSubcategoryIds.concat(newSubcategories.map((obj) => obj.subcategory_id))]
+            let tmpArray = [...props.checkedCategoryIds.concat(newCategories.map((obj) => obj.category_id))]
             //項目の重複を配列から削除し、ソート
             tmpArray = Array.from(new Set(tmpArray)).sort((a,b)=>a - b);
-            props.setCheckedSubcategoryIds(tmpArray);
+            props.setCheckedCategoryIds(tmpArray);
         }else{
-            let checkedOffSubcategories = props.subcategories.filter((subcategory)=>subcategory.category_id == category_id)
-            let checkedOffSubcategoryIds = checkedOffSubcategories.map((obj)=>obj.subcategory_id)
-            props.setCheckedSubcategoryIds([...props.checkedSubcategoryIds.filter((item) => !checkedOffSubcategoryIds.includes(item))]);
+            let checkedOffCategories = props.categories.filter((category)=>category.workbook_id == workbook_id)
+            let checkedOffCategoryIds = checkedOffCategories.map((obj)=>obj.category_id)
+            props.setCheckedCategoryIds([...props.checkedCategoryIds.filter((item) => !checkedOffCategoryIds.includes(item))]);
         }
     }
     const toggleChecked = (target) => {
-        if (props.checkedSubcategoryIds.includes(target)) {
+        if (props.checkedCategoryIds.includes(target)) {
             //チェック済みの場合は項目を削除
-            props.setCheckedSubcategoryIds(
-                [...props.checkedSubcategoryIds.filter((item) => item !== target)]
+            props.setCheckedCategoryIds(
+                [...props.checkedCategoryIds.filter((item) => item !== target)]
             );
         } else {
             //未チェックの場合は項目を追加しソート
-            props.setCheckedSubcategoryIds(
-                [...props.checkedSubcategoryIds.concat([target]).sort((a,b)=>a - b)]
+            props.setCheckedCategoryIds(
+                [...props.checkedCategoryIds.concat([target]).sort((a,b)=>a - b)]
             );
         }
     };
 
-    const defaultCheckedFlag = (category_id) => {
-        let defaultCheckedCount = targetSubcategories(category_id).filter(item => props.checkedSubcategoryIds.includes(item.subcategory_id)).length;
+    const defaultCheckedFlag = (workbook_id) => {
+        // デフォルトのチェック状態を管理する
+        let defaultCheckedCount = targetCategories(workbook_id).filter(item => props.checkedCategoryIds.includes(item.category_id)).length;
         return defaultCheckedCount>0;
     }
 
     return (
         <form>
             <div className="row">
-            {props.categories.map(item =>
-                <div className="col" key={item.category_id}>
+            {props.workbooks.map(item =>
+                <div className="col" key={item.workbook_id}>
                     <input 
-                        id={"category" + item.category_id}
+                        id={"workbook" + item.workbook_id}
                         type="checkbox"
-                        name={"categories"}
-                        value={item.category_id}
+                        name={"workbooks"}
+                        value={item.workbook_id}
                         defaultChecked={
-                            defaultCheckedFlag(item.category_id)
+                            defaultCheckedFlag(item.workbook_id)
                         }
-                        onClick={categoryCheck}
+                        onClick={workbookCheck}
                     />
-                    <label className="h5" htmlFor={"category" + item.category_id}>{item.category_name}</label>
-                    {targetSubcategories(item.category_id).map(item =>
-                        <div className="col" key={item.subcategory_id}>
+                    <label className="h5" htmlFor={"workbook" + item.workbook_id}>{item.workbook_name}</label>
+                    {targetCategories(item.workbook_id).map(item =>
+                        <div className="col" key={item.category_id}>
                             <input 
-                                id={"subcategory" + item.subcategory_id}
+                                id={"category" + item.category_id}
                                 type="checkbox"
-                                name={"subcategories[" + item.subcategory_id +"]"}
-                                checked={props.checkedSubcategoryIds.includes(item.subcategory_id)}
-                                onChange={() => toggleChecked(item.subcategory_id)}
+                                name={"categories[" + item.category_id +"]"}
+                                checked={props.checkedCategoryIds.includes(item.category_id)}
+                                onChange={() => toggleChecked(item.category_id)}
                             />
-                            <label htmlFor={"subcategory" + item.subcategory_id}>{item.subcategory_name}</label>
+                            <label htmlFor={"category" + item.category_id}>{item.category_name}</label>
                         </div>
                     )}
                 </div>

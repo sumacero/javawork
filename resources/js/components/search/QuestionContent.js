@@ -25,8 +25,9 @@ function QuestionContent(props){
                 <div className="col border">
                     <div>ID:{props.question.question_id}</div>
                     <div>ステータス：{props.question.status.status_name}</div>
-                    <div>カテゴリ：{props.question.subcategory && props.question.subcategory.category.category_name}</div>
-                    <div>サブカテゴリ：{props.question.subcategory && props.question.subcategory.subcategory_name}</div>
+                    <div>書籍：{props.question.category.workbook && props.question.category.workbook.workbook_name}</div>
+                    <div>カテゴリ：{props.question.category && props.question.category.category_name}</div>
+                    <div>問題番号：{props.question.question_number}</div>
                     {props.loginUser.authority_id == "1" &&
                         <span>
                             <div>作成者：{props.question.createuser.name}</div>
@@ -77,53 +78,15 @@ function QuestionContent(props){
                         </div>
                     </div>
                 </div>
-                <div className="col-8 border">
+                <div className="col-7 border">
                     <div className="row border">
                         <div className="col border">
-                            問題文
-                            <div
-                                style={{
-                                    overflow: "hidden",
-                                    textOverflow: "ellipsis",
-                                    whiteSpace: "nowrap",
-                                    fontFamily: "sans-serif"
-                                }}
-                            >
-                                {props.question.question_text}
-                            </div>
-                        </div>
-                    </div>
-                    <div className="row border">
-                        <div className="col border">
-                            選択肢
-                            {props.question.choices.map((choice) => 
-                                <div
-                                    key={choice.choice_id}
-                                    style={{
-                                        overflow: "hidden",
-                                        textOverflow: "ellipsis",
-                                        whiteSpace: "nowrap",
-                                        fontFamily: "sans-serif"
-                                    }}
-                                >
-                                    {choice.choice_symbol}：{choice.choice_text}
-                                </div>
+                            {
+                                props.question.images.filter((image) => image.image_type == "question").map((questionImage) =>
+                                <span key={questionImage.image_id}>
+                                    <img className="img-fluid" src={"data:image/png;base64," + questionImage.image_file} alt="questionImage"></img>
+                                </span>
                             )}
-                        </div>
-                    </div>
-                    <div className="row border">
-                        <div className="col border">
-                            解答
-                            <div
-                                style={{
-                                    overflow: "hidden",
-                                    textOverflow: "ellipsis",
-                                    whiteSpace: "nowrap",
-                                    fontFamily: "sans-serif"
-                                }}
-                            >
-                                {props.question.answer && props.question.answer.answer_text}
-                            </div>
                         </div>
                     </div>
                 </div>

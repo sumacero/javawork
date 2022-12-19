@@ -11,7 +11,7 @@ function FilterMenuArea(props){
     const [beforeCheckedStatusIds, setBeforeCheckedStatusIds] = useState([]); 
     const [openCategoryFilter, setOpenCategoryFilter] = useState(false);
     const [targetCategoryText, setTargetCategoryText] = useState("条件なし");
-    const [beforeCheckedSubcategoryIds, setBeforeCheckedSubcategoryIds] = useState([]); 
+    const [beforeCheckedCategoryIds, setBeforeCheckedCategoryIds] = useState([]); 
 
     const clickFilterButton = ()=>{
         props.filterQuestions(1);
@@ -83,12 +83,12 @@ function FilterMenuArea(props){
                 <FilterCategoryModal
                     setOpenCategoryFilter={setOpenCategoryFilter}
                     setTargetCategoryText={setTargetCategoryText}
+                    workbooks={props.workbooks} 
                     categories={props.categories} 
-                    subcategories={props.subcategories} 
-                    checkedSubcategoryIds={props.checkedSubcategoryIds}
-                    setCheckedSubcategoryIds={props.setCheckedSubcategoryIds}
-                    beforeCheckedSubcategoryIds={beforeCheckedSubcategoryIds}
-                    setBeforeCheckedSubcategoryIds={setBeforeCheckedSubcategoryIds}
+                    checkedCategoryIds={props.checkedCategoryIds}
+                    setCheckedCategoryIds={props.setCheckedCategoryIds}
+                    beforeCheckedCategoryIds={beforeCheckedCategoryIds}
+                    setBeforeCheckedCategoryIds={setBeforeCheckedCategoryIds}
                 />
             }
         </div>

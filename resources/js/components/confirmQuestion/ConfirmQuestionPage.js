@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import Question from '../question/Question';
-import Choices from '../question/Choices';
 import ChoicesForm from '../question/ChoicesForm';
 import Result from '../question/Result';
 
@@ -53,7 +52,6 @@ function ConfirmQuestionPage() {
             <span>
                 <div>
                     <Question question={question}/>
-                    <Choices choices={question.choices}/>
                     <ChoicesForm choices={question.choices} setSelectedChoiceId={setSelectedChoiceId} answeredFlag={answeredFlag}/>
                     {selectedChoiceId > 0 ? 
                         <button type="button" className="btn btn-dark btn-block mb-3" onClick={clickAnswerButton} disabled={answeredFlag}>回答</button> 

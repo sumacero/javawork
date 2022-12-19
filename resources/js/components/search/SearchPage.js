@@ -11,9 +11,9 @@ function SearchPage(){
     const [ openFilterWindow, setOpenFilterWindow] = useState(false);
     const [ statuses, setStatuses] = useState([]);
     const [ checkedStatusIds, setCheckedStatusIds] = useState([]);
+    const [ workbooks, setWorkbooks] = useState([]);
     const [ categories, setCategories] = useState([]);
-    const [ subcategories, setSubcategories] = useState([]);
-    const [ checkedSubcategoryIds, setCheckedSubcategoryIds] = useState([]);
+    const [ checkedCategoryIds, setCheckedCategoryIds] = useState([]);
     const [ keyword, setKeyword] = useState("");
     const [ paginationData, setPaginationData] = useState([]);
     const [ questions, setQuestions] = useState([]);
@@ -43,8 +43,8 @@ function SearchPage(){
     const getCategories = async () => {
             const result = await axios.get('get-categories');
             const data = result.data.dbData;
+            setWorkbooks(JSON.parse(JSON.stringify(data.workbooks)));
             setCategories(JSON.parse(JSON.stringify(data.categories)));
-            setSubcategories(JSON.parse(JSON.stringify(data.subcategories)));
     };
     const getQuestions = async () => {
         const response = await axios.get('get-questions', {
@@ -52,17 +52,18 @@ function SearchPage(){
                 "page":1
             }
         });
-        let dbData = response.data.dbData;
-        let questions = dbData.data;
+        console.log(response.data)
+        let data = response.data;
+        let questions = data.dbData.data;
         let paginationData = {
-            "total": dbData.total,
-            "per_page": dbData.per_page,
-            "current_page": dbData.current_page,
-            "last_page": dbData.last_page,
-            "next_page_url": dbData.next_page_url,
-            "prev_page_url": dbData.prev_page_url,
-            "from": dbData.from,
-            "to": dbData.to,
+            "total": data.dbData.total,
+            "per_page": data.dbData.per_page,
+            "current_page": data.dbData.current_page,
+            "last_page": data.dbData.last_page,
+            "next_page_url": data.dbData.next_page_url,
+            "prev_page_url": data.dbData.prev_page_url,
+            "from": data.dbData.from,
+            "to": data.dbData.to,
         };
         setQuestions(questions);
         setPaginationData(JSON.parse(JSON.stringify(paginationData)));
@@ -99,7 +100,7 @@ function SearchPage(){
             params:{
                 "page":page,
                 "status_ids":JSON.stringify(checkedStatusIds),
-                "subcategory_ids":JSON.stringify(checkedSubcategoryIds),
+                "category_ids":JSON.stringify(checkedCategoryIds),
                 "keyword":keyword
             }
         });
@@ -125,10 +126,10 @@ function SearchPage(){
                 statuses={statuses}
                 checkedStatusIds={checkedStatusIds}
                 setCheckedStatusIds={setCheckedStatusIds}
+                workbooks={workbooks} 
                 categories={categories} 
-                subcategories={subcategories} 
-                checkedSubcategoryIds={checkedSubcategoryIds}
-                setCheckedSubcategoryIds={setCheckedSubcategoryIds}
+                checkedCategoryIds={checkedCategoryIds}
+                setCheckedCategoryIds={setCheckedCategoryIds}
                 keyword={keyword}
                 setKeyword={setKeyword}
                 filterQuestions={filterQuestions}

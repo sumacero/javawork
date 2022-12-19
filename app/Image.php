@@ -5,15 +5,12 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\builder;
 
-class Answer extends Model
+class Image extends Model
 {
     //primaryKeyの設定
-    protected $primaryKey = "answer_id";
+    protected $primaryKey = "image_id";
 
     //belongsTo設定
-    public function choice(){
-        return $this->belongsTo('App\Choice','choice_id');
-    }
     public function question(){
         return $this->belongsTo('App\Question','question_id');
     }
@@ -21,8 +18,8 @@ class Answer extends Model
     //idで昇順
     protected static function boot(){
         parent::boot();
-        static::addGlobalScope('answer_id',function(Builder $builder){
-            $builder->orderBy('answer_id','asc');
+        static::addGlobalScope('image_id',function(Builder $builder){
+            $builder->orderBy('image_id','asc');
         });
     }
 }

@@ -3,14 +3,14 @@ import ReactDOM from 'react-dom';
 import CategoryCheckbox from './CategoryCheckbox';
 
 function PracticeMenu(props){
+    const [ workbooks, setWorkbooks] = useState([]);
     const [ categories, setCategories] = useState([]);
-    const [ subcategories, setSubcategories] = useState([]);
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios.get('get-categories');
             const data = result.data.dbData;
+            setWorkbooks(JSON.parse(JSON.stringify(data.workbooks)));
             setCategories(JSON.parse(JSON.stringify(data.categories)));
-            setSubcategories(JSON.parse(JSON.stringify(data.subcategories)));
         };
         fetchData();
     },[]);
@@ -24,11 +24,11 @@ function PracticeMenu(props){
             >
                 出題開始
             </button>
-            <CategoryCheckbox 
+            <CategoryCheckbox
+                workbooks={workbooks} 
                 categories={categories} 
-                subcategories={subcategories} 
-                checkedSubcategories={props.checkedSubcategories}
-                setCheckedSubcategories={props.setCheckedSubcategories}
+                checkedCategories={props.checkedCategories}
+                setCheckedCategories={props.setCheckedCategories}
             />
         </div>
     );

@@ -30,12 +30,13 @@ function Result(props) {
             {props.answeredFlag ?
                 <div className="border border-1 border-dark rounded-3 bg-white mb-3">
                     <h3 className="bg-dark text-white">
-                        正解:{props.correctSymbol}
-                        <span className="h5">
-                            ...あなたの回答:{props.selectedChoiceSymbol}({props.correctFlag ? "正解" : "不正解"})
-                        </span>
+                        解答解説
                     </h3>
-                    <div>{convertText(props.answer.answer_text)}</div>
+                    {props.answerImages.map((answerImage) =>
+                        <span key={answerImage}>
+                            <img className="img-fluid" src={"data:image/png;base64," + answerImage} alt="answerImage"></img>
+                        </span>
+                    )}
                 </div>
             :null}
             <CSSTransition in={props.answeredFlag} classNames={props.correctFlag ? "success" : "wrong"} timeout={0}>

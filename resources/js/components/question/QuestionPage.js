@@ -2,54 +2,67 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import Question from './Question';
-import Choices from './Choices';
 import ChoicesForm from './ChoicesForm';
 import Result from './Result';
 
 function QuestionPage() {
     const [ question_id, setQuestion_id] = useState(location.pathname.split('/').slice(-1)[0]);
     const [ question, setQuestion] = useState("");
+    const [ questionImages, setQuestionImages] = useState([]);
+    const [ answerImages, setAnswerImages] = useState([]);
     const [ answeredFlag, setAnsweredFlag ] = useState(false);
-    const [ selectedChoiceId, setSelectedChoiceId] = useState(0);
-    const [ selectedChoiceSymbol, setSelectedChoiceSymbol] = useState("");
+    const [ selectedChoiceIds, setSelectedChoiceIds] = useState([]);
+    const [ correctChoiceIds, setCorrectChoiceIds] =useState([]);
     const [ correctFlag, setCorrectFlag] = useState(false);
-    const [ correctSymbol, setCorrectSymbol] =useState("");
     useEffect(() => {
         const fetchData = async () => {
-            const result = await axios.get('../get-qa/' + question_id);
-            const dbData = result.data.dbData;
-            setQuestion(JSON.parse(JSON.stringify(dbData)));
-            const correctChoice = dbData.choices.find((choice)=>choice.choice_id === dbData.answer.choice_id);
-            setCorrectSymbol(correctChoice.choice_symbol);
+            const result = await axios.get('../get-question/' + question_id);
+            const data = result.data;
+            setQuestion(JSON.parse(JSON.stringify(data.dbData)));
+            setQuestionImages(JSON.parse(JSON.stringify(data.questionImages)));
+            setAnswerImages(JSON.parse(JSON.stringify(data.answerImages)))
+            if(Array.isArray(data.dbData.choices)){
+                setCorrectChoiceIds(data.dbData.choices
+                    .filter((choice)=>choice.is_correct === 1)
+                    .map((choice)=>choice.choice_id)
+                );
+            }
         };
         fetchData();
     },[]);
     const clickAnswerButton = () =>{
         setAnsweredFlag(true);
-        setCorrectFlag(question.answer.choice_id == selectedChoiceId)
-        const selectedChoiceSymbol = question.choices.find((choice) => choice.choice_id == selectedChoiceId).choice_symbol;
-        setSelectedChoiceSymbol(selectedChoiceSymbol);
+        const tmpSelectedChoiceIds = JSON.stringify(selectedChoiceIds.sort());
+        const tmpCorrctChoiceIds = JSON.stringify(correctChoiceIds.sort());
+        const corrected = tmpSelectedChoiceIds === tmpCorrctChoiceIds;
+        if(corrected){
+            setCorrectFlag(true);
+        }else{
+            setCorrectFlag(false);
+        }
     }
     return (
         <div className="container">
             {question !== "" &&
             <span>
-                <Question question={question} />
-                <Choices choices={question.choices}/>
+                <p className="text-left">
+                    {question.category.workbook.workbook_name} - {question.category.category_name}
+                </p>
+                <Question question={question} questionImages={questionImages}/>
                 <ChoicesForm
                     choices={question.choices}
-                    setSelectedChoiceId={setSelectedChoiceId}
+                    setSelectedChoiceIds={setSelectedChoiceIds}
+                    selectedChoiceIds={selectedChoiceIds}
                     answeredFlag={answeredFlag}
                 />
-                {selectedChoiceId > 0 ? 
+                <p>※{correctChoiceIds.length}つ選択してください</p>
+                {selectedChoiceIds.length === correctChoiceIds.length ? 
                     <button type="button" className="btn btn-outline-dark btn-block mb-3" onClick={clickAnswerButton} disabled={answeredFlag}>回答</button> 
                 : null}
                 <Result
-                    answer={question.answer}
+                    answerImages={answerImages}
                     answeredFlag={answeredFlag}
                     correctFlag={correctFlag}
-                    correctSymbol={correctSymbol}
-                    selectedChoiceSymbol={selectedChoiceSymbol}
                 />
             </span>
             }

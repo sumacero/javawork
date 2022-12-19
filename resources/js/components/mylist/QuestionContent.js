@@ -87,7 +87,7 @@ function QuestionContent(props){
                                     fontFamily: "sans-serif"
                                 }}
                             >
-                                {props.question.answer && props.question.answer.answer_text}
+                                {props.question && props.question.answer_text}
                             </div>
                         </div>
                     </div>

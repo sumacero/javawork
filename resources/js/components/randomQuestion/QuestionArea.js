@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import Question from '../question/Question';
-import Choices from '../question/Choices';
 import ChoicesForm from '../question/ChoicesForm';
 import Result from '../question/Result';
 import MylistModal from '../search/MylistModal'
@@ -65,9 +64,10 @@ function QuestionArea(props) {
     };
     const clickAnswerButton = () =>{
         props.setAnsweredFlag(true);
-        const selectedChoiceSymbol = props.question.choices.find((choice) => choice.choice_id == props.selectedChoiceId).choice_symbol;
-        props.setSelectedChoiceSymbol(selectedChoiceSymbol);
-        if(props.question.answer.choice_id == props.selectedChoiceId){
+        const tmpSelectedChoiceIds = JSON.stringify(props.selectedChoiceIds.sort());
+        const tmpCorrctChoiceIds = JSON.stringify(props.correctChoiceIds.sort());
+        const corrected = tmpSelectedChoiceIds === tmpCorrctChoiceIds;
+        if(corrected){
             props.setCorrectFlag(true);
             data = {
                 correctCount:props.score.correctCount + 1,
@@ -93,23 +93,24 @@ function QuestionArea(props) {
                 正答率:{Math.round(props.score.correctCount/(props.score.correctCount+props.score.wrongCount)*1000)/10 + "%"}
                  ( 正解数:{props.score.correctCount} / 出題数:{props.score.correctCount+props.score.wrongCount} )
             </p>
-            <Question question={props.question}/>
-            <Choices choices={props.question.choices}/>
+            <p className="text-left">
+                {props.question.category.workbook.workbook_name} - {props.question.category.category_name}
+            </p>
+            <Question question={props.question} questionImages={props.questionImages}/>
             <ChoicesForm
                 choices={props.question.choices} 
-                setSelectedChoiceId={props.setSelectedChoiceId}
-                selectedChoiceId={props.selectedChoiceId}
+                setSelectedChoiceIds={props.setSelectedChoiceIds}
+                selectedChoiceIds={props.selectedChoiceIds}
                 answeredFlag={props.answeredFlag}
             />
-            {props.selectedChoiceId > 0 ? 
+            <p>※{props.correctChoiceIds.length}つ選択してください</p>
+            {props.selectedChoiceIds.length === props.correctChoiceIds.length ? 
                 <button className="btn btn-outline-dark btn-block mb-3" onClick={clickAnswerButton} disabled={props.answeredFlag}>回答</button> 
             : null}
             <Result
-                answer={props.question.answer}
+                answerImages={props.answerImages}
                 answeredFlag={props.answeredFlag}
                 correctFlag={props.correctFlag}
-                correctSymbol={props.correctSymbol}
-                selectedChoiceSymbol={props.selectedChoiceSymbol}
             />
             {props.answeredFlag &&
                     <button className="btn btn-outline-dark btn-block mb-3" onClick={props.clickNextButton}>次の問題へ</button>
