@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
-import QuestionEditor from '../makeQuestion/QuestionEditor';
-import ChoicesEditor from '../makeQuestion/ChoicesEditor';
-import ExplanationEditor from '../makeQuestion/ExplanationEditor';
+import ImageUploader from '../makeQuestion/ImageUploader';
+import ImagesEditor from '../makeQuestion/ImagesEditor';
+import ChoicesCheckbox from '../makeQuestion/ChoicesCheckbox';
+import WorkbookSelector from '../makeQuestion/WorkbookSelector';
 import CategorySelector from '../makeQuestion/CategorySelector';
-import SubcategorySelector from '../makeQuestion/SubcategorySelector';
 import DeleteQuestionModal from './DeleteQuestionModal';
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -14,84 +14,43 @@ import { CSSTransition } from 'react-transition-group';
 function EditQuestionPage(){
     const csrf_token = document.head.querySelector('meta[name="csrf-token"]').content;
     const defaultValues = {
-        "question_text":"",
-        "choice_text":{
-            "A":"",
-            "B":"",
-            "C":"",
-            "D":"",
+        "question_number":"1",
+        "choices":{
+            "A":false,
+            "B":false ,
+            "C":false,
+            "D":false,
         },
-        "answer_text":"",
+        "correct_choice_count":"0",
+        "workbook_id":"",
         "category_id":"",
-        "subcategory_id":"",
-        "correct_choice_symbol":"",
     };
     const [ questionId, setQuestionId ] = useState(parseInt($('#tmp').data('question_id'))); 
-    const [ loadingData, setLoadingData] = useState(true);
+    const [ question, setQuestion] = useState("");
+    const [ choices, setChoices] = useState("");
+    const [ workbooks, setWorkbooks ] = useState([]);
     const [ categories, setCategories] = useState([]);
-    const [ subcategories, setSubcategories] = useState([]);
-    const [ targetSubcategories, setTargetSubcategories] = useState([]);
+    const [ targetCategories, setTargetCategories] = useState([]);
     const [ popupFlag, setPopupFlag] = useState(false);
     const [ popupMsg, setPopupMsg] = useState("");
-    const [openDeleteQuestionModal, setOpenDeleteQuestionModal] = useState(false);
-    function validateChoiceText1(choice_text){
-        //フォームが存在し、かつ値が空文字の場合はエラー
-        return !(typeof choice_text !== "undefined" && choice_text == "");
-    }
-    function validateChoiceText2(choice_text) {
-        //他のフォーム値と重複がある場合はエラー
-        const choices_text_obj = this.parent;
-        let dupCount = 0;
-        const symbol = "ABCDEFGH";
-        for (let i = 0; i < Object.keys(choices_text_obj).length; i++) {
-            if (choices_text_obj[symbol[i]] === choice_text) {
-                dupCount++;
-                if (dupCount > 1) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
+    const [ questionImages, setQuestionImages ] = useState([]);
+    const [ answerImages, setAnswerImages ] = useState([]);
+    const [ questionImagesError, setQuestionImagesError] = useState("");
+    const [ answerImagesError, setAnswerImagesError] = useState("");
+    const [ holdImageType, setHoldImageType] =useState("");
+    const [ correctChoiceIds, setCorrectChoiceIds] =useState([]);
+    const [ openDeleteQuestionModal, setOpenDeleteQuestionModal] = useState(false);
+    const [ isLoading, setIsLoading] = useState(true);
+    const [ laravelVaridateErrors, setLaravelVaridateErrors] = useState(null);
     //バリデーションルール
     const schema = yup.object().shape({
-        question_text: yup.string()
-            .required('入力してください')
-            .max(3000, '3000文字以内で入力してください'),
-        choice_text: yup.object({
-            A:yup.string()
-                .test('existAndRequired', '入力してください', validateChoiceText1)
-                .test('checkDuplicated', '他の選択肢と重複しています', validateChoiceText2),
-            B:yup.string()
-                .test('existAndRequired', '入力してください', validateChoiceText1)
-                .test('checkDuplicated', '他の選択肢と重複しています', validateChoiceText2),
-            C:yup.string()
-                .test('existAndRequired', '入力してください', validateChoiceText1)
-                .test('checkDuplicated', '他の選択肢と重複しています', validateChoiceText2),
-            D:yup.string()
-                .test('existAndRequired', '入力してください', validateChoiceText1)
-                .test('checkDuplicated', '他の選択肢と重複しています', validateChoiceText2),
-            E:yup.string()
-                .test('existAndRequired', '入力してください', validateChoiceText1)
-                .test('checkDuplicated', '他の選択肢と重複しています', validateChoiceText2),
-            F:yup.string()
-                .test('existAndRequired', '入力してください', validateChoiceText1)
-                .test('checkDuplicated', '他の選択肢と重複しています', validateChoiceText2),
-            G:yup.string()
-                .test('existAndRequired', '入力してください', validateChoiceText1)
-                .test('checkDuplicated', '他の選択肢と重複しています', validateChoiceText2),
-            H:yup.string()
-                .test('existAndRequired', '入力してください', validateChoiceText1)
-                .test('checkDuplicated', '他の選択肢と重複しています', validateChoiceText2),
-        }),
-        correct_choice_symbol: yup.string()
-            .required('正解の選択肢を選んでください(アルファベットをクリック)'),
-        answer_text: yup.string()
-            .required('入力してください')
-            .max(3000, '3000文字以内で入力してください'),
-        category_id: yup.string()
+        question_number: yup.number()
+            .min(1, '1から100までの整数を入力してください')
+            .max(100, '1から100までの整数を入力してください'),
+        correct_choice_count: yup.number().min(1, '正解の選択肢を選んでください'),
+        workbook_id: yup.string()
             .required('選択してください'),
-        subcategory_id: yup.string()
+        category_id: yup.string()
             .required('選択してください'),
     })
 
@@ -104,14 +63,35 @@ function EditQuestionPage(){
         resolver: yupResolver(schema),
     });
 
+    const imagesVaridate = ()=>{
+        if(questionImages.length === 0){
+            setQuestionImagesError("問題文の画像を選択してください");
+        }else if(questionImages.length > 5) {
+            setQuestionImagesError("問題文の画像が5枚を超えています");
+        }else{
+            setQuestionImagesError("");
+        }
+        if(answerImages.length === 0){
+            setAnswerImagesError("解答文の画像を選択してください");
+        }else if(answerImages.length > 5) {
+            setAnswerImagesError("解答文の画像が5枚を超えています");
+        }else{
+            setAnswerImagesError("");
+        }
+        return questionImagesError === "" && answerImagesError === "";
+    }
+    /*
     const clickSaveButton = () => {
         let data = getValues();
         data.question_id = questionId;
+        //送信データに画像情報を追加
+        data.question_images = questionImages;
+        data.answer_images = answerImages;
         const func = async () => {
             try {
                 let res = await axios.post("save-question", data);
                 setQuestionId(res.data);
-                setPopupMsg("編集データを保存しました。ステータスが編集中になりました。");
+                setPopupMsg("編集データを保存しました");
                 setPopupFlag(!popupFlag);
             } catch (error) {
                 console.log(error.response.data);
@@ -121,6 +101,7 @@ function EditQuestionPage(){
         };
         func();
     }
+    */
     const clickDeleteButton = () => {
         setOpenDeleteQuestionModal(true);
     }
@@ -139,20 +120,36 @@ function EditQuestionPage(){
         func();
     }
     const onSubmit = (data) => {
-        data.question_id = questionId; //送信データにquestion_idを追加
+        if (!imagesVaridate()) return;
+        data.question_id = questionId; //送信データにquestion_idを追加(nullの場合は新規レコード追加)
+        //送信データに画像情報を追加
+        data.question_images = questionImages;
+        data.answer_images = answerImages;
+        console.log(data);
         const func = async () => {
             try {
                 let res = await axios.post("edit-question", data);
+                setPopupMsg("確認画面に移動します。");
+                setPopupFlag(!popupFlag);
                 moveConfirmPage(questionId);
             } catch (error) {
                 console.log(error.response.data);
-                alert("サーバーエラーが発生しました。");
+                if(error.response.status == 422){
+                    setLaravelVaridateErrors(JSON.parse(JSON.stringify(error.response.data.errors)));
+                    setPopupMsg("バリデーションエラー：既にその問題番号は登録済みです。");
+                    setPopupFlag(!popupFlag);
+                }else{
+                    console.log(error.response.data);
+                    setPopupMsg("サーバーエラー：問題作成に失敗しました。");
+                    setPopupFlag(!popupFlag);
+                }
             }
         };
         func();
     }
     //登録した問題の主キーをPOSTし確認画面へ移動する
     function moveConfirmPage(question_id){
+        console.log("確認画面へ移動します");
         let form = document.createElement('form');   
         form.method = 'post';
         form.action = 'confirm-question';
@@ -164,43 +161,59 @@ function EditQuestionPage(){
 
     useEffect(() => {
         const getData = async () => {
-            const result1 = await axios.get('get-categories');
-            const data1 = result1.data.dbData;
-            setCategories(JSON.parse(JSON.stringify(data1.categories)));
-            setSubcategories(JSON.parse(JSON.stringify(data1.subcategories)));
-            const result2 = await axios.get('get-qa/' + questionId);
-            const data2 = result2.data.dbData;
-            const question = JSON.parse(JSON.stringify(data2));
-            const choices = question.choices;
-            const answer = question.answer
-            const subcategories = JSON.parse(JSON.stringify(data1.subcategories));
-            const subcategory = subcategories.find(
-                (subcategory) => subcategory.subcategory_id === question.subcategory_id
-            );
-            const targetSubcategories = subcategories.
-                filter(subcategory => subcategory.category_id == subcategory.category_id);
-            const correctChoice = choices.find(
-                (choice) => choice.choice_id === answer.choice_id
-            );
-            setTargetSubcategories(targetSubcategories);
-            setValue("question_text", question.question_text);
-            let tmpSymbol = "ABCDEFGH";
-            let tmpChoices = getValues("choice_text");
-            for(let i = 0; i<tmpSymbol.length; i++){
-                if(i < choices.length){
-                    setValue("choice_text." + choices[i].choice_symbol, choices[i].choice_text);
-                }else{
-                    delete tmpChoices[tmpSymbol[i]];
-                    setValue("choice_text", tmpChoices);
+            let result = await axios.get('get-categories');
+            let data = result.data.dbData;
+            let workbooks = JSON.parse(JSON.stringify(data.workbooks));
+            setWorkbooks(workbooks);
+            let categories = JSON.parse(JSON.stringify(data.categories));
+            setCategories(categories);
+            result = await axios.get('get-question/' + questionId);
+            data = result.data;
+            const question = JSON.parse(JSON.stringify(data.dbData));
+            setQuestion(question);
+            let questionImages=JSON.parse(JSON.stringify(data.questionImages));
+            let tmpQuestionImages = [];
+            questionImages.forEach(function(questionImage, key) {
+                let obj = {
+                    "index":key,
+                    "fileName":questionImage.fileName,
+                    "dataUrl":questionImage.image
                 }
-            }
-            correctChoice && setValue("correct_choice_symbol", correctChoice.choice_symbol);
-            setValue("answer_text", answer.answer_text);
-            subcategory && setValue("category_id", subcategory.category_id);
-            subcategory && setValue("subcategory_id", subcategory.subcategory_id);
-            setLoadingData(false);
+                tmpQuestionImages.push(obj);
+            });
+            setQuestionImages(tmpQuestionImages);
+            let answerImages=JSON.parse(JSON.stringify(data.answerImages));
+            let tmpAnswerImages = [];
+            answerImages.forEach(function(answerImage, key) {
+                let obj = {
+                    "index":key,
+                    "fileName":answerImage.fileName,
+                    "dataUrl":answerImage.image
+                }
+                tmpAnswerImages.push(obj);
+            });
+            setAnswerImages(tmpAnswerImages);
+            // formの値を現在値に設定
+            setValue("question_number", question.question_number);
+            let choices = question.choices;
+            let tmpChoices = {};
+            choices.forEach(function(choice, key){
+                tmpChoices[choice.choice_symbol] = choice.is_correct == "1";
+            });
+            setChoices(tmpChoices);
+            setValue("choices", tmpChoices);
+            console.log(choices);
+            const correctChoiceCount = choices.filter((choice)=>choice.is_correct==1).length;
+            setValue("correct_choice_count", correctChoiceCount);
+            setValue("question_number", question.question_number);
+            const category = categories.find((category)=>category.category_id==question.category_id);
+            setValue("workbook_id", category.workbook_id);
+            const targetCategories = categories.filter(obj => obj.workbook_id == category.workbook_id);
+            setTargetCategories(targetCategories);
+            setValue("category_id", category.category_id);
         };
         getData();
+        setIsLoading(false);
     },[]);
     return (
         <div className="container border">
@@ -210,54 +223,94 @@ function EditQuestionPage(){
                 </div>
             </div>
             <div className="row border">
+                {!isLoading &&
                 <div className="col border">
                     <form name="myform" onSubmit={handleSubmit(onSubmit)}>
                         <input type="hidden" name="_token" value={csrf_token} />
                         <div className="row border">
-                            <div className="col border p-0">
-                                <QuestionEditor
+                            <div className="col border">
+                                <WorkbookSelector
                                     register = {register}
                                     errors = {errors}
+                                    workbooks = {workbooks}
+                                    setWorkbooks = {setWorkbooks}
+                                    categories = {categories}
+                                    setTargetCategories = {setTargetCategories}
+                                />
+                            </div>
+                            <div className="col border">
+                                <div className="row border">
+                                    <div className="col border">
+                                        <CategorySelector
+                                            register = {register}
+                                            errors = {errors}
+                                            targetCategories = {targetCategories}
+                                        />
+                                    </div>
+                                    <div className="col border">
+                                        <label>問題番号<br/>
+                                            <input
+                                                type="number"
+                                                step="1"
+                                                min="1"
+                                                max="100"
+                                                {...register("question_number", {})}>
+                                            </input>
+                                        </label>
+                                        {errors.question_number &&  
+                                            <span className="text-danger">{errors.question_number.message}</span>
+                                        }
+                                    </div>
+                                </div>
+                                {laravelVaridateErrors && laravelVaridateErrors.question_number &&
+                                    <p className="text-danger text-center">
+                                        {laravelVaridateErrors.question_number[0]}
+                                    </p>
+                                }
+                            </div>
+                        </div>
+                        <div className="row border">
+                            <div className="col border">
+                                <ImageUploader
+                                    setImages = {setQuestionImages}
+                                    images = {questionImages}
+                                    error = {questionImagesError}
+                                />
+                                <ImagesEditor
+                                    setImages = {setQuestionImages}
+                                    images = {questionImages}
+                                    imageType = {"question"}
+                                    setHoldImageType = {setHoldImageType}
+                                    holdImageType = {holdImageType}
                                 />
                             </div>
                         </div>
-                        {!loadingData &&
-                            <div className="row border">
-                                <div className="col border">
-                                <ChoicesEditor
+                        <div className="row border">
+                            <div className="col border">
+                                <ChoicesCheckbox
+                                    setChoices = {setChoices}
+                                    choices = {choices}
                                     setValue = {setValue}
                                     getValues = {getValues}
                                     register = {register}
                                     errors = {errors}
                                     clearErrors = {clearErrors}
                                 />
-                                </div>
-                            </div>
-                        }
-                        <div className="row border">
-                            <div className="col border p-0">
-                                <ExplanationEditor
-                                    register = {register}
-                                    errors = {errors}
-                                />
                             </div>
                         </div>
                         <div className="row border">
                             <div className="col border">
-                                <CategorySelector
-                                    register = {register}
-                                    errors = {errors}
-                                    categories = {categories}
-                                    setCategories = {setCategories}
-                                    subcategories = {subcategories}
-                                    setTargetSubcategories = {setTargetSubcategories}
+                                <ImageUploader
+                                    setImages = {setAnswerImages}
+                                    images = {answerImages}
+                                    error = {answerImagesError}
                                 />
-                            </div>
-                            <div className="col border">
-                                <SubcategorySelector
-                                    register = {register}
-                                    errors = {errors}
-                                    targetSubcategories = {targetSubcategories}
+                                <ImagesEditor
+                                    setImages = {setAnswerImages}
+                                    images = {answerImages}
+                                    imageType = {"answer"}
+                                    setHoldImageType = {setHoldImageType}
+                                    holdImageType = {holdImageType}
                                 />
                             </div>
                         </div>
@@ -270,13 +323,6 @@ function EditQuestionPage(){
                             </input>
                             <button 
                                 type="button" 
-                                onClick={clickSaveButton} 
-                                className="btn btn-outline-dark"
-                                tabIndex="-1">
-                                編集データの保存
-                        </button>
-                            <button 
-                                type="button" 
                                 onClick={clickDeleteButton} 
                                 className="btn btn-outline-secondary"
                                 tabIndex="-1">
@@ -285,6 +331,7 @@ function EditQuestionPage(){
                         </div>
                     </form>
                 </div>
+                }
             </div>
             {openDeleteQuestionModal &&
                 <DeleteQuestionModal
@@ -292,7 +339,7 @@ function EditQuestionPage(){
                     deleteQuestion={deleteQuestion}
                 />
             }
-            <CSSTransition in={popupFlag} classNames="popup" timeout={1000}>
+            <CSSTransition in={popupFlag} classNames="popup" timeout={5000}>
                 <div>{popupMsg}</div>
             </CSSTransition>
         </div>

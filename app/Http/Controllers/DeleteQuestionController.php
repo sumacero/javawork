@@ -8,24 +8,28 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
 use App\Question;
 use App\Choice;
-use App\Answer;
+use App\Image;
 class DeleteQuestionController extends Controller
 {
     public function deleteQuestion(Request $request){
         //------------------------------------------------------------------
         //リクエストデータの読み取り
         //------------------------------------------------------------------
-        $question_id = $request->input('question_id');
+        $questionId = $request->input('question_id');
         //------------------------------------------------------------------
         //レコードの削除
         //------------------------------------------------------------------
         DB::beginTransaction();
-        //answersテーブル
-        Answer::where('question_id', $question_id)->first()->delete();
+        //問題に対する画像パスを取得
+        $imagePaths=Image::select('image_path')->where('question_id', $questionId)->get();
+        Image::where('question_id', $questionId)->delete(); //問題に対する画像レコードを全削除
+        foreach($imagePaths as $imagePath){
+            \Storage::disk('sftp')->delete($imagePath["image_path"]); //問題に対する画像ファイルを全削除
+        }
         //choicesテーブル
-        Choice::where('question_id', $question_id)->delete(); //問題に対する選択肢を全削除
+        Choice::where('question_id', $questionId)->delete(); //問題に対する選択肢を全削除
         //questionsテーブル
-        Question::find($question_id)->delete();
+        Question::find($questionId)->delete();
         DB::commit();
     }
 }

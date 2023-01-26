@@ -84,7 +84,7 @@ function QuestionContent(props){
                             {
                                 props.question.images.filter((image) => image.image_type == "question").map((questionImage) =>
                                 <span key={questionImage.image_id}>
-                                    <img className="img-fluid" src={"data:image/png;base64," + questionImage.image_file} alt="questionImage"></img>
+                                    <img className="img-fluid" src={questionImage.image_file} alt="questionImage"></img>
                                 </span>
                             )}
                         </div>

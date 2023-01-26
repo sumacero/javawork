@@ -13,11 +13,6 @@ class QuestionController extends Controller
 {
     public function index($question_id){
         $param = ['question_id' => $question_id];
-        /*
-        $image = \Storage::disk('sftp')->get('silver/1-1/question/image1.PNG');
-        $data = 'data: image/png;base64,'. base64_encode($image);
-        echo '<img src="'. $data .'">';
-        */
         return view('question', $param);
     }
     public function getQuestion($question_id){
@@ -27,16 +22,22 @@ class QuestionController extends Controller
         $questionImages = [];
         foreach ($questionImageRecords as $key => $questionImageRecord) {
             $imagePath = $questionImageRecord["image_path"];
+            $fileName = basename($imagePath);
+            $mimeType = \Storage::disk('sftp')->getMimeType($imagePath);
             $imageFile = \Storage::disk('sftp')->get($imagePath);
-            $imageFile = base64_encode($imageFile);
-            array_push($questionImages, $imageFile);
+            $imageFile = "data:".$mimeType.";base64,".base64_encode($imageFile);
+            $tmpArray = array("fileName"=>$fileName,"image"=>$imageFile);
+            array_push($questionImages, $tmpArray);
         }
         $answerImages = [];
         foreach ($answerImageRecords as $key => $answerImageRecord) {
             $imagePath = $answerImageRecord["image_path"];
+            $fileName = basename($imagePath);
+            $mimeType = \Storage::disk('sftp')->getMimeType($imagePath);
             $imageFile = \Storage::disk('sftp')->get($imagePath);
-            $imageFile = base64_encode($imageFile);
-            array_push($answerImages, $imageFile);
+            $imageFile = "data:".$mimeType.";base64,".base64_encode($imageFile);
+            $tmpArray = array("fileName"=>$fileName,"image"=>$imageFile);
+            array_push($answerImages, $tmpArray);
         }
         return response()->json(['dbData' => $question, 'questionImages' => $questionImages, 'answerImages' => $answerImages]);
     }

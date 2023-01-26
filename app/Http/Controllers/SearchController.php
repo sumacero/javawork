@@ -31,8 +31,9 @@ class SearchController extends Controller
             $questionId = $question["question_id"];
             foreach ($question["images"] as &$image) {
                 $imagePath = $image["image_path"];
+                $mimeType = \Storage::disk('sftp')->getMimeType($imagePath);
                 $imageFile = \Storage::disk('sftp')->get($imagePath);
-                $imageFile = base64_encode($imageFile);
+                $imageFile = "data:".$mimeType.";base64,".base64_encode($imageFile);
                 $image["image_file"] = $imageFile;
             }
             unset($image);
@@ -55,7 +56,7 @@ class SearchController extends Controller
                 $keywordList[] = $keyword;
             }
         }
-        $questions = Question::with('status','category.workbook','createuser','updateuser','choices');
+        $questions = Question::with('status','category.workbook','createuser','updateuser','choices', 'images');
         if(count($statudIds)>0){
             $questions = $questions->whereIn('status_id', $statudIds);
         }
@@ -73,6 +74,19 @@ class SearchController extends Controller
             $questions = $questions->whereIn('question_id', $keywordFilterQuestionIds);
         }
         $questions = $questions->paginate(5);
+        // image_fileプロパティを追加
+        foreach($questions as &$question){
+            $questionId = $question["question_id"];
+            foreach ($question["images"] as &$image) {
+                $imagePath = $image["image_path"];
+                $mimeType = \Storage::disk('sftp')->getMimeType($imagePath);
+                $imageFile = \Storage::disk('sftp')->get($imagePath);
+                $imageFile = "data:".$mimeType.";base64,".base64_encode($imageFile);
+                $image["image_file"] = $imageFile;
+            }
+            unset($image);
+        }
+        unset($question);
         return response()->json(['dbData' => $questions]);
     }
 }

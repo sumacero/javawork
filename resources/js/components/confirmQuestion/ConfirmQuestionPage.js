@@ -5,30 +5,46 @@ import ChoicesForm from '../question/ChoicesForm';
 import Result from '../question/Result';
 
 function ConfirmQuestionPage() {
-    const question_id = parseInt($('#tmp').data('question_id'));
+    const questionId = parseInt($('#tmp').data('question_id'));
     const [ question, setQuestion] = useState("");
+    const [ questionImages, setQuestionImages] = useState([]);
+    const [ answerImages, setAnswerImages] = useState([]);
     const [ answeredFlag, setAnsweredFlag ] = useState(false);
-    const [ selectedChoiceId, setSelectedChoiceId] = useState(0);
+    const [ selectedChoiceIds, setSelectedChoiceIds] = useState([]);
+    const [ correctChoiceIds, setCorrectChoiceIds] =useState([]);
     const [ correctFlag, setCorrectFlag] = useState(false);
-    const [ correctSymbol, setCorrectSymbol] =useState("");
     useEffect(() => {
         const fetchData = async () => {
-            const result = await axios.get('get-qa/' + question_id);
-            const dbData = result.data.dbData;
-            setQuestion(JSON.parse(JSON.stringify(dbData)));
-            const correctChoice = dbData.choices.find((choice)=>choice.choice_id === dbData.answer.choice_id);
-            setCorrectSymbol(correctChoice.choice_symbol);
+            const result = await axios.get('../get-question/' + questionId);
+            const data = result.data;
+            console.log(data);
+            setQuestion(JSON.parse(JSON.stringify(data.dbData)));
+            setQuestionImages(JSON.parse(JSON.stringify(data.questionImages)));
+            setAnswerImages(JSON.parse(JSON.stringify(data.answerImages)))
+            if(Array.isArray(data.dbData.choices)){
+                setCorrectChoiceIds(data.dbData.choices
+                    .filter((choice)=>choice.is_correct === 1)
+                    .map((choice)=>choice.choice_id)
+                );
+            }
         };
         fetchData();
     },[]);
     const clickAnswerButton = () =>{
         setAnsweredFlag(true);
-        setCorrectFlag(question.answer.choice_id == selectedChoiceId)
+        const tmpSelectedChoiceIds = JSON.stringify(selectedChoiceIds.sort());
+        const tmpCorrctChoiceIds = JSON.stringify(correctChoiceIds.sort());
+        const corrected = tmpSelectedChoiceIds === tmpCorrctChoiceIds;
+        if(corrected){
+            setCorrectFlag(true);
+        }else{
+            setCorrectFlag(false);
+        }
     }
     const clickCommitButton = () => {
         console.log("編集内容を確定します");
         let postData = {
-          "question_id": question_id,
+          "question_id": questionId,
         };
         const func = async () => {
             try {
@@ -44,20 +60,32 @@ function ConfirmQuestionPage() {
     }
     const clickEditButton = () => {
         //編集画面に戻る
-        location.href = "edit-question?question_id=" + question_id;
+        location.href = "edit-question?question_id=" + questionId;
     }
     return (
         <div className="container">
+            動作確認画面
             {question !== "" &&
             <span>
-                <div>
-                    <Question question={question}/>
-                    <ChoicesForm choices={question.choices} setSelectedChoiceId={setSelectedChoiceId} answeredFlag={answeredFlag}/>
-                    {selectedChoiceId > 0 ? 
-                        <button type="button" className="btn btn-dark btn-block mb-3" onClick={clickAnswerButton} disabled={answeredFlag}>回答</button> 
-                    : null}
-                    <Result answer={question.answer} answeredFlag={answeredFlag} correctFlag={correctFlag} correctSymbol={correctSymbol}/> 
-                </div>
+                <p className="text-left">
+                    {question.category.workbook.workbook_name} - {question.category.category_name}
+                </p>
+                <Question question={question} questionImages={questionImages}/>
+                <ChoicesForm
+                    choices={question.choices}
+                    setSelectedChoiceIds={setSelectedChoiceIds}
+                    selectedChoiceIds={selectedChoiceIds}
+                    answeredFlag={answeredFlag}
+                />
+                <p>※{correctChoiceIds.length}つ選択してください</p>
+                {selectedChoiceIds.length === correctChoiceIds.length ? 
+                    <button type="button" className="btn btn-outline-dark btn-block mb-3" onClick={clickAnswerButton} disabled={answeredFlag}>回答</button> 
+                : null}
+                <Result
+                    answerImages={answerImages}
+                    answeredFlag={answeredFlag}
+                    correctFlag={correctFlag}
+                />
                 <div>
                     <p>以上の内容で登録します。よろしいですか？</p>
                     <button type="button" className="btn btn-primary btn-block mb-3" onClick={clickCommitButton}>確定</button>

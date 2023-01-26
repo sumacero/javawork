@@ -11,7 +11,7 @@ use App\Question;
 use App\Image;
 use App\Choice;
 
-class UploadQuestionRequest extends FormRequest
+class EditQuestionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -20,7 +20,7 @@ class UploadQuestionRequest extends FormRequest
      */
     public function authorize()
     {
-        if($this->path() == 'upload-question'){
+        if($this->path() == 'edit-question'){
             return true;
         }else{
             return false;
@@ -35,11 +35,12 @@ class UploadQuestionRequest extends FormRequest
     public function rules()
     {
         return [
+            'question_id' => 'required|integer',
             'workbook_id' => 'required|integer',
             'category_id' => 'required|integer',
             'question_number'=> [
                 'required',
-                Rule::unique('questions', 'question_number')->where('category_id', $this->input('category_id'))
+                Rule::unique('questions', 'question_number')->ignore($this->question_id, 'question_id')->where('category_id', $this->input('category_id'))
             ],
         ];
     }

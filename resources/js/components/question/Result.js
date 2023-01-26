@@ -32,11 +32,13 @@ function Result(props) {
                     <h3 className="bg-dark text-white">
                         解答解説
                     </h3>
-                    {props.answerImages.map((answerImage) =>
-                        <span key={answerImage}>
-                            <img className="img-fluid" src={"data:image/png;base64," + answerImage} alt="answerImage"></img>
-                        </span>
-                    )}
+                    <div className="row">
+                        {props.answerImages.map((answerImage) =>
+                            <div key={answerImage.fileName} className="col">
+                                <img className="img-fluid" src={answerImage.image} alt={answerImage.fileName}></img>
+                            </div>
+                        )}
+                    </div>
                 </div>
             :null}
             <CSSTransition in={props.answeredFlag} classNames={props.correctFlag ? "success" : "wrong"} timeout={0}>

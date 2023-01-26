@@ -17,7 +17,7 @@ class CreateImagesTable extends Migration
             // 列の定義
             $table->bigIncrements('image_id');
             $table->biginteger('question_id')->unsigned();
-            $table->string('image_path')->unique();
+            $table->string('image_path')->unique()->nullable();
             $table->string('image_type');
             $table->timestamps();
             // 外部キー設定

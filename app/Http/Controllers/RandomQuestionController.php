@@ -8,6 +8,7 @@ use App\Question;
 use App\Image;
 use App\Choice;
 use App\Workbook;
+use App\Http\Controllers\QuestionController;
 
 class RandomQuestionController extends Controller
 {
@@ -36,24 +37,8 @@ class RandomQuestionController extends Controller
         if($targetQuestionCount > 0){
             $randomIndex = mt_rand(0, count($questionIds)-1);
             $question_id = $questionIds[$randomIndex];
-            $question = Question::with('status','category.workbook','choices')->find($question_id);
-            $questionImageRecords = Image::where('question_id', $question_id)->where('image_type', "question")->get();
-            $answerImageRecords = Image::where('question_id', $question_id)->where('image_type', "answer")->get();
-            $questionImages = [];
-            foreach ($questionImageRecords as $key => $questionImageRecord) {
-                $imagePath = $questionImageRecord["image_path"];
-                $imageFile = \Storage::disk('sftp')->get($imagePath);
-                $imageFile = base64_encode($imageFile);
-                array_push($questionImages, $imageFile);
-            }
-            $answerImages = [];
-            foreach ($answerImageRecords as $key => $answerImageRecord) {
-                $imagePath = $answerImageRecord["image_path"];
-                $imageFile = \Storage::disk('sftp')->get($imagePath);
-                $imageFile = base64_encode($imageFile);
-                array_push($answerImages, $imageFile);
-            }
-            return response()->json(['dbData' => $question, 'questionImages' => $questionImages, 'answerImages' => $answerImages]);
+            $questionController = new QuestionController;
+            return $questionController->getQuestion($question_id);
         }
         return response()->json(['error' => 'error']);
     }

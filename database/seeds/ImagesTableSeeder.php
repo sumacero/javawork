@@ -13,19 +13,31 @@ class ImagesTableSeeder extends Seeder
     {
         $param = [
             'question_id' => '1',
-            'image_path' => 'silver/1-1/question/image1.PNG',
+            'image_path' => '/image1.PNG',
             'image_type' => 'question',
         ];
         DB::table('images')->insert($param);
         $param = [
             'question_id' => '1',
-            'image_path' => 'silver/1-1/answer/image1.PNG',
+            'image_path' => '/image2.PNG',
             'image_type' => 'answer',
         ];
         DB::table('images')->insert($param);
         $param = [
             'question_id' => '1',
-            'image_path' => 'silver/1-1/answer/image2.PNG',
+            'image_path' => '/image3.PNG',
+            'image_type' => 'answer',
+        ];
+        DB::table('images')->insert($param);
+        $param = [
+            'question_id' => '2',
+            'image_path' => '/image4.PNG',
+            'image_type' => 'question',
+        ];
+        DB::table('images')->insert($param);
+        $param = [
+            'question_id' => '2',
+            'image_path' => '/image5.PNG',
             'image_type' => 'answer',
         ];
         DB::table('images')->insert($param);

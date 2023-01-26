@@ -22,8 +22,8 @@ function Question(props) {
             <h1 className="bg-dark text-white">問題{props.question.question_number}</h1>
             <p>{convertText(props.question.question_text)}</p>
             {props.questionImages.map((questionImage) =>
-                <span key={questionImage}>
-                    <img className="img-fluid" src={"data:image/png;base64," + questionImage} alt="questionImage"></img>
+                <span key={questionImage.fileName}>
+                    <img className="img-fluid" src={questionImage.image} alt={questionImage.fileName}></img>
                 </span>
             )}
         </div>
