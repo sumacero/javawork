@@ -12,26 +12,12 @@ use App\Http\Controllers\QuestionController;
 
 class RandomQuestionController extends Controller
 {
-    public function index(){
-        return view('random_question');
-    }
-    public function getTargetQuestionCount(Request $request){
-        $targetCategories = $request->input();
-        $categoryIds = array();
-        foreach ($targetCategories as $key => $category) {
-            array_push($categoryIds, $category["category_id"]);
-        }
-        $questionIds = Question::where('status_id', 1)->whereIn('category_id', $categoryIds)->pluck('question_id');
-        $targetQuestionCount = count($questionIds);
-        $dbData = compact('targetQuestionCount');
-        return response()->json(['dbData' => $dbData]);
+    public function index(Request $request){
+        $category_ids = $request->input("category_ids");
+        return view('random_question', compact('category_ids'));
     }
     public function getQuestion(Request $request){
-        $targetCategories = $request->input();
-        $categoryIds = array();
-        foreach ($targetCategories as $key => $category) {
-            array_push($categoryIds, $category["category_id"]);
-        }
+        $categoryIds = $request->input();
         $questionIds = Question::where('status_id', 1)->whereIn('category_id', $categoryIds)->pluck('question_id');
         $targetQuestionCount = count($questionIds);
         if($targetQuestionCount > 0){

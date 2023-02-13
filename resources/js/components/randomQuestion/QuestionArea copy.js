@@ -94,7 +94,7 @@ function QuestionArea(props) {
                  ( 正解数:{props.score.correctCount} / 出題数:{props.score.correctCount+props.score.wrongCount} )
             </p>
             <p className="text-left">
-                {props.question.category.workbook.workbook_name} - {props.question.category.category_name}
+                id:{props.question.question_id} - {props.question.category.workbook.workbook_name} - {props.question.category.category_name}
             </p>
             <Question question={props.question} questionImages={props.questionImages}/>
             <ChoicesForm

@@ -4,16 +4,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Mylistdir extends Model
+class AnswerLog extends Model
 {
     //primaryKeyの設定
-    protected $primaryKey = "mylistdir_id";
+    protected $primaryKey = "answer_log_id";
     //belongsTo設定
     public function user(){
         return $this->belongsTo('App\User','id');
     }
-    //hasMany設定
-    public function mylists(){
-        return $this->hasMany('App\Mylist', 'mylistdir_id');
+    public function question(){
+        return $this->belongsTo('App\Question','question_id');
     }
 }

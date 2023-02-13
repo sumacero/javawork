@@ -8,6 +8,7 @@ use App\Question;
 use App\Image;
 use App\Choice;
 use App\Workbook;
+use App\AnswerLog;
 
 class QuestionController extends Controller
 {

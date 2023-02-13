@@ -9,9 +9,12 @@ import { CSSTransition } from 'react-transition-group';
 function SearchPage(){
     const [ loginUser, setLoginUser] = useState();
     const [ openFilterWindow, setOpenFilterWindow] = useState(false);
+    const [ statuses, setStatuses] = useState([]);
+    const [ checkedStatusIds, setCheckedStatusIds] = useState([]);
     const [ workbooks, setWorkbooks] = useState([]);
     const [ categories, setCategories] = useState([]);
     const [ checkedCategoryIds, setCheckedCategoryIds] = useState([]);
+    const [ keyword, setKeyword] = useState("");
     const [ paginationData, setPaginationData] = useState([]);
     const [ questions, setQuestions] = useState([]);
     const [ mylistdirs, setMylistdirs] = useState("");
@@ -22,6 +25,7 @@ function SearchPage(){
 
     useEffect(() => {
         getLoginUser();
+        getStatuses();
         getCategories();
         getQuestions();
         getMylistdirs();
@@ -30,6 +34,11 @@ function SearchPage(){
             const result = await axios.get('get-login-user');
             const data = result.data;
             setLoginUser(JSON.parse(JSON.stringify(data.loginUser)));
+    };
+    const getStatuses = async () => {
+            const result = await axios.get('get-statuses');
+            const data = result.data;
+            setStatuses(JSON.parse(JSON.stringify(data.statuses)));
     };
     const getCategories = async () => {
             const result = await axios.get('get-categories');
@@ -90,7 +99,9 @@ function SearchPage(){
         const response = await axios.get('filter-questions', {
             params:{
                 "page":page,
+                "status_ids":JSON.stringify(checkedStatusIds),
                 "category_ids":JSON.stringify(checkedCategoryIds),
+                "keyword":keyword
             }
         });
         let dbData = response.data.dbData;
@@ -112,10 +123,15 @@ function SearchPage(){
         <div className="container">
             <FilterMenuArea
                 setOpenFilterWindow={setOpenFilterWindow}
+                statuses={statuses}
+                checkedStatusIds={checkedStatusIds}
+                setCheckedStatusIds={setCheckedStatusIds}
                 workbooks={workbooks} 
                 categories={categories} 
                 checkedCategoryIds={checkedCategoryIds}
                 setCheckedCategoryIds={setCheckedCategoryIds}
+                keyword={keyword}
+                setKeyword={setKeyword}
                 filterQuestions={filterQuestions}
             />
             <Pagination

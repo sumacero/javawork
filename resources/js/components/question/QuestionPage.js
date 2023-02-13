@@ -46,7 +46,7 @@ function QuestionPage() {
             {question !== "" &&
             <span>
                 <p className="text-left">
-                    {question.category.workbook.workbook_name} - {question.category.category_name}
+                    id:{question_id} - {question.category.workbook.workbook_name} - {question.category.category_name}
                 </p>
                 <Question question={question} questionImages={questionImages}/>
                 <ChoicesForm

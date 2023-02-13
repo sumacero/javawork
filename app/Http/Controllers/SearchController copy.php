@@ -19,6 +19,11 @@ class SearchController extends Controller
         $users = User::all();
         return response()->json(['users' => $users]);
     }
+    public function getStatuses(){
+        $statuses = Status::all();
+        return response()->json(['statuses' => $statuses]);
+    }
+
     public function getQuestions(Request $request){
         $questions = Question::with('status','category.workbook','createuser','updateuser','choices','images')->paginate(5);
         // image_fileプロパティを追加
@@ -41,10 +46,32 @@ class SearchController extends Controller
         //------------------------------------------------------------------
         //リクエストデータの読み取り
         //------------------------------------------------------------------
+        $statudIds = json_decode($request->input('status_ids'),true);
         $categoryIds = json_decode($request->input('category_ids'),true);
+        $keyword = $request->input('keyword');
+        $splitKeyword = explode(" ", $keyword);
+        $keywordList = [];
+        foreach ($splitKeyword as $keyword) {
+            if ($keyword != " " && $keyword != ""){
+                $keywordList[] = $keyword;
+            }
+        }
         $questions = Question::with('status','category.workbook','createuser','updateuser','choices', 'images');
+        if(count($statudIds)>0){
+            $questions = $questions->whereIn('status_id', $statudIds);
+        }
         if(count($categoryIds)>0){
             $questions = $questions->whereIn('category_id', $categoryIds);
+        }
+        if(count($keywordList)>0){
+            $keywordFilterQuestionIds = DB::table('questions')
+                ->where(function($query) use($keywordList){
+                    foreach ($keywordList as $keyword) {
+                        $query->where(DB::raw('CONCAT(questions.question_text, " ", questions.answer_text)'), 'like', '%'.$keyword.'%');
+                    }
+                })
+                ->pluck('questions.question_id');
+            $questions = $questions->whereIn('question_id', $keywordFilterQuestionIds);
         }
         $questions = $questions->paginate(5);
         // image_fileプロパティを追加

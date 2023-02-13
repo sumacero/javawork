@@ -25,9 +25,11 @@ Auth::routes([
 */
 Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index');
-Route::get('/random-question', 'RandomQuestionController@index');
+Route::get('/random-question-setting', 'RandomQuestionSettingController@index');
+Route::post('/random-question', 'RandomQuestionController@index');
 Route::get('/get-categories', 'MakeQuestionController@getCategories');
-Route::post('/get-target-question-count', 'RandomQuestionController@getTargetQuestionCount');
+Route::post('/get-target-question-count', 'RandomQuestionSettingController@getTargetQuestionCount');
+//Route::post('/get-target-question-ids', 'RandomQuestionSettingController@getTargetQuestionIds');
 Route::post('/random-get-question', 'RandomQuestionController@getQuestion');
 Route::get('/question/{question_id?}', 'QuestionController@index');
 Route::get('/get-question/{question_id?}', 'QuestionController@getQuestion');
@@ -55,6 +57,8 @@ Route::post('/delete-mylist', 'MylistController@deleteMylist')->middleware('can:
 Route::post('/delete-mylistdir', 'MylistController@deleteMylistdir')->middleware('can:service');
 Route::post('/change-mylistdir-name', 'MylistController@changeMylistdirName')->middleware('can:service');
 Route::view('/test', 'test');
+Route::post('/get-answer-log', 'AnswerLogController@getAnswerLog')->middleware('can:service');
+Route::post('/update-answer-log', 'AnswerLogController@updateAnswerLog')->middleware('can:service');
 
 
 

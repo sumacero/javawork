@@ -5,6 +5,5 @@
     <div class="row justify-content-center">
     </div>
 </div>
-<span id="tmp" data-category_ids="{{$category_ids}}"></span>
-<div id="random-question-page"></div>
+<div id="random-question-setting-page"></div>
 @endsection
