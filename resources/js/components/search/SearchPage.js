@@ -14,9 +14,7 @@ function SearchPage(){
     const [ checkedCategoryIds, setCheckedCategoryIds] = useState([]);
     const [ paginationData, setPaginationData] = useState([]);
     const [ questions, setQuestions] = useState([]);
-    const [ mylistdirs, setMylistdirs] = useState("");
     const [ activeQuestionId, setActiveQuestionId] = useState(-1);
-    const [ selectedMylistdirId, setSelectedMylistdirId] = useState(-1);
     const [ popupFlag, setPopupFlag] = useState(false);
     const [ popupMsg, setPopupMsg] = useState("");
 
@@ -24,7 +22,6 @@ function SearchPage(){
         getLoginUser();
         getCategories();
         getQuestions();
-        getMylistdirs();
     },[]);
     const getLoginUser = async () => {
             const result = await axios.get('get-login-user');
@@ -59,33 +56,6 @@ function SearchPage(){
         setQuestions(questions);
         setPaginationData(JSON.parse(JSON.stringify(paginationData)));
     }
-    const getMylistdirs = async () => {
-        const result = await axios.get('../get-mylistdirs-question/');
-        const dbData = result.data.dbData;
-        const mylistdirs = JSON.parse(JSON.stringify(dbData));
-        if (mylistdirs.length>0){
-            setMylistdirs(mylistdirs);
-        }
-    };
-    const addMylist = async (questionId) => {
-        console.log("追加します");
-        try {
-            const result = await axios.post('../add-mylist/', {
-                params:{
-                    "mylistdir_id":selectedMylistdirId,
-                    "question_id":activeQuestionId
-                }
-            });
-            console.log("マイリストに問題を追加しました");
-            setPopupMsg("マイリストに問題を追加しました");
-            setPopupFlag(!popupFlag);
-            getMylistdirs();
-        } catch(error){
-            console.log(error);
-            setPopupMsg("DBエラー：マイリストに問題を追加できませんでした。");
-            setPopupFlag(!popupFlag);
-        }
-    };
     const filterQuestions = async (page) => {
         const response = await axios.get('filter-questions', {
             params:{
@@ -126,12 +96,7 @@ function SearchPage(){
             <QuestionList
                 loginUser={loginUser}
                 questions={questions}
-                getMylistdirs={getMylistdirs}
-                mylistdirs={mylistdirs}
-                addMylist={addMylist}
                 setActiveQuestionId={setActiveQuestionId}
-                setSelectedMylistdirId={setSelectedMylistdirId}
-                selectedMylistdirId={selectedMylistdirId}
             />
             <CSSTransition in={popupFlag} classNames="popup" timeout={2000}>
                 <div>{popupMsg}</div>

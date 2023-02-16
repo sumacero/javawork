@@ -27,7 +27,7 @@
             </div>
         </div>
         @endcan
-        @can('admin') 
+        @can('service') 
         <div class="col-md-3">
             <div class="card">
                 <div class="card-header">Java問題作成</div>
@@ -36,19 +36,6 @@
                 </a>
                 <div class="card-body">
                     Javaの問題を作成します。
-                </div>
-            </div>
-        </div>
-        @endcan
-        @can('service') 
-        <div class="col-md-3">        
-            <div class="card">
-                <div class="card-header">問題マイリスト設定</div>
-                <a href="{{ url('/mylist') }}">
-                    <img class="card-img-top" src="images/マイリスト.jpg" alt="DB検索画像" height="200">
-                </a>
-                <div class="card-body">
-                    問題のマイリストを設定します。
                 </div>
             </div>
         </div>
