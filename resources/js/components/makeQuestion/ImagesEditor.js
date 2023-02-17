@@ -38,7 +38,7 @@ function ImagesEditor(props) {
         <div className="row border">
             {props.images.map((image) => 
                 <div key={image.index} className="col border">
-                    <label>{image.fileName}:{image.index}</label>
+                    <label>画像インデックス:{image.index}</label>
                     <img
                         className="img-fluid"
                         src={image.dataUrl}
