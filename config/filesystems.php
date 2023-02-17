@@ -83,7 +83,7 @@ return [
             'host' => env('SFTP_HOST'),
             'username' => env('SFTP_USERNAME'),
             'password' => env('SFTP_PASSWORD'),
-            'privateKey' => 'key/sumacero1223.key',
+            'privateKey' => env('SFTP_KEY'),
             'port' => env('SFTP_PORT'),
             'root' => env('SFTP_ROOT'),
             'timeout' => 30,
