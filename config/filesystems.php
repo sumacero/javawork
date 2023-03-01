@@ -65,7 +65,6 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
         ],
         //Virtualbox内のsambaをファイルサーバーにする場合
-        /*
         'sftp' => [
             'driver' => 'sftp',
             'host' => '192.168.56.100',
@@ -76,8 +75,8 @@ return [
             'root' => '/home/sumacero/share/javawork',
             'timeout' => 30,
         ],
-        */
         //XSERVERのストレージをファイルサーバーにする場合
+        /*
         'sftp' => [
             'driver' => 'sftp',
             'host' => env('SFTP_HOST'),
@@ -88,6 +87,7 @@ return [
             'root' => env('SFTP_ROOT'),
             'timeout' => 30,
         ],
+        */
 
     ],
 

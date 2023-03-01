@@ -63,18 +63,18 @@ function MakeQuestionPage(){
         if(questionImages.length === 0){
             isError = true;
             setQuestionImagesError("問題文の画像を選択してください");
-        }else if(questionImages.length > 5) {
+        }else if(questionImages.length > 8) {
             isError = true;
-            setQuestionImagesError("問題文の画像が5枚を超えています");
+            setQuestionImagesError("問題文の画像が8枚を超えています");
         }else{
             setQuestionImagesError("");
         }
         if(answerImages.length === 0){
             isError = true;
             setAnswerImagesError("解答文の画像を選択してください");
-        }else if(answerImages.length > 5) {
+        }else if(answerImages.length > 8) {
             isError = true;
-            setAnswerImagesError("解答文の画像が5枚を超えています");
+            setAnswerImagesError("解答文の画像が8枚を超えています");
         }else{
             setAnswerImagesError("");
         }

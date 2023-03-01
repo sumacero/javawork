@@ -40,7 +40,6 @@ function SearchPage(){
                 "page":1
             }
         });
-        console.log(response.data)
         let data = response.data;
         let questions = data.dbData.data;
         let paginationData = {

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 
 function QuestionContent(props){
+    const previewImage = props.question.images.find((image) => image.image_type == "question");
     const clickQuestionButton = (question_id) => {
         //問題画面へ移動する
         location.href = "question/" + question_id;
@@ -48,12 +49,7 @@ function QuestionContent(props){
                 <div className="col-7 border">
                     <div className="row border">
                         <div className="col border">
-                            {
-                                props.question.images.filter((image) => image.image_type == "question").map((questionImage) =>
-                                <span key={questionImage.image_id}>
-                                    <img className="img-fluid" src={questionImage.image_file} alt="questionImage"></img>
-                                </span>
-                            )}
+                            <img className="img-fluid" src={previewImage.image_file} alt="previewImage"></img>
                         </div>
                     </div>
                 </div>
