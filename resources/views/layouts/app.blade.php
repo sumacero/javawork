@@ -57,11 +57,6 @@
                                     Java問題作成
                                 </a>
                                 @endcan
-                                @can('service') 
-                                <a class="dropdown-item" href="{{ url('/mylist') }}">
-                                    マイリスト設定
-                                </a>
-                                @endcan
                             </div>
                         </li>
                     </ul>

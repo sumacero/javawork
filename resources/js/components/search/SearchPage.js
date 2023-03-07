@@ -7,6 +7,19 @@ import QuestionList from './QuestionList';
 import { CSSTransition } from 'react-transition-group';
 
 function SearchPage(){
+    const overlay = {
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        backgroundColor: "rgba(0,0,0,0.5)",
+        display: "flex",
+        flexFlow: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        zIndex: "100000",
+    };
     const [ loginUser, setLoginUser] = useState();
     const [ openFilterWindow, setOpenFilterWindow] = useState(false);
     const [ workbooks, setWorkbooks] = useState([]);
@@ -15,9 +28,8 @@ function SearchPage(){
     const [ paginationData, setPaginationData] = useState([]);
     const [ questions, setQuestions] = useState([]);
     const [ activeQuestionId, setActiveQuestionId] = useState(-1);
-    const [ popupFlag, setPopupFlag] = useState(false);
-    const [ popupMsg, setPopupMsg] = useState("");
-
+    const [ isLoading, setIsLoading] = useState(false);
+    const [ targetQuestionCount, setTargetQuestionCount] = useState(0);
     useEffect(() => {
         getLoginUser();
         getCategories();
@@ -35,6 +47,7 @@ function SearchPage(){
             setCategories(JSON.parse(JSON.stringify(data.categories)));
     };
     const getQuestions = async () => {
+        setIsLoading(true);
         const response = await axios.get('get-questions', {
             params:{
                 "page":1
@@ -54,8 +67,10 @@ function SearchPage(){
         };
         setQuestions(questions);
         setPaginationData(JSON.parse(JSON.stringify(paginationData)));
+        setIsLoading(false);
     }
     const filterQuestions = async (page) => {
+        setIsLoading(true);
         const response = await axios.get('filter-questions', {
             params:{
                 "page":page,
@@ -76,30 +91,42 @@ function SearchPage(){
         };
         setQuestions(questions);
         setPaginationData(JSON.parse(JSON.stringify(paginationData)));
+        setIsLoading(false);
     }
+    const getTargetQuestionCount = async () => {
+        const result = await axios.post('get-target-question-count', checkedCategoryIds);
+        const data = result.data;
+        setTargetQuestionCount(data.target_question_count);
+    };
     return(
-        <div className="container">
-            <FilterMenuArea
-                setOpenFilterWindow={setOpenFilterWindow}
-                workbooks={workbooks} 
-                categories={categories} 
-                checkedCategoryIds={checkedCategoryIds}
-                setCheckedCategoryIds={setCheckedCategoryIds}
-                filterQuestions={filterQuestions}
-            />
-            <Pagination
-                setPaginationData={setPaginationData}
-                paginationData={paginationData}
-                filterQuestions={filterQuestions}
-            />
-            <QuestionList
-                loginUser={loginUser}
-                questions={questions}
-                setActiveQuestionId={setActiveQuestionId}
-            />
-            <CSSTransition in={popupFlag} classNames="popup" timeout={2000}>
-                <div>{popupMsg}</div>
-            </CSSTransition>
+        <div>
+            <div className="container">
+                <FilterMenuArea
+                    setOpenFilterWindow={setOpenFilterWindow}
+                    workbooks={workbooks} 
+                    categories={categories} 
+                    checkedCategoryIds={checkedCategoryIds}
+                    setCheckedCategoryIds={setCheckedCategoryIds}
+                    filterQuestions={filterQuestions}
+                />
+                <Pagination
+                    setPaginationData={setPaginationData}
+                    paginationData={paginationData}
+                    filterQuestions={filterQuestions}
+                />
+                <QuestionList
+                    loginUser={loginUser}
+                    questions={questions}
+                    setActiveQuestionId={setActiveQuestionId}
+                />
+            </div>
+            {isLoading && 
+                <span style={overlay}>
+                    <div>loading...</div>
+                    <div className="spinner-border">
+                    </div>
+                </span>
+            }
         </div>
     )
 }

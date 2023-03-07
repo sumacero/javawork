@@ -27,7 +27,7 @@
             </div>
         </div>
         @endcan
-        @can('service') 
+        @can('admin') 
         <div class="col-md-3">
             <div class="card">
                 <div class="card-header">Java問題作成</div>

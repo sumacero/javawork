@@ -12,6 +12,7 @@ function QuestionContent(props){
         //編集画面へ移動する
         location.href = "edit-question?question_id=" + question_id;
     }
+
     return(
         <div className="border container">
             <div className="row border">

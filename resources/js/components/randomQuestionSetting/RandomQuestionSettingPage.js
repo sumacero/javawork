@@ -9,7 +9,8 @@ function RandomQuestionSettingPage(props){
     const [ checkedCategories, setCheckedCategories] = useState([]);
     const [ targetQuestionCount, setTargetQuestionCount] = useState(0);
     const getTargetQuestionCount = async () => {
-        const result = await axios.post('get-target-question-count', checkedCategories);
+        const checkedCategoryIds = checkedCategories.map((category)=>category.category_id);
+        const result = await axios.post('get-target-question-count', checkedCategoryIds);
         const data = result.data;
         setTargetQuestionCount(data.target_question_count);
     };
