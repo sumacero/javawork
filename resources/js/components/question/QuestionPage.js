@@ -12,10 +12,13 @@ function QuestionPage() {
     const [ answerImages, setAnswerImages] = useState([]);
     const [ answeredFlag, setAnsweredFlag ] = useState(false);
     const [ selectedChoiceIds, setSelectedChoiceIds] = useState([]);
-    const [ correctChoiceIds, setCorrectChoiceIds] =useState([]);
+    const [ correctChoiceIds, setCorrectChoiceIds] = useState([]);
     const [ correctFlag, setCorrectFlag] = useState(false);
+    const [ prevQuestionId, setPrevQuestionId] = useState(-1);
+    const [ nextQuestionId, setNextQuestionId] = useState(-1);
+
     useEffect(() => {
-        const fetchData = async () => {
+        const getQuestion = async () => {
             const result = await axios.get('../get-question/' + question_id);
             const data = result.data;
             setQuestion(JSON.parse(JSON.stringify(data.dbData)));
@@ -28,7 +31,14 @@ function QuestionPage() {
                 );
             }
         };
-        fetchData();
+        const getPrevNextQuestionId = async () => {
+            const result = await axios.get('../get-prev-next-question-id/' + question_id);
+            const data = result.data;
+            setPrevQuestionId(data.prevQuestionId);
+            setNextQuestionId(data.nextQuestionId);
+        }
+        getQuestion();
+        getPrevNextQuestionId();
     },[]);
     const clickAnswerButton = () =>{
         setAnsweredFlag(true);
@@ -40,6 +50,16 @@ function QuestionPage() {
         }else{
             setCorrectFlag(false);
         }
+    }
+    const clickPrevButton = () =>{
+        if(prevQuestionId == -1) return;
+        let url = location.href.replace(/\d*$/, (prevQuestionId));
+        location = url;
+    }
+    const clickNextButton = () =>{
+        if(nextQuestionId == -1) return;
+        let url = location.href.replace(/\d*$/, (nextQuestionId));
+        location = url;
     }
     return (
         <div className="container">
@@ -64,6 +84,28 @@ function QuestionPage() {
                     answeredFlag={answeredFlag}
                     correctFlag={correctFlag}
                 />
+                <div className="row">
+                    <div className="col">
+                        <button
+                            type="button"
+                            className="btn btn-outline-primary btn-block"
+                            onClick={clickPrevButton}
+                            disabled={prevQuestionId == -1}
+                        >
+                            前の問題へ
+                        </button>
+                    </div>
+                    <div className="col">
+                        <button
+                            type="button"
+                            className="btn btn-outline-primary btn-block"
+                            onClick={clickNextButton}
+                            disabled={nextQuestionId == -1}
+                        >
+                            次の問題へ
+                        </button> 
+                    </div>
+                </div>
             </span>
             }
         </div>

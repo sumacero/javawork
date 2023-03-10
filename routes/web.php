@@ -56,6 +56,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/random-get-question', 'RandomQuestionController@getQuestion');
     Route::get('/question/{question_id?}', 'QuestionController@index');
     Route::get('/get-question/{question_id?}', 'QuestionController@getQuestion');
+    Route::get('/get-prev-next-question-id/{question_id?}', 'QuestionController@getPrevNextQuestionId');
     Route::get('/search', 'SearchController@index');
     Route::get('/get-login-user', 'GetUserController@getUser');
     Route::get('/get-users', 'SearchController@getUsers');
