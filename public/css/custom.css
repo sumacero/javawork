@@ -78,3 +78,16 @@
     transform: rotate(-45deg); /* 角度 */
     opacity: 1
 }
+.wrong-enter-done::after {
+    position:absolute;
+    top:0px;
+    left: 0;
+    right: 0;
+	content: "";
+    transition: all  1s ease;
+    width: 5px; /* 縦棒の幅 */
+    height: 120px; /* 縦棒の長さ */
+    background: blue; /* 縦棒の色 */
+    transform: rotate(90deg); /* 角度 */
+    opacity: 1
+}

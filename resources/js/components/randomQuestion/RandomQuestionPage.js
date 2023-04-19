@@ -13,9 +13,9 @@ function RandomQuestionPage() {
     const [ answerImages, setAnswerImages] = useState([]);
     const [ answeredFlag, setAnsweredFlag ] = useState(false);
     const [ selectedChoiceIds, setSelectedChoiceIds] = useState([]);
-    const [ correctChoiceIds, setCorrectChoiceIds] =useState([]);
+    const [ correctChoiceIds, setCorrectChoiceIds] = useState([]);
     const [ correctFlag, setCorrectFlag] = useState(false);
-    const [ categoryIds, setCategoryIds] = useState($('#tmp').data('category_ids').split(','));
+    let categoryIds = ($('#tmp').data('category_ids') + "").split(',');
     let questionId = -1;
     useEffect(() => {
         getQuestion();
