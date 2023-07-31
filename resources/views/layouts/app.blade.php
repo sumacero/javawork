@@ -44,10 +44,10 @@
                                 メニュー <span class="caret"></span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                @can('service') 
                                 <a class="dropdown-item" href="{{ url('/random-question') }}">
                                     Java演習(ランダム出題)
                                 </a>
-                                @can('service') 
                                 <a class="dropdown-item" href="{{ url('/search') }}">
                                     Java問題検索
                                 </a>

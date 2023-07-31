@@ -3,6 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
+        @can('service') 
         <div class="col-md-3">
             <div class="card">
                 <div class="card-header">Java演習(ランダム出題)</div>
@@ -14,7 +15,6 @@
                 </div>
             </div>
         </div>
-        @can('service') 
         <div class="col-md-3">        
             <div class="card">
                 <div class="card-header">Java問題検索</div>
@@ -23,6 +23,17 @@
                 </a>
                 <div class="card-body">
                     Javaの問題の一覧を検索します。
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">        
+            <div class="card">
+                <div class="card-header">Java模擬試験</div>
+                <a href="{{ url('/examination') }}">
+                    <img class="card-img-top" src="images/模擬試験.jpg" alt="模擬試験画像" height="200">
+                </a>
+                <div class="card-body">
+                    Javaの模擬試験を実施します。
                 </div>
             </div>
         </div>

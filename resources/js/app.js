@@ -21,6 +21,8 @@ require('./components/search/SearchPage');
 require('./components/randomQuestionSetting/RandomQuestionSettingPage');
 require('./components/randomQuestion/RandomQuestionPage');
 require('./components/question/QuestionPage');
+require('./components/examination/examinationSetting/ExaminationSetting');
+require('./components/examination/ExaminationPage');
 require('./components/makeQuestion/MakeQuestionPage');
 require('./components/confirmQuestion/ConfirmQuestionPage');
 require('./components/editQuestion/EditQuestionPage');
