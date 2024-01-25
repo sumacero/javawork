@@ -1,41 +1,268 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef} from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import Question from '../question/Question';
-import ChoicesForm from '../question/ChoicesForm';
-import Result from '../question/Result';
 import { CSSTransition } from 'react-transition-group';
 import ExaminationSetting from './examinationSetting/ExaminationSetting.js';
 import ExaminationQuestionList from './examinationQuestionList/ExaminationQuestionList.js';
 import ExaminationQuestion from './examinationQuestion/ExaminationQuestion.js';
+import FinishedExamination from './finishedExamination/FinishedExamination.js';
+import DoneExaminationModal from './modal/DoneExaminationModal.js';
+import TimeUpExaminationModal from './modal/TimeUpExaminationModal.js';
 
 function ExaminationPage() {
-    // 試験の状態(setting, question, questionList, result)
-    const [ examinationState, setExeminationState] = useState("setting");
-    const [ questions, setQuestions] = useState([]);
-    const [ activeQuestionId, setActiveQuestionId] = useState("");
+    // 試験の状態(setting, continuousQuestion, openQuestion, questionList, result)
+    const [ examinationState, setExaminationState] = useState("setting");
+    const [ examination, setExamination] = useState("");
+    const [ activeExaminationQuestionId, setActiveExaminationQuestionId] = useState(-1);
+    const [ activeExaminationQuestionIdsIndex, setActiveExaminationQuestionIdsIndex] = useState(0);
+    const [ openDoneExaminationModal, setOpenDoneExaminationModal] = useState(false);
+    const [ allAnswered, setAllAnswered] = useState(false);
+    const [ openTimeUpExaminationModal, setOpenTimeUpExaminationModal] = useState(false);
+    const [ timeLeft, setTimeLeft] = useState(0);
+    const defaultErrors = {
+        "title": "",
+        "memo": "",
+        "set_question_count": "",
+        "set_passing_score": "",
+        "set_time": "",
+        "category_ids": ""
+    };
+    const [ laravelVaridateErrors, setLaravelVaridateErrors] = useState(defaultErrors);
+    const [ popupFlag, setPopupFlag] = useState(false);
+    const [ popupMsg, setPopupMsg] = useState("");
+    const refExaminationState = useRef(examinationState);
+    const refTimeLeft = useRef(timeLeft);
+    useEffect(() => {
+        refExaminationState.current  = examinationState;
+    }, [examinationState]);
+    useEffect(() => {
+        refTimeLeft.current  = timeLeft;
+    }, [timeLeft]);
+
+    const startExamination = (data) => {
+        let res1;
+        let res2;
+        const asyncFunc = async (data) => {
+            console.log("postData↓");
+            console.log(data);
+            // res1とres2は順番に実行される
+            res1 = await axios.post('start-examination', data);
+            let examinationId = res1.data.examinationId;
+            res2 = await axios.post('get-examination-data', {
+                examination_id:examinationId
+            });
+        };
+        asyncFunc(data).
+        then(()=>{
+            console.log("試験開始が成功！！");
+            setLaravelVaridateErrors(defaultErrors);
+            // asyncFunc実行後に処理される
+            console.log('res1_data↓');
+            console.log(res1.data);
+            console.log('res2_data↓');
+            console.log(res2.data);
+            const tmp = JSON.parse(JSON.stringify(res2.data.examination));
+            setExamination(tmp);
+            const examinationQuestions = tmp.examination_questions;
+            setActiveExaminationQuestionIdsIndex(0);
+            setActiveExaminationQuestionId(
+                examinationQuestions[0].examination_question_id
+            );
+            setExaminationState("continuousQuestion");
+            let second = tmp.set_time * 60;
+            setTimeLeft(second);
+            timerStart();
+        }).
+        catch((error)=>{
+            if(error.response.status == 422){
+                console.log("試験開始バリデーションでエラーが発生！！");
+                const errorObj = error.response.data.errors;
+                console.log(errorObj);
+                setLaravelVaridateErrors(errorObj);
+                setPopupMsg("サーバーバリデーションエラー");
+                setPopupFlag(!popupFlag);
+            }else{
+                alert("サーバーエラーが発生");
+            }
+        }).
+        finally(() => {
+            console.log("finally");
+        })
+    }
+
+    const timerStart = () => {
+        const timerId = setInterval(() => {
+            setTimeLeft(refTimeLeft.current - 1);
+            if(refTimeLeft.current <= 0){ 
+                clearInterval(timerId);
+                setOpenTimeUpExaminationModal(true);
+            }
+            if(refExaminationState.current == "finished"){
+                clearInterval(timerId);
+            }
+        }, 1000);
+    }
+
+    const answeredQuestion = () => {
+        if((examination.examination_questions.length > activeExaminationQuestionIdsIndex + 1) && (examinationState == "continuousQuestion")){
+            moveQuestion();
+        }else{
+            reloadExamination();
+        }
+    }
+    const skipQuestion = () => {
+        if((examination.examination_questions.length > activeExaminationQuestionIdsIndex + 1) && (examinationState == "continuousQuestion")){
+            moveQuestion();
+        }else{
+            reloadExamination();
+        }
+    }
+    const moveQuestion = () => {
+        setActiveExaminationQuestionIdsIndex(activeExaminationQuestionIdsIndex+1);
+        setActiveExaminationQuestionId(examination.examination_questions[activeExaminationQuestionIdsIndex+1].examination_question_id);
+    }
+    const openQuestion = (data) => {
+        let res1;
+        const asyncFunc = async (data) => {
+            console.log("postData↓");
+            console.log(data);
+            res1 = await axios.post('../get-examination-question/', {
+                examination_question_id:data
+            });
+        };
+        asyncFunc(data).finally(() => {
+            // asyncFunc実行後に処理される
+            const index = examination.examination_questions.findIndex(
+                (element) => element.examination_question_id === data
+            );
+            setActiveExaminationQuestionIdsIndex(index);
+            setActiveExaminationQuestionId(data);
+            setExaminationState("openQuestion");
+        })
+    }
+    const reloadExamination = () => {
+        let res;
+        const asyncFunc = async (data) => {
+            console.log("postData↓");
+            console.log(data);
+            res = await axios.post('get-examination-data', {
+                examination_id:data
+            });
+        };
+        asyncFunc(examination.examination_id).finally(() => {
+            // asyncFunc実行後に処理される
+            console.log('examinationを取得:examination↓');
+            console.log(res.data);
+            const tmp = JSON.parse(JSON.stringify(res.data.examination));
+            setExamination(tmp);
+            setExaminationState("questionList");
+        })
+    };
+    const finishExamination = () => {
+        let res;
+        const asyncFunc = async (data) => {
+            console.log("postData↓");
+            console.log(data);
+            res = await axios.post('finish-examination', {
+                examination_id:data
+            });
+        };
+        asyncFunc(examination.examination_id).finally(() => {
+            // asyncFunc実行後に処理される
+            setExaminationState("finished");
+        })
+    };
+    const moveResultPage = () => {
+        //試験結果画面へ移動する
+        location.href = "examination-result/" + examination.examination_id;
+    }
+    const secToDayTime = (seconds) => {
+        const day = Math.floor(seconds / 86400);
+        const hour = Math.floor(seconds % 86400 / 3600);
+        const min = Math.floor(seconds % 3600 / 60);
+        const sec = seconds % 60;
+        let time = '';
+        // day が 0 の場合は「日」は出力しない（hour や min も同様）
+        if(day !== 0) {
+            time = `${day}日${hour}時間${min}分${sec}秒`;
+        }else if(hour !==0 ) {
+            time = `${hour}時間${min}分${sec}秒`;
+        }else if(min !==0) {
+            time = `${min}分${sec}秒`;
+        }else {
+            time = `${sec}秒`;
+        }
+        return time;
+    }
+    const makeQuestionLeftString = (questionIndex) => {
+        const total = examination.examination_questions.length;
+        const string = "全" + total + "問中の" + (questionIndex + 1) + "問目";
+        return string;
+    }
     return (
         <div className="container">
-            {examinationState}
             {examinationState == "setting" &&
                 <ExaminationSetting
-                    setExeminationState={setExeminationState}
-                    setQuestions={setQuestions}
+                    setExaminationState={setExaminationState}
+                    startExamination={startExamination}
+                    laravelVaridateErrors={laravelVaridateErrors}
+                />
+            }
+            {examinationState == "continuousQuestion" &&
+                <ExaminationQuestion
+                    examinationState={examinationState}
+                    examinationQuestionId={activeExaminationQuestionId}
+                    examinationQuestionIndex={activeExaminationQuestionIdsIndex}
+                    answeredQuestion={answeredQuestion}
+                    skipQuestion={skipQuestion}
+                    timeLeftString={secToDayTime(timeLeft)}
+                    makeQuestionLeftString={makeQuestionLeftString}
                 />
             }
             {examinationState == "questionList" &&
                 <ExaminationQuestionList
-                    setExeminationState={setExeminationState}
-                    setActiveQuestionId={setActiveQuestionId}
-                    questions={questions}
+                    setExaminationState={setExaminationState}
+                    examinationQuestions={examination.examination_questions}
+                    openQuestion={openQuestion}
+                    setOpenDoneExaminationModal={setOpenDoneExaminationModal}
+                    setAllAnswered={setAllAnswered}
+                    setOpenTimeUpExaminationModal={setOpenTimeUpExaminationModal}
+                    timeLeftString={secToDayTime(timeLeft)}
                 />
             }
             {examinationState == "openQuestion" &&
                 <ExaminationQuestion
-                    setExeminationState={setExeminationState}
-                    //question={questions}
+                    examinationState={examinationState}
+                    examinationQuestionId={activeExaminationQuestionId}
+                    examinationQuestionIndex={activeExaminationQuestionIdsIndex}
+                    answeredQuestion={answeredQuestion}
+                    skipQuestion={skipQuestion}
+                    timeLeftString={secToDayTime(timeLeft)}
+                    makeQuestionLeftString={makeQuestionLeftString}
                 />
             }
+            {examinationState == "finished" &&
+                <FinishedExamination
+                    moveResultPage={moveResultPage}
+                />
+            }
+            {openDoneExaminationModal &&
+                <DoneExaminationModal
+                    setOpenDoneExaminationModal={setOpenDoneExaminationModal}
+                    finishExamination={finishExamination}
+                    allAnswered={allAnswered}
+                />
+            }
+            {openTimeUpExaminationModal &&
+                <TimeUpExaminationModal
+                    setOpenTimeUpExaminationModal={setOpenTimeUpExaminationModal}
+                    finishExamination={finishExamination}
+                    allAnswered={allAnswered}
+                />
+            }
+            <CSSTransition in={popupFlag} classNames="popup" timeout={2000}>
+                <div>{popupMsg}</div>
+            </CSSTransition>
         </div>
     );
 }

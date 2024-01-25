@@ -29,11 +29,11 @@
         <div class="col-md-3">        
             <div class="card">
                 <div class="card-header">Java模擬試験</div>
-                <a href="{{ url('/examination') }}">
+                <a href="{{ url('/examination-top') }}">
                     <img class="card-img-top" src="images/模擬試験.jpg" alt="模擬試験画像" height="200">
                 </a>
                 <div class="card-body">
-                    Javaの模擬試験を実施します。
+                    Javaの模擬試験メニューに移動します。
                 </div>
             </div>
         </div>

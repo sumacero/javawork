@@ -14,7 +14,7 @@ function ChoicesForm(props) {
     }
     return (
         <form>
-        <div className="row">
+        <div className="row py-2">
         {props.choices.map((choice) =>
                 <label key={choice.choice_id} className="col border">
                     <input type="checkbox"

@@ -7,7 +7,10 @@ import QuestionContent from './QuestionContent';
 function QuestionList(props) {
     return (
         <div>
-            {props.questions.map((question) => 
+            {props.questions.length == 0 ?
+                <div>問題が存在しません</div>
+            :
+            props.questions.map((question) => 
                 <div key={question.question_id}>
                     <QuestionContent
                         loginUser={props.loginUser}

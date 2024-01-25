@@ -38,7 +38,6 @@ function EditQuestionPage(){
     const [ questionImagesError, setQuestionImagesError] = useState("");
     const [ answerImagesError, setAnswerImagesError] = useState("");
     const [ holdImageType, setHoldImageType] =useState("");
-    const [ correctChoiceIds, setCorrectChoiceIds] =useState([]);
     const [ openDeleteQuestionModal, setOpenDeleteQuestionModal] = useState(false);
     const [ isLoading, setIsLoading] = useState(true);
     const [ laravelVaridateErrors, setLaravelVaridateErrors] = useState(null);
@@ -85,28 +84,6 @@ function EditQuestionPage(){
         }
         return isError;
     }
-    /*
-    const clickSaveButton = () => {
-        let data = getValues();
-        data.question_id = questionId;
-        //送信データに画像情報を追加
-        data.question_images = questionImages;
-        data.answer_images = answerImages;
-        const func = async () => {
-            try {
-                let res = await axios.post("save-question", data);
-                setQuestionId(res.data);
-                setPopupMsg("編集データを保存しました");
-                setPopupFlag(!popupFlag);
-            } catch (error) {
-                console.log(error.response.data);
-                setPopupMsg("保存できませんでした。入力した値を確認してください。");
-                setPopupFlag(!popupFlag);
-            }
-        };
-        func();
-    }
-    */
     const clickDeleteButton = () => {
         setOpenDeleteQuestionModal(true);
     }

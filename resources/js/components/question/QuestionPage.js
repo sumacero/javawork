@@ -4,6 +4,7 @@ import axios from 'axios';
 import Question from './Question';
 import ChoicesForm from './ChoicesForm';
 import Result from './Result';
+import { CSSTransition } from 'react-transition-group';
 
 function QuestionPage() {
     const [ question_id, setQuestion_id] = useState(location.pathname.split('/').slice(-1)[0]);
@@ -53,13 +54,11 @@ function QuestionPage() {
     }
     const clickPrevButton = () =>{
         if(prevQuestionId == -1) return;
-        let url = location.href.replace(/\d*$/, (prevQuestionId));
-        location = url;
+        location = "./" + prevQuestionId
     }
     const clickNextButton = () =>{
         if(nextQuestionId == -1) return;
-        let url = location.href.replace(/\d*$/, (nextQuestionId));
-        location = url;
+        location = "./" + nextQuestionId
     }
     return (
         <div className="container">
@@ -68,6 +67,9 @@ function QuestionPage() {
                 <p className="text-left">
                     id:{question_id} - {question.category.workbook.workbook_name} - {question.category.category_name}
                 </p>
+                <div className="row h1 bg-dark text-white">
+                    問題{question.question_number}
+                </div>
                 <Question question={question} questionImages={questionImages}/>
                 <ChoicesForm
                     choices={question.choices}
@@ -75,20 +77,37 @@ function QuestionPage() {
                     selectedChoiceIds={selectedChoiceIds}
                     answeredFlag={answeredFlag}
                 />
-                <p>※{correctChoiceIds.length}つ選択してください</p>
-                {selectedChoiceIds.length === correctChoiceIds.length ? 
-                    <button type="button" className="btn btn-outline-dark btn-block mb-3" onClick={clickAnswerButton} disabled={answeredFlag}>回答</button> 
-                : null}
-                <Result
-                    answerImages={answerImages}
-                    answeredFlag={answeredFlag}
-                    correctFlag={correctFlag}
-                />
+                <div className="col">※{correctChoiceIds.length}つ選択してください</div>
+                <button
+                    type="button"
+                    className="btn btn-primary btn-block mb-3"
+                    onClick={clickAnswerButton}
+                    disabled={selectedChoiceIds.length !== correctChoiceIds.length}
+                >
+                    回答
+                </button>
+                <div className="result">
+                    {answeredFlag &&
+                        <span>
+                            <div className="row h3 bg-dark text-white">
+                                解答解説
+                            </div>
+                            <Result
+                                answerImages={answerImages}
+                                answeredFlag={answeredFlag}
+                                correctFlag={correctFlag}
+                            />
+                        </span>
+                    }
+                    <CSSTransition in={answeredFlag} classNames={correctFlag ? "success" : "wrong"} timeout={0}>
+                        <div></div>
+                    </CSSTransition>
+                </div>
                 <div className="row">
                     <div className="col">
                         <button
                             type="button"
-                            className="btn btn-outline-primary btn-block"
+                            className="btn btn-primary btn-block"
                             onClick={clickPrevButton}
                             disabled={prevQuestionId == -1}
                         >
@@ -98,7 +117,7 @@ function QuestionPage() {
                     <div className="col">
                         <button
                             type="button"
-                            className="btn btn-outline-primary btn-block"
+                            className="btn btn-primary btn-block"
                             onClick={clickNextButton}
                             disabled={nextQuestionId == -1}
                         >
@@ -111,7 +130,6 @@ function QuestionPage() {
         </div>
     );
 }
-
 
 if (document.getElementById('question-page')) {
     ReactDOM.render(<QuestionPage />,document.getElementById('question-page'));

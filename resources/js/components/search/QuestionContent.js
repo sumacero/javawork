@@ -5,12 +5,16 @@ import axios from 'axios';
 function QuestionContent(props){
     const previewImage = props.question.images.find((image) => image.image_type == "question");
     const clickQuestionButton = (question_id) => {
-        //問題画面へ移動する
-        location.href = "question/" + question_id;
+        //問題画面を別タブで開く
+        //location.href = "question/" + question_id;
+        const url = "question/" + question_id;
+        let newwin = open(url);
     }
     const clickEditButton = (question_id) => {
-        //編集画面へ移動する
-        location.href = "edit-question?question_id=" + question_id;
+        //編集画面を別タブで開く
+        //location.href = "edit-question?question_id=" + question_id;
+        const url = "edit-question?question_id=" + question_id;
+        let newwin = open(url);
     }
 
     return(
@@ -26,8 +30,8 @@ function QuestionContent(props){
                     <div>作成日時：{props.question.created_at}</div>
                     <div>更新者：{props.question.updateuser.name}</div>
                     <div>更新日時：{props.question.updated_at}</div>
-                    <div className="border container">
-                        <div className="row border">
+                    <div className="container">
+                        <div className="row">
                             <div className="col">
                                 <div className="mb-1">
                                     <button className={"btn btn-primary btn-block"} onClick={()=>clickQuestionButton(props.question.question_id)} disabled={props.question.status_id!=1}>

@@ -105,7 +105,9 @@ function RandomQuestionPage() {
                     %</span>
                 }
                 </p>
-
+                <div className="row h1 bg-dark text-white">
+                    問題{question.question_number}
+                </div>
                 <Question question={question} questionImages={questionImages}/>
                 <ChoicesForm
                     choices={question.choices}
@@ -113,15 +115,32 @@ function RandomQuestionPage() {
                     selectedChoiceIds={selectedChoiceIds}
                     answeredFlag={answeredFlag}
                 />
-                <p>※{correctChoiceIds.length}つ選択してください</p>
-                {selectedChoiceIds.length === correctChoiceIds.length ? 
-                    <button type="button" className="btn btn-outline-dark btn-block mb-3" onClick={clickAnswerButton} disabled={answeredFlag}>回答</button> 
-                : null}
-                <Result
-                    answerImages={answerImages}
-                    answeredFlag={answeredFlag}
-                    correctFlag={correctFlag}
-                />
+                <div className="row">※{correctChoiceIds.length}つ選択してください</div>
+                <button
+                    type="button"
+                    className="btn btn-primary btn-block mb-3"
+                    onClick={clickAnswerButton}
+                    disabled={selectedChoiceIds.length !== correctChoiceIds.length}
+                >
+                    回答
+                </button>
+                <div className="result">
+                    {answeredFlag &&
+                        <span>
+                            <div className="row h3 bg-dark text-white">
+                                解答解説
+                            </div>
+                            <Result
+                                answerImages={answerImages}
+                                answeredFlag={answeredFlag}
+                                correctFlag={correctFlag}
+                            />
+                        </span>
+                    }
+                    <CSSTransition in={answeredFlag} classNames={correctFlag ? "success" : "wrong"} timeout={0}>
+                        <div></div>
+                    </CSSTransition>
+                </div>
                 {answeredFlag &&
                         <button className="btn btn-outline-dark btn-block mb-3" onClick={clickNextButton}>次の問題へ</button>
                 }

@@ -6,7 +6,7 @@
 }
 
 .result {
-    position:  relative;        /* 要素の配置方法をと子要素の起点を指定 */
+    position:  relative;        /* 要素の配置方法を子要素の起点を指定 */
     /*border: solid 5px red;*/
 }
 

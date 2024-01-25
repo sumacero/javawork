@@ -97,7 +97,7 @@ function MakeQuestionPage(){
             } catch (error) {
                 console.log(error.response.data);
                 if(error.response.status == 422){
-                    setLaravelVaridateErrors(JSON.parse(JSON.stringify(error.response.data.errors)));
+                    setLaravelVaridateErrors(error.response.data.errors);
                     setPopupMsg("バリデーションエラー：既にその問題番号は登録済みです。");
                     setPopupFlag(!popupFlag);
                 }else{

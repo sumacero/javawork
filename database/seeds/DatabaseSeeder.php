@@ -14,13 +14,12 @@ class DatabaseSeeder extends Seeder
         $this->call(AuthoritiesTableSeeder::class);
         $this->call(UsersTableSeeder::class);
         $this->call(StatusesTableSeeder::class);
+        $this->call(ExaminationStatusesTableSeeder::class);
         $this->call(WorkbooksTableSeeder::class);
         $this->call(CategoriesTableSeeder::class);
         $this->call(QuestionsTableSeeder::class);
         $this->call(ChoicesTableSeeder::class);
         $this->call(ImagesTableSeeder::class);
         $this->call(AnswerLogsTableSeeder::class);
-        $this->call(MylistdirsTableSeeder::class);
-        $this->call(MylistsTableSeeder::class);
     }
 }

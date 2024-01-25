@@ -46,10 +46,16 @@ function DeleteQuestionModal(props){
     return(
         <div>
             <span id="overlay" style={overlay}>
-                <span id="modalContent" style={modalContent} className="overflow-auto" ref={modalRef}>
-                    <p>編集中の問題を削除します。よろしいですか。</p>
-                    <button className="btn btn-primary btn-block" onClick={clickEnterButton}>削除</button>
-                    <button className="btn btn-primary btn-block" onClick={clickCancelButton}>キャンセル</button>
+                <span id="modalContent" style={modalContent} className="overflow-auto d-flex align-items-center justify-content-center" ref={modalRef}>
+                    <div className="container">
+                        <div className="row h5 py-3">編集中の問題を削除します。よろしいですか。</div>
+                        <div className="row align-items-center py-3">
+                            <button className="btn btn-primary btn-block py-3" onClick={clickEnterButton}>削除</button>
+                        </div>
+                        <div className="row align-items-center py-3">
+                            <button className="btn btn-primary btn-block py-3" onClick={clickCancelButton}>キャンセル</button>
+                        </div>
+                    </div>
                 </span>
             </span>
         </div>

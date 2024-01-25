@@ -15,6 +15,11 @@ class Choice extends Model
         return $this->belongsTo('App\Question','question_id');
     }
 
+    //hasMany設定
+    public function examinationAnswerLogs(){
+        return $this->hasMany('App\ExaminationAnswerLogs', 'choice_id');
+    }
+
     //idで昇順
     protected static function boot(){
         parent::boot();

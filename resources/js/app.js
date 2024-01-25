@@ -21,12 +21,14 @@ require('./components/search/SearchPage');
 require('./components/randomQuestionSetting/RandomQuestionSettingPage');
 require('./components/randomQuestion/RandomQuestionPage');
 require('./components/question/QuestionPage');
-require('./components/examination/examinationSetting/ExaminationSetting');
+require('./components/examinationTop/ExaminationTopPage');
 require('./components/examination/ExaminationPage');
 require('./components/makeQuestion/MakeQuestionPage');
 require('./components/confirmQuestion/ConfirmQuestionPage');
 require('./components/editQuestion/EditQuestionPage');
-require('./components/mylist/MylistPage');
-require('./components/testdir/Animation');
+require('./components/examinationResult/ExaminationResultPage');
+
+//require('./components/mylist/MylistPage');
+//require('./components/testdir/Animation');
 
 

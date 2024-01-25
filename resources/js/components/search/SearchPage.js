@@ -93,11 +93,6 @@ function SearchPage(){
         setPaginationData(JSON.parse(JSON.stringify(paginationData)));
         setIsLoading(false);
     }
-    const getTargetQuestionCount = async () => {
-        const result = await axios.post('get-target-question-count', checkedCategoryIds);
-        const data = result.data;
-        setTargetQuestionCount(data.target_question_count);
-    };
     return(
         <div>
             <div className="container">

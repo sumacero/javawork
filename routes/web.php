@@ -53,7 +53,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/random-question', 'RandomQuestionController@index');
     Route::get('/get-categories', 'MakeQuestionController@getCategories');
     Route::get('/get-categories-with-question-count', 'RandomQuestionSettingController@getCategoriesWithQuestionCounts');
-    //Route::post('/get-target-question-count', 'RandomQuestionSettingController@getTargetQuestionCount');
     Route::post('/random-get-question', 'RandomQuestionController@getQuestion');
     Route::get('/question/{question_id?}', 'QuestionController@index');
     Route::get('/get-question/{question_id?}', 'QuestionController@getQuestion');
@@ -65,12 +64,20 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/get-questions', 'SearchController@getQuestions');
     Route::get('/filter-questions', 'SearchController@filterQuestions');
 
-    //Route::get('/examination-setting', 'ExaminationSettingController@index');
-    Route::get('/examination', 'ExaminationController@index');
-    Route::post('/get-examination-question-ids', 'ExaminationController@getExaminationQuestionIds');
-    Route::post('/get-examination-data', 'ExaminationController@getExaminationData');
-    //Route::post('/get-examination-questions', 'ExaminationController@getExaminationQuestions');
+    Route::get('/examination-top', 'ExaminationTopController@index');
+    Route::get('/get-examination-log', 'ExaminationTopController@getExaminationLog');
 
+    Route::get('/examination', 'ExaminationController@index');
+    Route::post('/start-examination', 'ExaminationController@startExamination');
+    Route::post('/get-examination-data', 'ExaminationController@getExaminationData');
+    Route::post('/get-examination-question', 'ExaminationController@getExaminationQuestion');
+    Route::post('/answer-examination-question', 'ExaminationController@answerExaminationQuestion');
+    Route::post('/skip-answer-examination-question', 'ExaminationController@skipAnswerExaminationQuestion');
+    Route::post('/finish-examination', 'ExaminationController@finishExamination');
+    Route::get('/examination-result/{examination_id?}', 'ExaminationController@resultIndex');
+    Route::post('/examination-result/get-examination-result-data', 'ExaminationController@getExaminationResultData');
+    Route::post('/examination-result/update-examination', 'ExaminationController@updateExamination');
+    Route::post('/examination-result/delete-examination', 'ExaminationController@deleteExamination');
     Route::post('/commit-question', 'ConfirmQuestionController@commitQuestion');
     Route::post('/get-answer-log', 'AnswerLogController@getAnswerLog');
     Route::post('/update-answer-log', 'AnswerLogController@updateAnswerLog');

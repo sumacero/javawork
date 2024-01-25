@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from 'react';
 
 function ExaminationQuestionContent(props){
-    const previewImage = props.question.images.find((image) => image.image_type == "question");
-    const clickOpenQuestionButton = () => {
-        props.setActiveQuestionId=(props.question.question_id)
-        props.setExeminationState("openQuestion");
-    }
+    const previewImage = props.examinationQuestion.question.images.find((image) => image.image_type == "question");
+    //console.log(props.question.question);
     return(
         <div className="border container">
             <div className="row border">
                 <div className="col-3 border">
                     <div className="row border">
-                        <div>問{props.examinationQuestionNumber}</div>
+                        <div>問</div>
                     </div>
                     <div className="row border">
                         <div className="col border">
@@ -28,14 +25,18 @@ function ExaminationQuestionContent(props){
                             <button
                                 type="button"
                                 className="btn btn-outline-dark btn-block mb-3"
-                                onClick={clickOpenQuestionButton}
+                                onClick={()=>props.openQuestion(props.examinationQuestion.examination_question_id)}
                             >
                                 問題を開く
                             </button> 
                         </div>
                     </div>
                     <div className="row border">
-                        回答済み
+                        {props.examinationQuestion.is_answered === 1 ?
+                            <div>回答済み</div>
+                            :
+                            <div className="text-danger">未回答</div>
+                        }
                     </div>
                 </div>
             </div>
