@@ -43,8 +43,6 @@ function ExaminationPage() {
         let res1;
         let res2;
         const asyncFunc = async (data) => {
-            console.log("postData↓");
-            console.log(data);
             // res1とres2は順番に実行される
             res1 = await axios.post('start-examination', data);
             let examinationId = res1.data.examinationId;
@@ -54,13 +52,8 @@ function ExaminationPage() {
         };
         asyncFunc(data).
         then(()=>{
-            console.log("試験開始が成功！！");
             setLaravelVaridateErrors(defaultErrors);
             // asyncFunc実行後に処理される
-            console.log('res1_data↓');
-            console.log(res1.data);
-            console.log('res2_data↓');
-            console.log(res2.data);
             const tmp = JSON.parse(JSON.stringify(res2.data.examination));
             setExamination(tmp);
             const examinationQuestions = tmp.examination_questions;
@@ -84,9 +77,6 @@ function ExaminationPage() {
             }else{
                 alert("サーバーエラーが発生");
             }
-        }).
-        finally(() => {
-            console.log("finally");
         })
     }
 
@@ -124,8 +114,6 @@ function ExaminationPage() {
     const openQuestion = (data) => {
         let res1;
         const asyncFunc = async (data) => {
-            console.log("postData↓");
-            console.log(data);
             res1 = await axios.post('../get-examination-question/', {
                 examination_question_id:data
             });
@@ -143,16 +131,12 @@ function ExaminationPage() {
     const reloadExamination = () => {
         let res;
         const asyncFunc = async (data) => {
-            console.log("postData↓");
-            console.log(data);
             res = await axios.post('get-examination-data', {
                 examination_id:data
             });
         };
         asyncFunc(examination.examination_id).finally(() => {
             // asyncFunc実行後に処理される
-            console.log('examinationを取得:examination↓');
-            console.log(res.data);
             const tmp = JSON.parse(JSON.stringify(res.data.examination));
             setExamination(tmp);
             setExaminationState("questionList");
@@ -161,8 +145,6 @@ function ExaminationPage() {
     const finishExamination = () => {
         let res;
         const asyncFunc = async (data) => {
-            console.log("postData↓");
-            console.log(data);
             res = await axios.post('finish-examination', {
                 examination_id:data
             });

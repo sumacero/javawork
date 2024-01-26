@@ -15,8 +15,6 @@ function ExaminationQuestion(props){
                 "examination_question_id":examinationQuestionId
             });
             const data = result.data.examinationQuestion;
-            console.log("postで受け取ったexamination-questionレコード↓");
-            console.log(data);
             setExaminationQuestion(JSON.parse(JSON.stringify(data)));
             setSelectedChoiceIds(
                 data.examination_answer_logs
@@ -35,8 +33,6 @@ function ExaminationQuestion(props){
             setIsMarked(tempBool);
             document.getElementsByName("marking")[0].checked = tempBool;
         }
-        console.log("props.examinationQuestionId↓");
-        console.log(props.examinationQuestionId);
         getExaminationQuestion(props.examinationQuestionId);
     },[props.examinationQuestionId]);
 
@@ -47,14 +43,11 @@ function ExaminationQuestion(props){
             "is_marked":isMarked
         };
         const asyncFunc = async (data) => {
-            console.log("postData↓");
-            console.log(data);
             await axios.post('answer-examination-question', data);
         };
         asyncFunc(data)
         .then(() => {
             // asyncFunc実行後に処理される
-            console.log('examination-answer-logを更新');
             props.answeredQuestion();
         })
         .catch((error)=>{
@@ -74,18 +67,14 @@ function ExaminationQuestion(props){
             "is_marked":isMarked
         };
         const asyncFunc = async (data) => {
-            console.log("postData↓");
-            console.log(data);
             await axios.post('skip-answer-examination-question', data);
         };
         asyncFunc(data)
         .then(() => {
             // asyncFunc実行後に処理される
-            console.log('examination-answer-logを削除');
             props.skipQuestion();
         })
         .catch((error)=>{
-            alert(error);
             if(error.response.status == 422){
                 console.log("回答スキップバリデーションでエラーが発生！！");
                 const errorObj = error.response.data.errors;

@@ -19,8 +19,6 @@ function ExaminationTopPage() {
         };
         asyncFunc()
         .then(() => {
-            console.log("模擬試験履歴の読み取り完了");
-            console.log(res1);
             let paginationData = {
                 "total": res1.data.dbData.total,
                 "per_page": res1.data.dbData.per_page,

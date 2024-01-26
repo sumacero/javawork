@@ -34,8 +34,6 @@ function ExaminationResultPage() {
             let res1;
             let res2;
             const asyncFunc = async (data) => {
-                console.log("postData↓");
-                console.log(data);
                 res1 = await axios.post('get-examination-result-data', {
                     examination_id:data
                 });
@@ -43,8 +41,6 @@ function ExaminationResultPage() {
             };
             asyncFunc(examinationId)
             .then(() => {
-                console.log(res1.data);
-                console.log(res2.data);
                 setExamination(res1.data.examination);
                 setWorkbooks(res2.data.dbData.workbooks);
                 setCategories(res2.data.dbData.categories);
