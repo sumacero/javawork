@@ -95,7 +95,7 @@ function RandomQuestionPage() {
                     id:{question.question_id} - {question.category.workbook.workbook_name} - {question.category.category_name}
                 </p>
                 <p className="text-right">
-                {answerLog.answer_count==0 ?
+                {/*answerLog.answer_count==0 ?
                     <span>正解率：データなし</span>
                     :
                     <span>
@@ -103,7 +103,7 @@ function RandomQuestionPage() {
                         Math.round(answerLog.correct_count / answerLog.answer_count * 100 * 10) / 10
                     }
                     %</span>
-                }
+                */}
                 </p>
                 <div className="row h1 bg-dark text-white">
                     問題{question.question_number}

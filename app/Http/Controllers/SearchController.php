@@ -20,7 +20,8 @@ class SearchController extends Controller
         return response()->json(['users' => $users]);
     }
     public function getQuestions(Request $request){
-        $questions = Question::with('status','category.workbook','createuser','updateuser','choices','images')->paginate(5);
+        $questions = Question::with('status','category.workbook','createuser','updateuser','choices','images')
+            ->orderByRaw('category_id asc', 'question_number asc')->paginate(5);
         // image_fileプロパティを追加
         foreach($questions as &$question){
             $questionId = $question["question_id"];
@@ -46,7 +47,7 @@ class SearchController extends Controller
         if(count($categoryIds)>0){
             $questions = $questions->whereIn('category_id', $categoryIds);
         }
-        $questions = $questions->paginate(5);
+        $questions = $questions->orderByRaw('category_id asc', 'question_number asc')->paginate(5);
         // image_fileプロパティを追加
         foreach($questions as &$question){
             $questionId = $question["question_id"];

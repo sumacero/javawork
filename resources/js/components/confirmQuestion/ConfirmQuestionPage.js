@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import Question from '../question/Question';
 import ChoicesForm from '../question/ChoicesForm';
 import Result from '../question/Result';
+import { CSSTransition } from 'react-transition-group';
 
 function ConfirmQuestionPage() {
     const questionId = parseInt($('#tmp').data('question_id'));
@@ -78,15 +79,32 @@ function ConfirmQuestionPage() {
                     answeredFlag={answeredFlag}
                 />
                 <p>※{correctChoiceIds.length}つ選択してください</p>
-                {selectedChoiceIds.length === correctChoiceIds.length ? 
-                    <button type="button" className="btn btn-outline-dark btn-block mb-3" onClick={clickAnswerButton} disabled={answeredFlag}>回答</button> 
-                : null}
-                <Result
-                    answerImages={answerImages}
-                    answeredFlag={answeredFlag}
-                    correctFlag={correctFlag}
-                />
-                <div>
+                <button
+                    type="button"
+                    className="btn btn-primary btn-block mb-3"
+                    onClick={clickAnswerButton}
+                    disabled={selectedChoiceIds.length !== correctChoiceIds.length}
+                >
+                    回答
+                </button>
+                <div className="result">
+                    {answeredFlag &&
+                        <span>
+                            <div className="row h3 bg-dark text-white">
+                                解答解説
+                            </div>
+                            <Result
+                                answerImages={answerImages}
+                                answeredFlag={answeredFlag}
+                                correctFlag={correctFlag}
+                            />
+                        </span>
+                    }
+                    <CSSTransition in={answeredFlag} classNames={correctFlag ? "success" : "wrong"} timeout={0}>
+                        <div></div>
+                    </CSSTransition>
+                </div>
+                <div className="row py-3">
                     <p>以上の内容で登録します。よろしいですか？</p>
                     <button type="button" className="btn btn-primary btn-block mb-3" onClick={clickCommitButton}>確定</button>
                     <button type="button" className="btn btn-primary btn-block mb-3" onClick={clickEditButton}>修正(編集画面へ戻る)</button>
