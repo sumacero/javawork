@@ -3,8 +3,8 @@ import ExaminationQuestionTable from './ExaminationQuestionTable';
 
 function ExaminationQuestionList(props) {
     const clickDoneButton = () => {
-        const allAnswered = !props.examinationQuestions
-            .map((examinationQuestion) => examinationQuestion.is_answered).includes(0);
+        const allAnswered = !props.questionStatusList
+            .map((e) => e.is_answered).includes(false);
         props.setAllAnswered(allAnswered);
         props.setOpenDoneExaminationModal(true);
     }
@@ -12,7 +12,7 @@ function ExaminationQuestionList(props) {
         <div className="container">
             <p className="text-right">残り時間：{props.timeLeftString}</p>
             <ExaminationQuestionTable
-                examinationQuestions={props.examinationQuestions}
+                questionStatusList={props.questionStatusList}
                 openQuestion={props.openQuestion}
             />
             <button

@@ -48,7 +48,7 @@ function ExaminationQuestion(props){
         asyncFunc(data)
         .then(() => {
             // asyncFunc実行後に処理される
-            props.answeredQuestion();
+            props.answeredQuestion(data);
         })
         .catch((error)=>{
             if(error.response.status == 422){
@@ -72,7 +72,7 @@ function ExaminationQuestion(props){
         asyncFunc(data)
         .then(() => {
             // asyncFunc実行後に処理される
-            props.skipQuestion();
+            props.skipQuestion(data);
         })
         .catch((error)=>{
             if(error.response.status == 422){
@@ -132,7 +132,6 @@ function ExaminationQuestion(props){
                     choices={examinationQuestion.question.choices}
                     setSelectedChoiceIds={setSelectedChoiceIds}
                     selectedChoiceIds={selectedChoiceIds}
-                    //answeredFlag={answeredFlag}
                 />
                 <p>※{correctChoiceCount}つ選択してください</p>
                 <SelectedState

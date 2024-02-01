@@ -10,6 +10,19 @@ import DoneExaminationModal from './modal/DoneExaminationModal.js';
 import TimeUpExaminationModal from './modal/TimeUpExaminationModal.js';
 
 function ExaminationPage() {
+    const overlay = {
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        backgroundColor: "rgba(0,0,0,0.5)",
+        display: "flex",
+        flexFlow: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        zIndex: "100000",
+    };
     // 試験の状態(setting, continuousQuestion, openQuestion, questionList, result)
     const [ examinationState, setExaminationState] = useState("setting");
     const [ examination, setExamination] = useState("");
@@ -17,6 +30,7 @@ function ExaminationPage() {
     const [ activeExaminationQuestionIdsIndex, setActiveExaminationQuestionIdsIndex] = useState(0);
     const [ openDoneExaminationModal, setOpenDoneExaminationModal] = useState(false);
     const [ allAnswered, setAllAnswered] = useState(false);
+    const [ questionStatusList, setQuestionStatusList] = useState("");
     const [ openTimeUpExaminationModal, setOpenTimeUpExaminationModal] = useState(false);
     const [ timeLeft, setTimeLeft] = useState(0);
     const defaultErrors = {
@@ -32,6 +46,7 @@ function ExaminationPage() {
     const [ popupMsg, setPopupMsg] = useState("");
     const refExaminationState = useRef(examinationState);
     const refTimeLeft = useRef(timeLeft);
+    const [ isLoading, setIsLoading] = useState(false);
     useEffect(() => {
         refExaminationState.current  = examinationState;
     }, [examinationState]);
@@ -40,6 +55,7 @@ function ExaminationPage() {
     }, [timeLeft]);
 
     const startExamination = (data) => {
+        setIsLoading(true);
         let res1;
         let res2;
         const asyncFunc = async (data) => {
@@ -61,12 +77,23 @@ function ExaminationPage() {
             setActiveExaminationQuestionId(
                 examinationQuestions[0].examination_question_id
             );
+            setQuestionStatusList(
+                examinationQuestions.map(e=>{
+                    return({
+                        "examination_question_id":e.examination_question_id,
+                        "is_answered":false,
+                        "is_marked":false
+                    })
+                })
+            );
+            setIsLoading(false);
             setExaminationState("continuousQuestion");
             let second = tmp.set_time * 60;
             setTimeLeft(second);
             timerStart();
         }).
         catch((error)=>{
+            setIsLoading(false);
             if(error.response.status == 422){
                 console.log("試験開始バリデーションでエラーが発生！！");
                 const errorObj = error.response.data.errors;
@@ -93,25 +120,50 @@ function ExaminationPage() {
         }, 1000);
     }
 
-    const answeredQuestion = () => {
+    const answeredQuestion = (data) => {
+        setIsLoading(true);
+        setQuestionStatusList((prevState)=>{
+            return prevState.map(
+                e=>{
+                    if(e.examination_question_id === data.examination_question_id){
+                        e.is_answered = true;
+                        e.is_marked = data.is_marked;
+                    }
+                    return e;
+                }
+        )});
         if((examination.examination_questions.length > activeExaminationQuestionIdsIndex + 1) && (examinationState == "continuousQuestion")){
             moveQuestion();
         }else{
-            reloadExamination();
+            setExaminationState("questionList");
         }
+        setIsLoading(false);
     }
-    const skipQuestion = () => {
+    const skipQuestion = (data) => {
+        setIsLoading(true);
+        setQuestionStatusList((prevState)=>{
+            return prevState.map(
+                e=>{
+                    if(e.examination_question_id === data.examination_question_id){
+                        e.is_answered = false;
+                        e.is_marked = data.is_marked;
+                    }
+                    return e;
+                }
+        )});
         if((examination.examination_questions.length > activeExaminationQuestionIdsIndex + 1) && (examinationState == "continuousQuestion")){
             moveQuestion();
         }else{
-            reloadExamination();
+            setExaminationState("questionList");
         }
+        setIsLoading(false);
     }
     const moveQuestion = () => {
         setActiveExaminationQuestionIdsIndex(activeExaminationQuestionIdsIndex+1);
         setActiveExaminationQuestionId(examination.examination_questions[activeExaminationQuestionIdsIndex+1].examination_question_id);
     }
     const openQuestion = (data) => {
+        setIsLoading(true);
         let res1;
         const asyncFunc = async (data) => {
             res1 = await axios.post('../get-examination-question/', {
@@ -127,22 +179,11 @@ function ExaminationPage() {
             setActiveExaminationQuestionId(data);
             setExaminationState("openQuestion");
         })
+        setIsLoading(false);
     }
-    const reloadExamination = () => {
-        let res;
-        const asyncFunc = async (data) => {
-            res = await axios.post('get-examination-data', {
-                examination_id:data
-            });
-        };
-        asyncFunc(examination.examination_id).finally(() => {
-            // asyncFunc実行後に処理される
-            const tmp = JSON.parse(JSON.stringify(res.data.examination));
-            setExamination(tmp);
-            setExaminationState("questionList");
-        })
-    };
+    
     const finishExamination = () => {
+        setIsLoading(true);
         let res;
         const asyncFunc = async (data) => {
             res = await axios.post('finish-examination', {
@@ -153,6 +194,7 @@ function ExaminationPage() {
             // asyncFunc実行後に処理される
             setExaminationState("finished");
         })
+        setIsLoading(false);
     };
     const moveResultPage = () => {
         //試験結果画面へ移動する
@@ -204,7 +246,7 @@ function ExaminationPage() {
             {examinationState == "questionList" &&
                 <ExaminationQuestionList
                     setExaminationState={setExaminationState}
-                    examinationQuestions={examination.examination_questions}
+                    questionStatusList={questionStatusList}
                     openQuestion={openQuestion}
                     setOpenDoneExaminationModal={setOpenDoneExaminationModal}
                     setAllAnswered={setAllAnswered}
@@ -245,6 +287,13 @@ function ExaminationPage() {
             <CSSTransition in={popupFlag} classNames="popup" timeout={2000}>
                 <div>{popupMsg}</div>
             </CSSTransition>
+            {isLoading && 
+                <span style={overlay}>
+                    <div>loading...</div>
+                    <div className="spinner-border">
+                    </div>
+                </span>
+            }
         </div>
     );
 }

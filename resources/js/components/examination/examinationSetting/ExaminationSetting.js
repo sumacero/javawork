@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
 import SetTimeEditor from './SetTimeEditor';
 import SetQuestionCountEditor from './SetQuestionCountEditor';
 import SetPassingScoreEditor from './SetPassingScoreEditor';
 import CategoryCheckbox from './CategoryCheckbox';
 import TitleEditor from './TitleEditor';
 import MemoEditor from './MemoEditor';
-import { useForm } from "react-hook-form";
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from "yup";
 import axios from 'axios';
 
 function ExaminationSetting(props) {
@@ -91,6 +87,11 @@ function ExaminationSetting(props) {
                     formValues = {formValues}
                 />
                 <div className="row py-3">
+                    <div className="col bg-warning text-dark text-center">
+                        注意事項：試験中に画面のリロードやブラウザバック等の操作を行わないでください。試験が中止され再開不能となります。
+                    </div>
+                </div>
+                <div className="row">
                     <div className="col">
                         <button
                             type="button"

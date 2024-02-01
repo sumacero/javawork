@@ -12,11 +12,11 @@ class ExaminationStatusesTableSeeder extends Seeder
     public function run()
     {
         $param = [
-            'status_name' => '未完了',
+            'status_name' => 'aaa',
         ];
         DB::table('examination_statuses')->insert($param);
         $param = [
-            'status_name' => '完了',
+            'status_name' => 'bbb',
         ];
         DB::table('examination_statuses')->insert($param);
     }
