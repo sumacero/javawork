@@ -121,7 +121,6 @@ function ExaminationPage() {
     }
 
     const answeredQuestion = (data) => {
-        setIsLoading(true);
         setQuestionStatusList((prevState)=>{
             return prevState.map(
                 e=>{
@@ -137,10 +136,8 @@ function ExaminationPage() {
         }else{
             setExaminationState("questionList");
         }
-        setIsLoading(false);
     }
     const skipQuestion = (data) => {
-        setIsLoading(true);
         setQuestionStatusList((prevState)=>{
             return prevState.map(
                 e=>{
@@ -156,7 +153,6 @@ function ExaminationPage() {
         }else{
             setExaminationState("questionList");
         }
-        setIsLoading(false);
     }
     const moveQuestion = () => {
         setActiveExaminationQuestionIdsIndex(activeExaminationQuestionIdsIndex+1);
@@ -241,6 +237,7 @@ function ExaminationPage() {
                     skipQuestion={skipQuestion}
                     timeLeftString={secToDayTime(timeLeft)}
                     makeQuestionLeftString={makeQuestionLeftString}
+                    setIsLoading={setIsLoading}
                 />
             }
             {examinationState == "questionList" &&
@@ -263,6 +260,7 @@ function ExaminationPage() {
                     skipQuestion={skipQuestion}
                     timeLeftString={secToDayTime(timeLeft)}
                     makeQuestionLeftString={makeQuestionLeftString}
+                    setIsLoading={setIsLoading}
                 />
             }
             {examinationState == "finished" &&

@@ -33,10 +33,13 @@ function ExaminationQuestion(props){
             setIsMarked(tempBool);
             document.getElementsByName("marking")[0].checked = tempBool;
         }
+        props.setIsLoading(true);
         getExaminationQuestion(props.examinationQuestionId);
+        props.setIsLoading(false);
     },[props.examinationQuestionId]);
 
     const clickAnswerButton = () => {
+        props.setIsLoading(true);
         let data = {
             "examination_question_id":props.examinationQuestionId,
             "selected_choice_ids":selectedChoiceIds,
@@ -56,12 +59,15 @@ function ExaminationQuestion(props){
                 const errorObj = error.response.data.errors;
                 console.log(errorObj);
             }else{
-                alert("サーバーエラーが発生");
+                console.log("サーバーエラーが発生");
             }
+        }).finally(()=>{
+            props.setIsLoading(false);
         })
     }
 
     const clickSkipAnswerButton = () => {
+        props.setIsLoading(true);
         let data = {
             "examination_question_id":props.examinationQuestionId,
             "is_marked":isMarked
@@ -80,8 +86,10 @@ function ExaminationQuestion(props){
                 const errorObj = error.response.data.errors;
                 console.log(errorObj);
             }else{
-                alert("サーバーエラーが発生");
+                console.log("サーバーエラーが発生");
             }
+        }).finally(()=>{
+            props.setIsLoading(false);
         })
     }
 
