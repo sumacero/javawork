@@ -174,8 +174,8 @@ function ExaminationPage() {
             setActiveExaminationQuestionIdsIndex(index);
             setActiveExaminationQuestionId(data);
             setExaminationState("openQuestion");
-        })
-        setIsLoading(false);
+            setIsLoading(false);
+        });
     }
     
     const finishExamination = () => {
@@ -238,6 +238,7 @@ function ExaminationPage() {
                     timeLeftString={secToDayTime(timeLeft)}
                     makeQuestionLeftString={makeQuestionLeftString}
                     setIsLoading={setIsLoading}
+                    isLoading={isLoading}
                 />
             }
             {examinationState == "questionList" &&
@@ -261,6 +262,7 @@ function ExaminationPage() {
                     timeLeftString={secToDayTime(timeLeft)}
                     makeQuestionLeftString={makeQuestionLeftString}
                     setIsLoading={setIsLoading}
+                    isLoading={isLoading}
                 />
             }
             {examinationState == "finished" &&

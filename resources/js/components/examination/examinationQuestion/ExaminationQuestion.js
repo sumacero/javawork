@@ -10,11 +10,17 @@ function ExaminationQuestion(props){
     const [ selectedChoiceSymbols, setSelectedChoiceSymbols] = useState([]);
     const [ isMarked, setIsMarked] = useState(false);
     useEffect(()=>{
-        const getExaminationQuestion = async (examinationQuestionId) => {
-            const result = await axios.post('../get-examination-question/', {
-                "examination_question_id":examinationQuestionId
+        props.setIsLoading(true);
+        let les1;
+        let tempBool;
+        const asyncFunc = async (data) => {
+            les1 = await axios.post('../get-examination-question/', {
+                "examination_question_id":data
             });
-            const data = result.data.examinationQuestion;
+        };
+        asyncFunc(props.examinationQuestionId).then(() => {
+            // asyncFunc実行後に処理される
+            const data = les1.data.examinationQuestion;
             setExaminationQuestion(JSON.parse(JSON.stringify(data)));
             setSelectedChoiceIds(
                 data.examination_answer_logs
@@ -29,13 +35,12 @@ function ExaminationQuestion(props){
                 data.question.choices
                     .filter((choice)=>choice.is_correct === 1).length
             );
-            const tempBool = data.is_marked == 1
+            tempBool = data.is_marked == 1
             setIsMarked(tempBool);
+        }).finally(()=>{
+            props.setIsLoading(false);
             document.getElementsByName("marking")[0].checked = tempBool;
-        }
-        props.setIsLoading(true);
-        getExaminationQuestion(props.examinationQuestionId);
-        props.setIsLoading(false);
+        });
     },[props.examinationQuestionId]);
 
     const clickAnswerButton = () => {
@@ -48,8 +53,7 @@ function ExaminationQuestion(props){
         const asyncFunc = async (data) => {
             await axios.post('answer-examination-question', data);
         };
-        asyncFunc(data)
-        .then(() => {
+        asyncFunc(data).then(() => {
             // asyncFunc実行後に処理される
             props.answeredQuestion(data);
         })
@@ -109,7 +113,7 @@ function ExaminationQuestion(props){
     );
     return (
         <div className="container">
-            {examinationQuestion !== "" &&
+            {(examinationQuestion !== "" && !props.isLoading) &&
             <span>
                 <div className="row justify-content-end">
                     <div className="col-2">
