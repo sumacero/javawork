@@ -7,6 +7,19 @@ import Result from '../question/Result';
 import { CSSTransition } from 'react-transition-group';
 
 function RandomQuestionPage() {
+    const overlay = {
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        backgroundColor: "rgba(0,0,0,0.5)",
+        display: "flex",
+        flexFlow: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        zIndex: "100000",
+    };
     const [ question, setQuestion] = useState("");
     const [ answerLog, setAnswerLog] = useState("");
     const [ questionImages, setQuestionImages] = useState([]);
@@ -15,15 +28,22 @@ function RandomQuestionPage() {
     const [ selectedChoiceIds, setSelectedChoiceIds] = useState([]);
     const [ correctChoiceIds, setCorrectChoiceIds] = useState([]);
     const [ correctFlag, setCorrectFlag] = useState(false);
+    const [ isLoading, setIsLoading] = useState(false);
     let categoryIds = ($('#tmp').data('category_ids') + "").split(',');
     let questionId = -1;
     useEffect(() => {
-        getQuestion();
+        getRandomQuestion();
     },[]);
-    const getQuestion = async() => {
-        const result = await axios.post('random-get-question', categoryIds);
-        const data = result.data;
-        if(!data.error){
+    const getRandomQuestion = ()=>{
+        setIsLoading(true);
+        let res1;
+        const asyncFunc = async() => {
+            // res1とres2は順番に実行される
+            res1 = await axios.post('random-get-question', categoryIds);
+        };
+        asyncFunc().then(()=>{
+            // asyncFunc実行後に処理される
+            let data = res1.data;
             setQuestion(JSON.parse(JSON.stringify(data.dbData)));
             setQuestionImages(JSON.parse(JSON.stringify(data.questionImages)));
             setAnswerImages(JSON.parse(JSON.stringify(data.answerImages)))
@@ -34,38 +54,9 @@ function RandomQuestionPage() {
                 );
             }
             questionId = data.dbData.question_id;
-            getAnswerLog();
-        }
-        else{
-            console.log("error");
-        }
-    };
-    const getAnswerLog = async() => {
-        const result = await axios.post('get-answer-log', {
-            "question_id":questionId,
+        }).finally(()=>{
+            setIsLoading(false);
         });
-        const data = result.data;
-        if(!data.error){
-            setAnswerLog(data.answerLog);
-        }
-        else{
-            console.log("error");
-        }
-    }
-    const updateAnswerLog = async(corrected) => {
-        const result = await axios.post('update-answer-log', {
-            params:{
-                "answer_log_id":answerLog.answer_log_id,
-                "is_corrected":corrected
-            }
-        });
-        const data = result.data;
-        if(!data.error){
-            setAnswerLog(data.answerLog);
-        }
-        else{
-            console.log("error");
-        }
     }
     const clickAnswerButton = () =>{
         setAnsweredFlag(true);
@@ -77,33 +68,21 @@ function RandomQuestionPage() {
         }else{
             setCorrectFlag(false);
         }
-        updateAnswerLog(corrected);
     }
     const clickNextButton = () => {
-        setQuestion("");
+        setIsLoading(true);
         setAnsweredFlag(false);
         setSelectedChoiceIds([]);
         setCorrectFlag(false);
-        getQuestion();
+        getRandomQuestion();
         window.scrollTo(0, 0);
     }
     return (
         <div className="container">
-            {question !== "" &&
+            {(question !== "" && !isLoading) &&
             <span>
                 <p className="text-left">
                     id:{question.question_id} - {question.category.workbook.workbook_name} - {question.category.category_name}
-                </p>
-                <p className="text-right">
-                {/*answerLog.answer_count==0 ?
-                    <span>正解率：データなし</span>
-                    :
-                    <span>
-                    全ユーザー正解率：{
-                        Math.round(answerLog.correct_count / answerLog.answer_count * 100 * 10) / 10
-                    }
-                    %</span>
-                */}
                 </p>
                 <div className="row h1 bg-dark text-white">
                     問題{question.question_number}
@@ -141,10 +120,17 @@ function RandomQuestionPage() {
                         <div></div>
                     </CSSTransition>
                 </div>
-                {answeredFlag &&
-                        <button className="btn btn-outline-dark btn-block mb-3" onClick={clickNextButton}>次の問題へ</button>
-                }
             </span>
+            }
+            {answeredFlag &&
+                    <button className="btn btn-outline-dark btn-block mb-3" onClick={clickNextButton}>次の問題へ</button>
+            }
+            {isLoading && 
+                <span style={overlay}>
+                    <div>loading...</div>
+                    <div className="spinner-border">
+                    </div>
+                </span>
             }
         </div>
     );

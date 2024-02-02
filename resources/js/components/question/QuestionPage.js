@@ -7,6 +7,19 @@ import Result from './Result';
 import { CSSTransition } from 'react-transition-group';
 
 function QuestionPage() {
+    const overlay = {
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        backgroundColor: "rgba(0,0,0,0.5)",
+        display: "flex",
+        flexFlow: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        zIndex: "100000",
+    };
     const [ question_id, setQuestion_id] = useState(location.pathname.split('/').slice(-1)[0]);
     const [ question, setQuestion] = useState("");
     const [ questionImages, setQuestionImages] = useState([]);
@@ -17,29 +30,37 @@ function QuestionPage() {
     const [ correctFlag, setCorrectFlag] = useState(false);
     const [ prevQuestionId, setPrevQuestionId] = useState(-1);
     const [ nextQuestionId, setNextQuestionId] = useState(-1);
+    const [ isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        const getQuestion = async () => {
-            const result = await axios.get('../get-question/' + question_id);
-            const data = result.data;
-            setQuestion(JSON.parse(JSON.stringify(data.dbData)));
-            setQuestionImages(JSON.parse(JSON.stringify(data.questionImages)));
-            setAnswerImages(JSON.parse(JSON.stringify(data.answerImages)))
-            if(Array.isArray(data.dbData.choices)){
-                setCorrectChoiceIds(data.dbData.choices
-                    .filter((choice)=>choice.is_correct === 1)
-                    .map((choice)=>choice.choice_id)
-                );
-            }
+        const getQuestion = () => {
+            setIsLoading(true);
+            let res1;
+            let res2;
+            const asyncFunc = async() => {
+                res1 = await axios.get('../get-question/' + question_id);
+                res2 = await axios.get('../get-prev-next-question-id/' + question_id);
+            };
+            asyncFunc().then(()=>{
+                // asyncFunc実行後に処理される
+                let data = res1.data;
+                setQuestion(JSON.parse(JSON.stringify(data.dbData)));
+                setQuestionImages(JSON.parse(JSON.stringify(data.questionImages)));
+                setAnswerImages(JSON.parse(JSON.stringify(data.answerImages)))
+                if(Array.isArray(data.dbData.choices)){
+                    setCorrectChoiceIds(data.dbData.choices
+                        .filter((choice)=>choice.is_correct === 1)
+                        .map((choice)=>choice.choice_id)
+                    );
+                };
+                data = res2.data;
+                setPrevQuestionId(data.prevQuestionId);
+                setNextQuestionId(data.nextQuestionId);
+            }).finally(()=>{
+                setIsLoading(false);
+            });
         };
-        const getPrevNextQuestionId = async () => {
-            const result = await axios.get('../get-prev-next-question-id/' + question_id);
-            const data = result.data;
-            setPrevQuestionId(data.prevQuestionId);
-            setNextQuestionId(data.nextQuestionId);
-        }
         getQuestion();
-        getPrevNextQuestionId();
     },[]);
     const clickAnswerButton = () =>{
         setAnsweredFlag(true);
@@ -62,7 +83,7 @@ function QuestionPage() {
     }
     return (
         <div className="container">
-            {question !== "" &&
+            {(question !== "" && !isLoading) &&
             <span>
                 <p className="text-left">
                     id:{question_id} - {question.category.workbook.workbook_name} - {question.category.category_name}
@@ -126,6 +147,13 @@ function QuestionPage() {
                     </div>
                 </div>
             </span>
+            }
+            {isLoading && 
+                <span style={overlay}>
+                    <div>loading...</div>
+                    <div className="spinner-border">
+                    </div>
+                </span>
             }
         </div>
     );
