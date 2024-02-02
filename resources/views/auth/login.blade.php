@@ -69,5 +69,25 @@
             </div>
         </div>
     </div>
+    <div class="row justify-content-center py-5">
+        <p>こちらはサンプル版アプリです。下記のアカウントでお試しください。</p>
+        <table class="table">
+            <tr>
+                <th>アカウント権限</th>
+                <th>メールアドレス</th>
+                <th>パスワード</th>
+            </tr>
+            <tr>
+                <td>問題の登録/編集/削除が可能な管理者権限付きのアカウント</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>問題編集不可の一般ユーザアカウント</td>
+                <td>service@service.com</td>
+                <td>password</td>
+            </tr>
+        </table>
+    </div>
 </div>
 @endsection

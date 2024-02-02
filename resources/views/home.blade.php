@@ -52,5 +52,8 @@
         </div>
         @endcan
     </div>
+    <div class="row justify-content-center">
+        サンプル用アプリです。
+    <div>
 </div>
 @endsection
