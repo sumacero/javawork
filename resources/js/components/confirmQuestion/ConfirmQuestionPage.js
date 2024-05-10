@@ -14,9 +14,10 @@ function ConfirmQuestionPage() {
     const [ selectedChoiceIds, setSelectedChoiceIds] = useState([]);
     const [ correctChoiceIds, setCorrectChoiceIds] =useState([]);
     const [ correctFlag, setCorrectFlag] = useState(false);
+    //axios.defaults.baseURL = window.location.href;
     useEffect(() => {
         const fetchData = async () => {
-            const result = await axios.get('../get-question/' + questionId);
+            const result = await axios.get('get-question/' + questionId);
             const data = result.data;
             console.log(data);
             setQuestion(JSON.parse(JSON.stringify(data.dbData)));
